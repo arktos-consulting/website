@@ -1,0 +1,41 @@
+name: Verify
+
+# Vérifie le site à chaque pull request et sur chaque branche poussée.
+#
+# Ce workflow est distinct de celui de déploiement : une vérification doit
+# tourner sur une PR avant fusion, pas seulement après un push sur main. Le
+# déploiement refait ses propres contrôles de son côté, pour qu'un commit
+# arrivant directement sur main ne puisse jamais être publié sans être vérifié.
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Verify types
+        run: bunx tsc --noEmit
+
+      - name: Verify Astro components
+        run: bunx astro check
+
+      - name: Build site
+        run: bun run build

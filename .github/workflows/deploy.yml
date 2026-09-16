@@ -1,8 +1,11 @@
 name: Deploy to GitHub Pages
 
 # Construit le site Astro et le publie sur GitHub Pages à chaque push sur main.
-# Le build est bloqué si le typage ou la vérification Astro échoue, afin qu'une
-# page cassée ne puisse pas partir en production.
+#
+# Les contrôles de typage et de composants sont refaits ici, et pas seulement
+# dans le workflow de vérification qui tourne sur les pull requests : un commit
+# poussé directement sur main doit être vérifié avant publication, comme un
+# commit fusionné depuis une branche.
 
 on:
   push:
