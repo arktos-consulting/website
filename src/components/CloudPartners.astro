@@ -1,0 +1,217 @@
+---
+/**
+ * Section « Cloud Partners » : le collectif d'experts AWS certifiés auquel
+ * appartient Arktos Consulting.
+ *
+ * Elle remplace la présentation biographique. Pour un acheteur de prestation
+ * cloud, l'appartenance à un collectif certifié est un argument plus fort qu'un
+ * parcours individuel : elle répond à la question de la continuité et de la
+ * capacité, qui est précisément ce qu'un indépendant seul ne peut pas couvrir.
+ *
+ * Les chiffres et l'effectif sont ceux publiés par le collectif.
+ */
+import { PROFILES } from '@/consts';
+
+/** Chiffres clés du collectif, tels que publiés sur le site Cloud Partners. */
+const collectiveStats = [
+  { value: '50+', label: 'certifications AWS maintenues' },
+  { value: '11', label: "domaines d'expertise couverts" },
+  { value: '10', label: 'architectes et ingénieurs' },
+] as const;
+---
+
+<section class="section section-alt" id="cloud-partners">
+  <div class="container collective">
+    <div class="collective-copy">
+      <p class="eyebrow eyebrow-aws">Le collectif</p>
+      <h2 class="text-display-lg collective-title">
+        Pas une ESN.{' '}
+        <span class="accent">Un collectif d’experts AWS.</span>
+      </h2>
+
+      <p class="lede collective-text">
+        Arktos Consulting est membre de <strong>Cloud Partners</strong>, un collectif
+        d’architectes et d’ingénieurs AWS certifiés. Ce n’est pas un réseau commercial :
+        chaque membre s’engage directement sur les projets qu’il porte.
+      </p>
+      <p class="lede collective-text">
+        Concrètement, vous gardez un interlocuteur unique sur votre projet, mais vous
+        accédez à dix spécialistes quand le sujet l’exige : sécurité, données,
+        machine learning, FinOps, IoT. Le partenariat AWS <em>Select Consulting</em>{' '}
+        est porté par le collectif et ses 50+ certifications.
+      </p>
+
+      <div class="collective-actions">
+        <a class="btn btn-aws" href={PROFILES.cloudPartners} target="_blank" rel="noopener">
+          Découvrir le collectif
+          <span aria-hidden="true">→</span>
+        </a>
+        <a class="btn btn-ghost" href={PROFILES.awsPartner} target="_blank" rel="noopener">
+          Fiche partenaire AWS
+        </a>
+      </div>
+    </div>
+
+    <div class="collective-side">
+      <div class="badge-wrap">
+        <img
+          src="/images/aws-partner.svg"
+          alt="AWS Select Consulting Partner"
+          width="120"
+          height="120"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      <p class="wordmark" aria-label="Cloud Partners">
+        Cloud<span>Partners</span>
+      </p>
+
+      <dl class="collective-stats">
+        {
+          collectiveStats.map((stat) => (
+            <div class="collective-stat">
+              <dt class="collective-stat-value">{stat.value}</dt>
+              <dd class="collective-stat-label">{stat.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .collective {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 88px);
+    align-items: start;
+  }
+
+  .collective-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .collective-title {
+    margin: 0;
+    color: var(--color-ivory);
+  }
+
+  /* Titre et sur-titre en orange AWS : cette section parle du collectif et du
+     partenariat, l'orange est la couleur qui porte ce signal. Le violet et le
+     cyan restent les accents du reste du site. */
+  .eyebrow-aws {
+    color: var(--color-aws);
+  }
+
+  .accent {
+    background: linear-gradient(
+      100deg,
+      var(--color-aws) 0%,
+      var(--color-aws) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .collective-text {
+    margin: 0;
+    max-width: 62ch;
+  }
+
+  .collective-text strong {
+    color: var(--color-aws);
+    font-weight: 600;
+  }
+
+  .collective-text em {
+    color: var(--color-aws);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .collective-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 12px;
+  }
+
+  /* Colonne laterale : badge AWS, wordmark et chiffres */
+  .collective-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+    padding: 30px;
+    border: 1px solid color-mix(in srgb, var(--color-aws) 30%, transparent);
+    border-radius: 18px;
+    background-color: var(--color-surface);
+  }
+
+  .badge-wrap img {
+    width: 96px;
+    height: auto;
+  }
+
+  /* Le logo du collectif est un mot-symbole, pas une image : il est recompose
+     avec la typographie du site pour rester net a toutes les densites. */
+  .wordmark {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--color-ivory);
+  }
+
+  /* Reprend le rendu officiel du mot-symbole : « Cloud » en clair,
+     « Partners » en orange. */
+  .wordmark span {
+    color: var(--color-aws);
+  }
+
+  .collective-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    margin: 6px 0 0;
+  }
+
+  .collective-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .collective-stat-value {
+    flex-shrink: 0;
+    min-width: 3.5rem;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--color-aws);
+  }
+
+  .collective-stat-label {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 900px) {
+    .collective {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
