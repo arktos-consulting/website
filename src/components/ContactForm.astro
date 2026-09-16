@@ -1,74 +1,89 @@
 ---
 /**
- * Formulaire de prise de contact.
+ * Contact form.
  *
- * La soumission est traitée par un script embarqué plutôt qu'en React : le
- * formulaire ne manipule aucun état complexe, et embarquera le runtime React
- * pour ce seul usage coûterait environ 200 Ko de JavaScript à chaque visiteur.
- * React reste installé dans le projet pour les besoins qui le justifieront.
+ * Submission is handled by an inline script rather than React: the form holds no
+ * complex state, and pulling in the React runtime for this single use would cost
+ * every visitor around 200 KB of JavaScript. React stays installed for the cases
+ * that will justify it.
  *
- * Aucune donnée n'est transmise à un serveur : le script compose un brouillon
- * de message dans la messagerie du visiteur, qui le relit avant envoi.
+ * No data is sent to a server: the script composes a draft message in the
+ * visitor's own mail client, which they review before sending.
  */
 import { SITE } from '@/consts';
+import type { Dictionary, Locale } from '@/i18n';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to label the generated draft. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
 ---
 
-<form class="contact-form" id="contact-form" data-email={SITE.email}>
+<form
+  class="contact-form"
+  id="contact-form"
+  data-email={SITE.email}
+  data-locale={locale}
+  data-subject={t.form.subject}
+  data-name={t.form.fieldName}
+  data-company={t.form.fieldCompany}
+>
   <div class="field-row">
     <label class="field">
-      <span class="field-label">Nom</span>
+      <span class="field-label">{t.form.nameLabel}</span>
       <input
         class="field-input"
         type="text"
         name="name"
         required
         autocomplete="name"
-        placeholder="Votre nom"
+        placeholder={t.form.namePlaceholder}
       />
     </label>
 
     <label class="field">
       <span class="field-label">
-        Société <span class="field-optional">(facultatif)</span>
+        {t.form.companyLabel} <span class="field-optional">{t.form.companyOptional}</span>
       </span>
       <input
         class="field-input"
         type="text"
         name="company"
         autocomplete="organization"
-        placeholder="Nom de votre société"
+        placeholder={t.form.companyPlaceholder}
       />
     </label>
   </div>
 
   <label class="field">
-    <span class="field-label">Votre besoin</span>
+    <span class="field-label">{t.form.needLabel}</span>
     <textarea
       class="field-input field-textarea"
       name="context"
       rows="5"
       required
-      placeholder="Décrivez en quelques lignes le contexte et ce que vous cherchez à résoudre."
+      placeholder={t.form.needPlaceholder}
     ></textarea>
   </label>
 
-  <button class="btn btn-primary" type="submit">Préparer le message</button>
+  <button class="btn btn-primary" type="submit">{t.form.submit}</button>
 
   <p class="form-note" id="contact-form-status" role="status" hidden>
-    Votre client de messagerie devrait s’ouvrir avec le message pré-rempli. S’il ne
-    s’ouvre pas, écrivez directement à {SITE.email}.
+    {t.form.success} {SITE.email}.
   </p>
 
-  <p class="form-note">
-    Aucune donnée n’est envoyée à un serveur : le message est composé dans votre
-    messagerie, que vous relisez avant envoi.
-  </p>
+  <p class="form-note">{t.form.privacy}</p>
 </form>
 
 <script>
-  const contactForm = document.getElementById(
-    'contact-form',
-  ) as HTMLFormElement | null;
+  /** Labels and field names are read from the form's data attributes, so the
+   * generated draft follows the language of the page without duplicating the
+   * strings in the script. */
+  const contactForm = document.getElementById('contact-form') as HTMLFormElement | null;
   const statusMessage = document.getElementById('contact-form-status');
 
   contactForm?.addEventListener('submit', (submitEvent) => {
@@ -80,10 +95,14 @@ import { SITE } from '@/consts';
     const context = String(formData.get('context') ?? '').trim();
     const recipient = contactForm.dataset.email ?? '';
 
-    const subject = `Demande de contact${company ? ` — ${company}` : ''}`;
+    const subjectBase = contactForm.dataset.subject ?? '';
+    const nameField = contactForm.dataset.name ?? '';
+    const companyField = contactForm.dataset.company ?? '';
+
+    const subject = `${subjectBase}${company ? ` — ${company}` : ''}`;
     const body = [
-      `Nom : ${senderName}`,
-      company ? `Société : ${company}` : '',
+      `${nameField}: ${senderName}`,
+      company ? `${companyField}: ${company}` : '',
       '',
       context,
     ]

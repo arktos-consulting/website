@@ -1,14 +1,16 @@
 /**
- * Constantes d'identité du site.
+ * Site identity constants.
  *
- * Ces valeurs alimentent le référencement, les données structurées, les
- * coordonnées affichées et le calcul des années d'expérience. Elles doivent
- * rester cohérentes avec les profils externes (LinkedIn, annuaire des
- * entreprises) : les moteurs génératifs agrègent ces sources et une
- * description divergente brouille l'entité.
+ * These values feed search metadata, structured data, the contact details shown
+ * on the page and the computed years of experience. They must stay consistent
+ * with external profiles (LinkedIn, business registry): answer engines
+ * aggregate those sources, and a diverging description blurs the entity.
+ *
+ * Navigation is deliberately absent here. Each locale owns its translated URL
+ * segments, so the links live in `src/i18n/<locale>.ts`.
  */
 
-/** Identité de la société et du consultant. */
+/** Company and consultant identity. */
 export const SITE = {
   url: 'https://www.arktos.consulting',
   name: 'Arktos Consulting',
@@ -26,15 +28,13 @@ export const SITE = {
   city: 'Lyon',
   region: 'Auvergne-Rhône-Alpes',
   country: 'FR',
-  locale: 'fr_FR',
-  lang: 'fr',
   calendly: 'https://calendly.com/aperrier-arktos/30min',
   cvPath: '/files/cv.pdf',
-  /** Coordonnées approximatives de Lyon, pour les données structurées. */
+  /** Approximate coordinates of Lyon, for structured data. */
   geo: { latitude: 45.764, longitude: 4.8357 },
 } as const;
 
-/** Profils externes vérifiables, déclarés dans `sameAs`. */
+/** Verifiable external profiles, declared in `sameAs`. */
 export const PROFILES = {
   linkedin: 'https://www.linkedin.com/in/perriea-cloud/',
   github: 'https://github.com/perriea',
@@ -47,29 +47,19 @@ export const PROFILES = {
 } as const;
 
 /**
- * Repères de carrière servant au calcul automatique des années d'expérience.
+ * Career markers used to compute years of experience automatically.
  *
- * Les dates sont volontairement uniques : afficher « 8 ans » ici et « 9 ans »
- * là détruit la crédibilité, et un chiffre recopié à la main devient faux dès
- * l'année suivante. On calcule, on ne recopie pas.
+ * The dates are deliberately single-sourced: showing "8 years" here and "9
+ * years" there destroys credibility, and a hand-copied figure goes stale the
+ * following year. Compute it, do not retype it.
  */
 export const CAREER = {
-  /** Première expérience professionnelle (Claranet, alternance). */
+  /** First professional experience (Claranet, apprenticeship). */
   start: { year: 2016, month: 12 },
-  /** Première production Kubernetes (Doctolib, via Wescale). */
+  /** First Kubernetes production work (Doctolib, via Wescale). */
   kubernetesStart: { year: 2018, month: 12 },
-  /** Passage en activité indépendante (première mission freelance, SEIITRA). */
+  /** Move to independent work (first freelance engagement, SEIITRA). */
   freelanceStart: { year: 2021, month: 8 },
-  /** Création de la société. */
+  /** Company incorporation. */
   companyStart: { year: 2021, month: 9 },
 } as const;
-
-/** Navigation principale, partagée entre l'entête et le pied de page. */
-export const NAV_LINKS = [
-  { href: '/conseil/', label: 'Conseil' },
-  { href: '/cloud-souverain/', label: 'Cloud souverain' },
-  { href: '/ia/', label: 'IA' },
-  { href: '/infogerance/', label: 'Infogérance' },
-  { href: '/blog/', label: 'Blog' },
-  { href: '/references/', label: 'Références' },
-] as const;

@@ -1,0 +1,309 @@
+---
+/**
+ * Error page body, in the shape of a raw AWS object storage error response.
+ *
+ * That is the format a developer or an architect recognises instantly, and it
+ * says exactly what happened: the requested key does not exist on this domain.
+ * The tone stays the site's, but the analogy is technical rather than decorative.
+ *
+ * Shared by the French and English routes. GitHub Pages serves a single
+ * `404.html` at the root, so the English variant is generated as
+ * `en/404.html` for hosts that resolve per-directory error pages, while the root
+ * file stays French.
+ */
+import type { Dictionary, Locale } from '@/i18n';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to build the contact link. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+
+/**
+ * Request identifier, in the format of AWS headers.
+ *
+ * Generated at build time: it changes on every deployment, as a real
+ * service-side identifier would, without depending on a browser script.
+ */
+const requestId = Array.from({ length: 16 }, () =>
+  '0123456789ABCDEF'[Math.floor(Math.random() * 16)],
+).join('');
+
+const hostId = `${requestId.slice(0, 8)}-${requestId.slice(8)}-AMS`;
+
+const contactHref = locale === 'fr' ? '/#contact' : '/en/#contact';
+---
+
+<section class="section error-page">
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <div class="container error-inner">
+    <p class="eyebrow eyebrow-aws">{t.notFound.eyebrow}</p>
+    <h1 class="text-display-xl error-title">
+      {t.notFound.titleLead}{' '}
+      <span class="accent">{t.notFound.titleAccent}</span>
+    </h1>
+    <p class="lede error-lede">{t.notFound.lede}</p>
+
+    <!-- Error response as an object storage service would return it -->
+    <div class="response" role="group" aria-label={t.notFound.errorLabel}>
+      <div class="response-bar">
+        <span class="response-status">
+          <span class="status-dot" aria-hidden="true"></span>
+          HTTP/2 404 Not Found
+        </span>
+        <span class="response-service">AmazonS3</span>
+      </div>
+
+      <pre class="response-body"><code><span class="tag">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="tag">&lt;Error&gt;</span>
+  <span class="key">&lt;Code&gt;</span><span class="value">NoSuchKey</span><span class="key">&lt;/Code&gt;</span>
+  <span class="key">&lt;Message&gt;</span><span class="value">The specified key does not exist.</span><span class="key">&lt;/Message&gt;</span>
+  <span class="key">&lt;Key&gt;</span><span class="value" id="requested-path">/unknown-path</span><span class="key">&lt;/Key&gt;</span>
+  <span class="key">&lt;RequestId&gt;</span><span class="value">{requestId}</span><span class="key">&lt;/RequestId&gt;</span>
+  <span class="key">&lt;HostId&gt;</span><span class="value">{hostId}</span><span class="key">&lt;/HostId&gt;</span>
+<span class="tag">&lt;/Error&gt;</span></code></pre>
+    </div>
+
+    <!-- Get back to a known section -->
+    <nav class="recovery" aria-labelledby="recovery-title">
+      <h2 class="recovery-title" id="recovery-title">{t.notFound.recoveryHeading}</h2>
+      <ul class="recovery-list">
+        {
+          t.notFound.entries.map((link) => (
+            <li>
+              <a class="recovery-link" href={link.href}>
+                <span class="recovery-label">{link.label}</span>
+                <span class="recovery-detail">{link.detail}</span>
+                <span class="recovery-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="recovery-foot">
+        {t.notFound.footQuestion}
+        <a href={contactHref}>{t.notFound.footContact}</a>{t.notFound.footTail}
+      </p>
+    </nav>
+  </div>
+</section>
+
+<script>
+  // Shows the path that was actually requested in the error response. Without
+  // scripting the fallback value stays readable: the page works either way.
+  const pathSlot = document.getElementById('requested-path');
+  if (pathSlot) {
+    pathSlot.textContent = window.location.pathname;
+  }
+</script>
+
+<style>
+  .error-page {
+    position: relative;
+    overflow: hidden;
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding-block: clamp(64px, 9vw, 120px);
+  }
+
+  .error-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    max-width: 900px;
+  }
+
+  .eyebrow-aws {
+    color: var(--color-aws);
+  }
+
+  .error-title {
+    margin: 0;
+    color: var(--color-ivory);
+  }
+
+  .accent {
+    background: linear-gradient(100deg, var(--color-violet) 0%, var(--color-cyan) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .error-lede {
+    margin: 0;
+    max-width: 56ch;
+  }
+
+  /* ------------------------------------------------------- error response -- */
+
+  .response {
+    width: 100%;
+    margin-top: 14px;
+    border: 1px solid var(--color-hairline);
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: var(--color-ink-deep);
+  }
+
+  .response-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--color-hairline);
+    background-color: var(--color-surface);
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    font-size: 0.8125rem;
+  }
+
+  .response-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    font-weight: 600;
+    color: var(--color-aws);
+  }
+
+  /* Status dot, dimmed: the request failed */
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-aws);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-aws) 22%, transparent);
+  }
+
+  .response-service {
+    color: var(--color-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .response-body {
+    margin: 0;
+    padding: 20px 18px;
+    overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    font-size: 0.8125rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+    tab-size: 2;
+    /* The block stays readable on mobile: longer lines wrap rather than being
+       truncated behind a horizontal scroll. */
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .response-body code {
+    font-family: inherit;
+  }
+
+  /* Tags and keys in cyan, values in plain text, as in an editor */
+  .tag {
+    color: var(--color-violet);
+  }
+
+  .key {
+    color: var(--color-cyan);
+  }
+
+  .value {
+    color: var(--color-ivory);
+  }
+
+  /* ----------------------------------------------------------- navigation -- */
+
+  .recovery {
+    width: 100%;
+    margin-top: 28px;
+  }
+
+  .recovery-title {
+    margin: 0 0 16px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .recovery-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .recovery-link {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 2px 12px;
+    padding: 16px 18px;
+    border: 1px solid var(--color-hairline);
+    border-radius: 12px;
+    background-color: var(--color-surface);
+    transition:
+      border-color 0.25s,
+      transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .recovery-link:hover {
+    border-color: color-mix(in srgb, var(--color-cyan) 45%, transparent);
+    transform: translateY(-2px);
+  }
+
+  .recovery-label {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--color-ivory);
+  }
+
+  .recovery-detail {
+    grid-column: 1 / 2;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--color-muted);
+  }
+
+  .recovery-arrow {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    align-self: center;
+    color: var(--color-cyan);
+    transition: transform 0.25s ease;
+  }
+
+  .recovery-link:hover .recovery-arrow {
+    transform: translateX(4px);
+  }
+
+  .recovery-foot {
+    margin: 20px 0 0;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  .recovery-foot a {
+    color: var(--color-cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 640px) {
+    .recovery-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

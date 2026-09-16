@@ -1,0 +1,34 @@
+---
+/**
+ * Home page body: value proposition, services, evidence and contact.
+ *
+ * It acts as a hub: it captures branded search and positioning, then routes
+ * visitors to the pillar pages that answer commercial queries. Shared by the
+ * French and English routes so the two sites cannot drift apart.
+ */
+import type { Dictionary, Locale } from '@/i18n';
+import Hero from '@/components/Hero.astro';
+import Services from '@/components/Services.astro';
+import WhyUs from '@/components/WhyUs.astro';
+import References from '@/components/References.astro';
+import CloudPartners from '@/components/CloudPartners.astro';
+import Faq from '@/components/Faq.astro';
+import Contact from '@/components/Contact.astro';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, passed down to each section. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+---
+
+<Hero t={t} locale={locale} />
+<Services t={t} locale={locale} />
+<WhyUs t={t} locale={locale} />
+<References t={t} locale={locale} limit={4} compact />
+<CloudPartners t={t} />
+<Faq t={t} locale={locale} />
+<Contact t={t} locale={locale} />

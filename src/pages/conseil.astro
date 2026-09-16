@@ -1,286 +1,34 @@
 ---
 /**
- * Page pilier « Conseil ».
+ * Consulting pillar page, French route.
  *
- * Elle répond aux requêtes commerciales du conseil cloud : audit, architecture,
- * gouvernance, FinOps. Le déroulé tient en une ligne par étape : un process se
- * survole, il ne se lit pas au mot près.
+ * The page body lives in a shared component rendered from content, so the French
+ * and English versions share one layout. This file only declares which content
+ * to load and which URLs the page answers on, which is what the layout needs to
+ * build the canonical URL, the `hreflang` alternates and the language switch.
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import SectionHeading from '@/components/SectionHeading.astro';
-import Contact from '@/components/Contact.astro';
-import { SITE, PROFILES } from '@/consts';
-import { totalYears } from '@/utils/career';
+import Consulting from '@/components/pillars/Consulting.astro';
+import { getPillars, pillarPaths } from '@/data/pillars';
+import { getDictionary } from '@/i18n';
 import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
 
-const years = totalYears();
-
-const description = `Conseil AWS et Kubernetes : audit d'architecture, gouvernance multi-comptes et FinOps. Freelance à Lyon, ${years} ans d'expérience, en France et en Europe.`;
+const locale = 'fr' as const;
+const pillar = getPillars(locale).consulting;
+const t = getDictionary(locale);
+const paths = pillarPaths('consulting');
 
 const breadcrumbs = buildBreadcrumbs([
-  { name: 'Accueil', url: `${SITE.url}/` },
-  { name: 'Conseil', url: `${SITE.url}/conseil/` },
+  { name: 'Accueil', url: `${Astro.site}/` },
+  { name: pillar.breadcrumb, url: `${Astro.site}${paths.fr}` },
 ]);
-
-/** Déroulé d'une mission de conseil, du premier échange à la passation. */
-const phases = [
-  {
-    title: 'Cadrage',
-    duration: '1 à 2 jours',
-    detail: 'Un échange sur votre objectif. Vous savez à la fin si un audit est utile.',
-  },
-  {
-    title: 'Audit',
-    duration: '1 à 3 semaines',
-    detail: 'Architecture, sécurité, coûts et pratiques d’exploitation, par ordre de priorité.',
-  },
-  {
-    title: 'Conception',
-    duration: 'variable',
-    detail: 'Options, arbitrages et coût estimé. Vous validez avant toute construction.',
-  },
-  {
-    title: 'Mise en œuvre et passation',
-    duration: 'selon périmètre',
-    detail: 'Implémentation, documentation et formation. Vous reprenez la main.',
-  },
-] as const;
-
-/** Périmètre technique couvert par le conseil. */
-const domains = [
-  {
-    title: 'Architecture & scalabilité',
-    items: [
-      'Conception ou revue d’architecture AWS',
-      'Découpage en comptes et isolation',
-      'Migration et chemins de réversibilité',
-    ],
-  },
-  {
-    title: 'Sécurité & conformité',
-    items: [
-      'IAM, rôles fédérés et moindre privilège',
-      'Gouvernance multi-comptes : Organizations, SCP',
-      'Durcissement Kubernetes et exigences réglementaires',
-    ],
-  },
-  {
-    title: 'FinOps & exploitation',
-    items: [
-      'Analyse de la facture et postes de dérive',
-      'Dimensionnement et autoscaling',
-      'Standards d’exploitation et objectifs de service',
-    ],
-  },
-] as const;
 ---
 
-<BaseLayout
-  title="Audit & conseil AWS Kubernetes"
-  description={description}
-  canonical={`${SITE.url}/conseil/`}
->
+<BaseLayout title={pillar.title} description={pillar.description} paths={paths}>
   {
     breadcrumbs && (
       <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
     )
   }
-
-  <section class="section page-hero">
-    <div class="ambient-glow" aria-hidden="true"></div>
-    <div class="container">
-      <SectionHeading
-        eyebrow="Conseil"
-        level="h1"
-        title="Auditer, concevoir, puis"
-        accent="vous rendre autonome."
-        lede={`J'interviens quand les décisions d'architecture doivent être tranchées et assumées. ${years} ans d'expérience, de quelques services à plus de 800 microservices.`}
-      />
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#contact">Discuter de votre besoin</a>
-        <a class="btn btn-ghost" href={PROFILES.linkedin} target="_blank" rel="noopener">
-          Profil LinkedIn
-          <span aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-alt">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Périmètre"
-        title="Ce que couvre"
-        accent="une mission de conseil."
-      />
-      <ul class="domain-grid">
-        {
-          domains.map((domain) => (
-            <li class="card">
-              <h3 class="card-title text-display-sm">{domain.title}</h3>
-              <ul class="check-list">
-                {domain.items.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Déroulé"
-        title="Quatre étapes,"
-        accent="un périmètre écrit."
-      />
-      <ol class="phase-list">
-        {
-          phases.map((phase) => (
-            <li class="phase">
-              <div class="phase-head">
-                <h3 class="phase-title">{phase.title}</h3>
-                <span class="phase-duration">{phase.duration}</span>
-              </div>
-              <p class="phase-detail">{phase.detail}</p>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <section class="section section-alt">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Repères"
-        title="Des plateformes"
-        accent="qui ne sont pas des maquettes."
-      />
-      <ul class="proof-list">
-        <li class="proof">
-          <span class="proof-value">300+</span>
-          <span class="proof-text">clusters Kubernetes, parc SNCF, cloud privé</span>
-        </li>
-        <li class="proof">
-          <span class="proof-value">800+</span>
-          <span class="proof-text">microservices Azure/Kubernetes, Seiitra</span>
-        </li>
-        <li class="proof">
-          <span class="proof-value">90+</span>
-          <span class="proof-text">microservices Go, ma plateforme Hartza Capital</span>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <Contact />
+  <Consulting pillar={pillar} t={t} locale={locale} />
 </BaseLayout>
-
-<style>
-  .page-hero {
-    position: relative;
-    overflow: hidden;
-    padding-block: clamp(72px, 9vw, 128px) clamp(56px, 7vw, 96px);
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 32px;
-  }
-
-  .domain-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 22px;
-    margin: clamp(40px, 5vw, 64px) 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .phase-list {
-    display: flex;
-    flex-direction: column;
-    margin: clamp(40px, 5vw, 64px) 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .phase {
-    padding: 24px 0;
-    border-top: 1px solid var(--color-hairline);
-  }
-
-  .phase:last-child {
-    border-bottom: 1px solid var(--color-hairline);
-  }
-
-  .phase-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 8px 16px;
-  }
-
-  .phase-title {
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--color-ivory);
-  }
-
-  .phase-duration {
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-cyan);
-  }
-
-  .phase-detail {
-    margin: 12px 0 0;
-    max-width: 72ch;
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    color: var(--color-muted);
-  }
-
-  .proof-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 32px 40px;
-    margin: clamp(40px, 5vw, 64px) 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .proof {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    border-top: 1px solid var(--color-hairline);
-    padding-top: 20px;
-  }
-
-  .proof-value {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 3.4vw, 2.75rem);
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.04em;
-    color: var(--color-cyan);
-  }
-
-  .proof-text {
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    color: var(--color-muted);
-  }
-</style>

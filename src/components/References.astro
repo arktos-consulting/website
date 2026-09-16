@@ -1,35 +1,40 @@
 ---
 /**
- * Aperçu des références sur la page d'accueil.
+ * Reference engagements.
  *
- * En mode compact, seuls le client, la période et le titre sont affichés : le
- * détail technique et les étiquettes vivent sur `/references/`. Une page
- * d'accueil n'a pas à reproduire le contenu d'une page dédiée, elle doit donner
- * envie d'aller la lire.
+ * In compact mode only the client, the period and the title are shown: the
+ * technical detail and the tags live on the references page. A home page does
+ * not reproduce the content of a dedicated page, it makes you want to read it.
  */
-import { MISSIONS } from '@/data/content';
+import { getContent } from '@/data';
+import type { Dictionary, Locale } from '@/i18n';
 import SectionHeading from '@/components/SectionHeading.astro';
 
 interface Props {
-  /** Nombre de missions à afficher ; toutes si omis. */
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to resolve editorial content. */
+  locale: Locale;
+  /** Number of engagements to display; all of them when omitted. */
   limit?: number;
-  /** Réduit chaque mission à son client, sa période et son titre. */
+  /** Reduces each engagement to its client, period and title. */
   compact?: boolean;
 }
 
-const { limit, compact = false } = Astro.props;
+const { t, locale, limit, compact = false } = Astro.props;
+const { MISSIONS } = getContent(locale);
 const displayed = limit ? MISSIONS.slice(0, limit) : MISSIONS;
+
+const referencesHref = locale === 'fr' ? '/references/' : '/en/references/';
 ---
 
 <section class="section" id="references">
   <div class="container">
     <SectionHeading
-      eyebrow="Références"
-      title="Des missions dont"
-      accent="le détail technique est public."
-      lede={compact
-        ? 'Bpifrance, SNCF, Doctolib, Canal+, Yseop. Le détail de chaque mission est sur la page Références.'
-        : undefined}
+      eyebrow={t.references.eyebrow}
+      title={t.references.title}
+      accent={t.references.accent}
+      lede={compact ? t.references.ledeCompact : t.references.ledeFull}
     />
 
     {
@@ -67,19 +72,21 @@ const displayed = limit ? MISSIONS.slice(0, limit) : MISSIONS;
     {
       limit && limit < MISSIONS.length && (
         <p class="missions-more">
-          <a class="btn btn-ghost btn-sm" href="/references/">
-            Les {MISSIONS.length} missions
+          <a class="btn btn-ghost btn-sm" href={referencesHref}>
+            {t.references.seeAll} {MISSIONS.length} {t.references.seeAllSuffix}
             <span aria-hidden="true">→</span>
           </a>
         </p>
       )
     }
+
+    {!compact && <p class="missions-note">{t.references.footnote}</p>}
   </div>
 </section>
 
 <style>
-  /* Mode compact : une ligne par mission, client et annee a gauche, titre au
-     centre. Beaucoup plus dense qu'une grille de cartes. */
+  /* Compact mode: one row per engagement, client and year on the left, title in
+     the centre. Far denser than a grid of cards. */
   .mission-compact {
     display: flex;
     flex-direction: column;
@@ -152,6 +159,12 @@ const displayed = limit ? MISSIONS.slice(0, limit) : MISSIONS;
     margin: 32px 0 0;
   }
 
+  .missions-note {
+    margin: 20px 0 0;
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
   @media (max-width: 800px) {
     .mission-row {
       grid-template-columns: 1fr;
@@ -159,4 +172,3 @@ const displayed = limit ? MISSIONS.slice(0, limit) : MISSIONS;
     }
   }
 </style>
-

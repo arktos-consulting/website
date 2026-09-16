@@ -1,0 +1,199 @@
+---
+/**
+ * Consulting pillar: audit, architecture, governance and FinOps.
+ *
+ * Rendered from content rather than written inline, so the French and English
+ * pages share one layout and cannot drift apart.
+ */
+import type { ConsultingPillar } from '@/data/pillars';
+import type { Dictionary, Locale } from '@/i18n';
+import SectionHeading from '@/components/SectionHeading.astro';
+import PillarHero from '@/components/PillarHero.astro';
+import Contact from '@/components/Contact.astro';
+
+interface Props {
+  /** Page content for the current locale. */
+  pillar: ConsultingPillar;
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, passed down to the contact section. */
+  locale: Locale;
+}
+
+const { pillar, t, locale } = Astro.props;
+---
+
+<PillarHero heading={pillar.hero} cta={pillar.cta} title={pillar.title} />
+
+<section class="section section-alt">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.scope.eyebrow}
+      title={pillar.scope.title}
+      accent={pillar.scope.accent}
+    />
+    <ul class="domain-grid">
+      {
+        pillar.domains.map((domain) => (
+          <li class="card">
+            <h3 class="card-title text-display-sm">{domain.title}</h3>
+            <ul class="check-list">
+              {domain.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.process.eyebrow}
+      title={pillar.process.title}
+      accent={pillar.process.accent}
+    />
+    <ol class="phase-list">
+      {
+        pillar.phases.map((phase) => (
+          <li class="phase">
+            <div class="phase-head">
+              <span class="phase-step" aria-hidden="true">{phase.step}</span>
+              <h3 class="phase-title">{phase.title}</h3>
+            </div>
+            <p class="phase-detail">{phase.detail}</p>
+            {phase.items.length > 0 && (
+              <ul class="check-list phase-items">
+                {phase.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.proofHeading.eyebrow}
+      title={pillar.proofHeading.title}
+      accent={pillar.proofHeading.accent}
+    />
+    <ul class="proof-list">
+      {
+        pillar.proofs.map((proof) => (
+          <li class="proof">
+            <span class="proof-value">{proof.value}</span>
+            <span class="proof-text">{proof.text}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<Contact t={t} locale={locale} />
+
+<style>
+  .domain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 22px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .phase-list {
+    display: flex;
+    flex-direction: column;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .phase {
+    padding: 24px 0;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .phase:last-child {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .phase-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 16px;
+  }
+
+  .phase-step {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-violet);
+  }
+
+  .phase-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-ivory);
+  }
+
+  .phase-detail {
+    margin: 12px 0 0;
+    max-width: 72ch;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  .phase-items {
+    margin-top: 16px;
+    max-width: 72ch;
+  }
+
+  .proof-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px 40px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .proof {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid var(--color-hairline);
+    padding-top: 20px;
+  }
+
+  .proof-value {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.4vw, 2.75rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-cyan);
+  }
+
+  .proof-text {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+</style>

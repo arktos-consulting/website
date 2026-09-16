@@ -1,37 +1,22 @@
 ---
 /**
- * Page d'accueil : présentation des deux prestations, des preuves et de la
- * prise de contact.
+ * Home page, French route.
  *
- * Elle sert de hub : elle capte la recherche de marque et le positionnement,
- * puis oriente vers les pages piliers qui répondent aux requêtes commerciales.
+ * Declares the locale and the pair of URLs the page answers on; the sections
+ * themselves live in `HomePage.astro`, shared with the English route.
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Hero from '@/components/Hero.astro';
-import Services from '@/components/Services.astro';
-import WhyUs from '@/components/WhyUs.astro';
-import References from '@/components/References.astro';
-import CloudPartners from '@/components/CloudPartners.astro';
-import Faq from '@/components/Faq.astro';
-import Contact from '@/components/Contact.astro';
-import { SITE } from '@/consts';
-import { totalYears } from '@/utils/career';
+import HomePage from '@/components/HomePage.astro';
+import { getDictionary } from '@/i18n';
 
-const years = totalYears();
-
-const description = `Freelance AWS et Kubernetes à Lyon : audit d'architecture, cloud souverain, agents LLM et automatisation, exploitation de clusters EKS, maîtrise des coûts. ${years} ans d'expérience.`;
+const locale = 'fr' as const;
+const t = getDictionary(locale);
 ---
 
 <BaseLayout
-  title="Freelance AWS, Kubernetes & Ingénierie à Lyon"
-  description={description}
-  canonical={`${SITE.url}/`}
+  title={t.hero.metaTitle}
+  description={t.hero.metaDescription}
+  paths={{ fr: '/', en: '/en/' }}
 >
-  <Hero />
-  <Services />
-  <WhyUs />
-  <References limit={4} compact />
-  <CloudPartners />
-  <Faq />
-  <Contact />
+  <HomePage t={t} locale={locale} />
 </BaseLayout>

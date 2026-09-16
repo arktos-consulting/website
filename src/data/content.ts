@@ -1,61 +1,61 @@
 /**
- * Contenu éditorial du site.
+ * French editorial content.
  *
- * Règle de rédaction : une idée par phrase, et aucune phrase ne commente la
- * précédente. Chaque affirmation doit rester compréhensible hors contexte,
- * aussi bien pour un lecteur qui parcourt la page que pour un moteur de
- * réponse qui en extrait un fragment.
+ * Writing rules: one idea per sentence, and no sentence comments on the previous
+ * one. Every claim must stand on its own, both for a reader skimming the page
+ * and for an answer engine extracting a fragment of it.
  *
- * Les faits proviennent du parcours réel (CV, missions) : rien n'est extrapolé.
+ * The facts come from the real background (CV, engagements): nothing is
+ * extrapolated.
  */
 
-/** Un service proposé, présenté en carte et déclaré en `OfferCatalog`. */
+/** A service offered, shown as a card and declared in `OfferCatalog`. */
 export interface Service {
-  /** Identifiant stable, utilisé comme ancre et comme clé de liste. */
+  /** Stable identifier, used as an anchor and as a list key. */
   slug: string;
-  /** Titre commercial du service. */
+  /** Commercial title of the service. */
   title: string;
-  /** Résumé court affiché en carte. */
+  /** Short summary shown on the card. */
   summary: string;
-  /** Prestations détaillées incluses dans l'offre. */
+  /** Detailed work included in the offering. */
   includes: readonly string[];
-  /** Lien vers la page pilier dédiée, si elle existe. */
+  /** Link to the dedicated pillar page, when one exists. */
   href?: string;
 }
 
-/** Une mission passée, servant de preuve technique. */
+/** A past engagement, used as technical evidence. */
 export interface Mission {
-  /** Secteur ou nature du client, tel qu'il peut être rendu public. */
+  /** Sector or nature of the client, as it can be made public. */
   clientType: string;
-  /** Nom du client lorsque la référence est publique. */
+  /** Client name when the reference is public. */
   client?: string;
-  /** Années de la mission. */
+  /** Years of the engagement. */
   period: string;
-  /** Intitulé de la mission, orienté résultat. */
+  /** Engagement title, written around the outcome. */
   title: string;
-  /** Détail technique de ce qui a été réalisé. */
+  /** Technical detail of what was delivered. */
   description: string;
-  /** Technologies et pratiques mobilisées. */
+  /** Technologies and practices involved. */
   tags: readonly string[];
 }
 
-/** Un argument de réassurance, présenté en grille. */
+/** A reassurance argument, shown in a grid. */
 export interface Differentiator {
-  /** Intitulé de l'argument. */
+  /** Argument heading. */
   title: string;
-  /** Explication destinée à un décideur technique. */
+  /** Explanation addressed to a technical decision maker. */
   body: string;
 }
 
-/** Une question fréquente, publiée en `FAQPage`. */
+/** A frequently asked question, published as `FAQPage`. */
 export interface FaqEntry {
-  /** Question telle qu'un prospect la poserait. */
+  /** Question as a prospect would ask it. */
   question: string;
-  /** Réponse directe, en une à deux phrases. */
+  /** Direct answer, in one or two sentences. */
   answer: string;
 }
 
-/** Les prestations vendues, dans l'ordre d'affichage. */
+/** The services sold, in display order. */
 export const SERVICES: readonly Service[] = [
   {
     slug: 'conseil',
@@ -101,7 +101,7 @@ export const SERVICES: readonly Service[] = [
   },
 ] as const;
 
-/** Les arguments de réassurance, en réponse aux travers habituels des ESN. */
+/** The reassurance arguments, answering the usual failings of service companies. */
 export const DIFFERENTIATORS: readonly Differentiator[] = [
   {
     title: 'Vous parlez à celui qui construit',
@@ -121,7 +121,7 @@ export const DIFFERENTIATORS: readonly Differentiator[] = [
   },
 ] as const;
 
-/** Missions publiques, mobilisables comme références. */
+/** Public engagements, usable as references. */
 export const MISSIONS: readonly Mission[] = [
   {
     clientType: 'Organisme financier public',
@@ -197,7 +197,7 @@ export const MISSIONS: readonly Mission[] = [
   },
 ] as const;
 
-/** Questions fréquentes, publiées en données structurées `FAQPage`. */
+/** Frequently asked questions, published as `FAQPage` structured data. */
 export const FAQ: readonly FaqEntry[] = [
   {
     question: 'Comment démarrer ?',
@@ -219,15 +219,4 @@ export const FAQ: readonly FaqEntry[] = [
     answer:
       'Vous conservez l’architecture, la documentation et les accès. Je forme vos équipes au run pendant la mission.',
   },
-] as const;
-
-/** Logos clients affichés dans le bandeau de confiance. */
-export const CLIENT_LOGOS = [
-  { name: 'Bpifrance', src: '/images/clients/bpifrance.png' },
-  { name: 'SNCF', src: '/images/clients/sncf.png' },
-  { name: 'Doctolib', src: '/images/clients/doctolib.png' },
-  { name: 'Canal+', src: '/images/clients/canalplus.png' },
-  { name: 'Yseop', src: '/images/clients/yseop.png' },
-  { name: 'Descours & Cabaud', src: '/images/clients/descours_cabaud.png' },
-  { name: 'Seiitra', src: '/images/clients/seiitra.png' },
 ] as const;

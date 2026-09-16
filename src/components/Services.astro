@@ -1,26 +1,33 @@
 ---
 /**
- * Grille des prestations : conseil, infogérance et les deux offres associées.
+ * Services grid: consulting, managed services and the two related offerings.
  *
- * Les cartes mènent vers les pages piliers dédiées quand elles existent, de
- * sorte que la page d'accueil oriente vers les pages qui portent les requêtes
- * commerciales.
+ * Cards link to the dedicated pillar pages, so the home page routes visitors
+ * towards the pages that carry the commercial queries.
  */
-import { SERVICES } from '@/data/content';
+import { getContent } from '@/data';
+import type { Dictionary, Locale } from '@/i18n';
 import SectionHeading from '@/components/SectionHeading.astro';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to resolve editorial content. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+const { SERVICES } = getContent(locale);
 ---
 
 <section class="section" id="prestations">
   <div class="container">
     <SectionHeading
-      eyebrow="Prestations"
-      title="Ce que je prends"
-      accent="en charge."
+      eyebrow={t.services.eyebrow}
+      title={t.services.title}
+      accent={t.services.accent}
     />
-    <p class="services-lede lede">
-      Quatre domaines, tenus par la même personne — de l’audit à l’exploitation.
-      Chaque mission est cadrée avant d’être facturée.
-    </p>
+    <p class="services-lede lede">{t.services.lede}</p>
 
     <ul class="service-grid">
       {
@@ -35,7 +42,7 @@ import SectionHeading from '@/components/SectionHeading.astro';
             </ul>
             {service.href && (
               <a class="service-link" href={service.href}>
-                En savoir plus
+                {t.common.readMore}
                 <span aria-hidden="true">→</span>
               </a>
             )}
@@ -63,7 +70,7 @@ import SectionHeading from '@/components/SectionHeading.astro';
   }
 
   .service-card {
-    /* Décalage vertical progressif, signature visuelle de la grille */
+    /* Progressive vertical offset, the grid's visual signature */
     transform: translateY(calc(var(--card-offset, 0) * 1px));
   }
 

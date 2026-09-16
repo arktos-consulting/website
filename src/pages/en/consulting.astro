@@ -1,0 +1,33 @@
+---
+/**
+ * Consulting pillar page, English route.
+ *
+ * The page body lives in a shared component rendered from content, so the French
+ * and English versions share one layout. This file only declares which content
+ * to load and which URLs the page answers on.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Consulting from '@/components/pillars/Consulting.astro';
+import { getPillars, pillarPaths } from '@/data/pillars';
+import { getDictionary } from '@/i18n';
+import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
+
+const locale = 'en' as const;
+const pillar = getPillars(locale).consulting;
+const t = getDictionary(locale);
+const paths = pillarPaths('consulting');
+
+const breadcrumbs = buildBreadcrumbs([
+  { name: 'Home', url: `${Astro.site}/en/` },
+  { name: pillar.breadcrumb, url: `${Astro.site}${paths.en}` },
+]);
+---
+
+<BaseLayout title={pillar.title} description={pillar.description} paths={paths}>
+  {
+    breadcrumbs && (
+      <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
+    )
+  }
+  <Consulting pillar={pillar} t={t} locale={locale} />
+</BaseLayout>

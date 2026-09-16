@@ -1,25 +1,32 @@
 ---
 /**
- * Questions fréquentes.
+ * Frequently asked questions.
  *
- * Quatre questions seulement, celles qui bloquent réellement une décision
- * d'achat : démarrage, délais, facturation, fin de mission. Les questions plus
- * rares sont mieux placées dans une conversation que sur une page d'accueil.
+ * Four questions only, the ones that actually block a purchase decision:
+ * getting started, timelines, billing, end of engagement. Rarer questions are
+ * better placed in a conversation than on a home page.
  *
- * Ce bloc est déclaré en `FAQPage` dans le layout à partir de la même source :
- * le balisage et les réponses visibles ne peuvent donc pas diverger.
+ * This block is declared as `FAQPage` in the layout from the same source, so the
+ * markup and the visible answers cannot diverge.
  */
-import { FAQ } from '@/data/content';
+import { getContent } from '@/data';
+import type { Dictionary, Locale } from '@/i18n';
 import SectionHeading from '@/components/SectionHeading.astro';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to resolve editorial content. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+const { FAQ } = getContent(locale);
 ---
 
 <section class="section" id="faq">
   <div class="container faq-layout">
-    <SectionHeading
-      eyebrow="Questions fréquentes"
-      title="Avant de"
-      accent="démarrer."
-    />
+    <SectionHeading eyebrow={t.faq.eyebrow} title={t.faq.title} accent={t.faq.accent} />
 
     <div class="faq-list">
       {
@@ -83,7 +90,7 @@ import SectionHeading from '@/components/SectionHeading.astro';
     color: var(--color-cyan);
   }
 
-  /* Marqueur en chevron qui pivote à l'ouverture */
+  /* Chevron marker that rotates on open */
   .faq-marker {
     position: relative;
     flex-shrink: 0;

@@ -1,0 +1,36 @@
+---
+/**
+ * References page, English route.
+ *
+ * URL segment is kept identical to the French one ("references" reads the same in
+ * both languages) but the path is still declared explicitly, so the pair stays
+ * verifiable in one place.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ReferencesPage from '@/components/ReferencesPage.astro';
+import { getDictionary } from '@/i18n';
+import { getContent } from '@/data';
+import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
+
+const locale = 'en' as const;
+const t = getDictionary(locale);
+const { MISSIONS } = getContent(locale);
+
+const paths = { fr: '/references/', en: '/en/references/' } as const;
+
+const description = `${MISSIONS.length} AWS, Kubernetes and DevOps infrastructure engagements: a French public investment bank, the national railway operator, a SaaS vendor, a health platform, a broadcaster. Technical detail for each.`;
+
+const breadcrumbs = buildBreadcrumbs([
+  { name: 'Home', url: `${Astro.site}/en/` },
+  { name: 'References', url: `${Astro.site}${paths.en}` },
+]);
+---
+
+<BaseLayout title={t.references.pageTitle} description={description} paths={paths}>
+  {
+    breadcrumbs && (
+      <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
+    )
+  }
+  <ReferencesPage t={t} locale={locale} />
+</BaseLayout>

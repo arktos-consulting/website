@@ -1,62 +1,97 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
+import type { Locale } from '@/i18n';
 
 /**
- * Formatage des dates du blog.
+ * Blog helpers.
  *
- * Le site est francophone : les dates sont rendues en français, avec le mois en
- * toutes lettres. Le fuseau est forcé pour que le rendu au build soit identique
- * quelle que soit la machine qui construit.
+ * Dates are rendered in the locale of the page, and the time zone is forced so
+ * the build output is identical whatever machine builds it. English and French
+ * posts live in separate collections, because a translation is a distinct
+ * document with its own URL and its own publication date rather than a variant
+ * of the same file.
  */
-const DATE_FORMATTER = new Intl.DateTimeFormat('fr-FR', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  timeZone: 'Europe/Paris',
-});
 
-/** Formatage court, pour les listes denses. */
-const SHORT_DATE_FORMATTER = new Intl.DateTimeFormat('fr-FR', {
-  day: '2-digit',
-  month: '2-digit',
-  year: 'numeric',
-  timeZone: 'Europe/Paris',
-});
+/** Long date formatters, one per locale. */
+const DATE_FORMATTERS: Record<Locale, Intl.DateTimeFormat> = {
+  fr: new Intl.DateTimeFormat('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'Europe/Paris',
+  }),
+  en: new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'Europe/Paris',
+  }),
+};
+
+/** Short formatters, for dense lists. */
+const SHORT_DATE_FORMATTERS: Record<Locale, Intl.DateTimeFormat> = {
+  fr: new Intl.DateTimeFormat('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    timeZone: 'Europe/Paris',
+  }),
+  en: new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    timeZone: 'Europe/Paris',
+  }),
+};
+
+/** Astro collection holding the posts of a locale. */
+export const BLOG_COLLECTIONS = {
+  fr: 'blog',
+  en: 'blogEn',
+} as const;
+
+/** Astro collection name for a locale's posts. */
+export type BlogCollection = (typeof BLOG_COLLECTIONS)[Locale];
+
+/** A blog post entry, whichever locale it belongs to. */
+export type PostEntry = CollectionEntry<'blog'> | CollectionEntry<'blogEn'>;
 
 /**
- * Rend une date au format long français.
+ * Renders a date in the long format of a locale.
  *
- * @param date Date à formater
- * @returns La date en toutes lettres, par exemple « 12 août 2026 »
+ * @param date Date to format
+ * @param locale Locale the date is written for
+ * @returns The date spelled out, for example « 12 août 2026 » or `12 August 2026`
  */
-export function formatDate(date: Date): string {
-  return DATE_FORMATTER.format(date);
+export function formatDate(date: Date, locale: Locale): string {
+  return DATE_FORMATTERS[locale].format(date);
 }
 
 /**
- * Rend une date au format court français.
+ * Renders a date in the short format of a locale.
  *
- * @param date Date à formater
- * @returns La date au format JJ/MM/AAAA
+ * @param date Date to format
+ * @param locale Locale the date is written for
+ * @returns The date in DD/MM/YYYY format
  */
-export function formatDateShort(date: Date): string {
-  return SHORT_DATE_FORMATTER.format(date);
+export function formatDateShort(date: Date, locale: Locale): string {
+  return SHORT_DATE_FORMATTERS[locale].format(date);
 }
 
 /**
- * Rend une date au format attendu par les données structurées et le RSS.
+ * Renders a date in the format expected by structured data and RSS.
  *
- * @param date Date à formater
- * @returns La date au format ISO 8601 (AAAA-MM-JJ)
+ * @param date Date to format
+ * @returns The date in ISO 8601 format (YYYY-MM-DD)
  */
 export function formatDateIso(date: Date): string {
   return date.toISOString().split('T')[0] ?? '';
 }
 
 /**
- * Calcule un temps de lecture approximatif à partir du corps de l'article.
+ * Computes an approximate reading time from the article body.
  *
- * @param markdownSource Contenu Markdown de l'article
- * @returns Le nombre de minutes de lecture, au minimum 1
+ * @param markdownSource Markdown content of the article
+ * @returns The number of reading minutes, at least 1
  */
 export function readingTime(markdownSource: string): number {
   const wordsPerMinute = 200;
@@ -65,34 +100,46 @@ export function readingTime(markdownSource: string): number {
 }
 
 /**
- * Récupère les articles publiés, du plus récent au plus ancien.
+ * Retrieves published posts for a locale, most recent first.
  *
- * Les brouillons sont écartés : ils ne doivent apparaître ni dans le listing,
- * ni dans le flux RSS, ni dans le plan du site.
+ * Drafts are excluded: they must not appear in the listing, the RSS feed or the
+ * sitemap.
  *
- * @returns Les articles publiés, triés par date de publication décroissante
+ * @param locale Locale whose posts to retrieve
+ * @returns The published posts, sorted by publication date descending
  */
-export async function getPublishedPosts(): Promise<CollectionEntry<'blog'>[]> {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.sort((first, second) => {
+export async function getPublishedPosts(
+  locale: Locale,
+): Promise<PostEntry[]> {
+  const posts = await getCollection(
+    BLOG_COLLECTIONS[locale] as 'blog',
+    ({ data }) => !data.draft,
+  );
+  return (posts as PostEntry[]).sort((first, second) => {
     return second.data.publishedAt.getTime() - first.data.publishedAt.getTime();
   });
 }
 
 /**
- * Construit le fil d'Ariane d'un article.
+ * Builds the breadcrumb trail of an article.
  *
- * @param title Titre de l'article
- * @param slug Slug de l'article
- * @returns Les étapes du fil, de l'accueil à l'article
+ * @param title Article title
+ * @param slug Article slug
+ * @param locale Locale the trail is written for
+ * @returns The steps of the trail, from home to the article
  */
 export function postBreadcrumbs(
   title: string,
   slug: string,
+  locale: Locale,
 ): { name: string; path: string }[] {
+  const home = locale === 'fr' ? '/' : '/en/';
+  const blog = locale === 'fr' ? '/blog/' : '/en/blog/';
+  const post = `${blog}${slug}/`;
+
   return [
-    { name: 'Accueil', path: '/' },
-    { name: 'Blog', path: '/blog/' },
-    { name: title, path: `/blog/${slug}/` },
+    { name: locale === 'fr' ? 'Accueil' : 'Home', path: home },
+    { name: 'Blog', path: blog },
+    { name: title, path: post },
   ];
 }

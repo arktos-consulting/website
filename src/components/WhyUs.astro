@@ -1,21 +1,32 @@
 ---
 /**
- * Arguments de réassurance, en réponse aux travers habituels des sociétés de
- * services : intermédiaires, périmètres flous, missions qui s'éternisent.
+ * Reassurance arguments, answering the usual failings of service companies:
+ * intermediaries, vague scopes, engagements that drag on.
  *
- * Les intitulés sont visibles et les explications tiennent en une ligne : un
- * argument de vente se lit, il ne se démontre pas.
+ * Headings are visible and the explanations fit on a line: a sales argument is
+ * read, it is not demonstrated.
  */
-import { DIFFERENTIATORS } from '@/data/content';
+import { getContent } from '@/data';
+import type { Dictionary, Locale } from '@/i18n';
 import SectionHeading from '@/components/SectionHeading.astro';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to resolve editorial content. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+const { DIFFERENTIATORS } = getContent(locale);
 ---
 
 <section class="section section-alt" id="pourquoi">
   <div class="container">
     <SectionHeading
-      eyebrow="Pourquoi travailler avec moi"
-      title="Un interlocuteur unique,"
-      accent="du cadrage à la production."
+      eyebrow={t.whyUs.eyebrow}
+      title={t.whyUs.title}
+      accent={t.whyUs.accent}
     />
 
     <ul class="reason-grid">

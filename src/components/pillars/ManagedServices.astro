@@ -1,0 +1,162 @@
+---
+/**
+ * Managed services pillar: running an EKS platform.
+ *
+ * Rendered from content rather than written inline, so the French and English
+ * pages share one layout and cannot drift apart.
+ */
+import type { ManagedServicesPillar } from '@/data/pillars';
+import type { Dictionary, Locale } from '@/i18n';
+import SectionHeading from '@/components/SectionHeading.astro';
+import PillarHero from '@/components/PillarHero.astro';
+import Contact from '@/components/Contact.astro';
+
+interface Props {
+  /** Page content for the current locale. */
+  pillar: ManagedServicesPillar;
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, passed down to the contact section. */
+  locale: Locale;
+}
+
+const { pillar, t, locale } = Astro.props;
+---
+
+<PillarHero heading={pillar.hero} cta={pillar.cta} title={pillar.title} />
+
+<section class="section section-alt">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.scope.eyebrow}
+      title={pillar.scope.title}
+      accent={pillar.scope.accent}
+    />
+    <ul class="scope-grid">
+      {
+        pillar.coverage.map((group) => (
+          <li class="card">
+            <h3 class="card-title text-display-sm">{group.title}</h3>
+            <ul class="check-list">
+              {group.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.commitmentsHeading.eyebrow}
+      title={pillar.commitmentsHeading.title}
+      accent={pillar.commitmentsHeading.accent}
+    />
+    <dl class="commitment-grid">
+      {
+        pillar.commitments.map((commitment) => (
+          <div class="commitment">
+            <dt class="commitment-label">{commitment.label}</dt>
+            <dd class="commitment-value">{commitment.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.hygieneHeading.eyebrow}
+      title={pillar.hygieneHeading.title}
+      accent={pillar.hygieneHeading.accent}
+    />
+    <ul class="reason-grid">
+      {
+        pillar.hygiene.map((reason) => (
+          <li class="reason">
+            <h3 class="reason-title">{reason.title}</h3>
+            <p class="reason-body">{reason.detail}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<Contact t={t} locale={locale} />
+
+<style>
+  .scope-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 22px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .commitment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 28px 32px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+  }
+
+  .commitment {
+    border-top: 1px solid var(--color-hairline);
+    padding-top: 18px;
+  }
+
+  .commitment-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .commitment-value {
+    margin: 10px 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-cyan);
+  }
+
+  .reason-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px 40px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .reason {
+    border-top: 1px solid var(--color-hairline);
+    padding-top: 20px;
+  }
+
+  .reason-title {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--color-ivory);
+  }
+
+  .reason-body {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+</style>

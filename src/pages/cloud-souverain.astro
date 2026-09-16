@@ -1,296 +1,33 @@
 ---
 /**
- * Page pilier « Cloud souverain ».
+ * Sovereign cloud pillar page, French route.
  *
- * Elle décrit une offre en trois temps — concevoir, construire, exploiter — qui
- * reprend l'expérience réelle : conception et direction de la construction des
- * services managés d'un cloud privé, puis exploitation. La page s'adresse aux
- * organisations qui construisent un cloud interne ou cherchent à réduire leur
- * dépendance à un hyperscaler.
+ * The page body lives in a shared component rendered from content, so the French
+ * and English versions share one layout. This file only declares which content
+ * to load and which URLs the page answers on.
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import SectionHeading from '@/components/SectionHeading.astro';
-import Contact from '@/components/Contact.astro';
-import { SITE } from '@/consts';
+import SovereignCloud from '@/components/pillars/SovereignCloud.astro';
+import { getPillars, pillarPaths } from '@/data/pillars';
+import { getDictionary } from '@/i18n';
 import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
 
-const description =
-  "Cloud souverain : conception et construction de services managés internes, chemins de réversibilité, exploitation d'un cloud privé Kubernetes. Freelance senior basé à Lyon.";
+const locale = 'fr' as const;
+const pillar = getPillars(locale).sovereignCloud;
+const t = getDictionary(locale);
+const paths = pillarPaths('sovereignCloud');
 
 const breadcrumbs = buildBreadcrumbs([
-  { name: 'Accueil', url: `${SITE.url}/` },
-  { name: 'Cloud souverain', url: `${SITE.url}/cloud-souverain/` },
+  { name: 'Accueil', url: `${Astro.site}/` },
+  { name: pillar.breadcrumb, url: `${Astro.site}${paths.fr}` },
 ]);
-
-/**
- * Les trois temps de l'offre.
- *
- * Chaque étape commence par ce qui est livré, puis explique le contexte. Un
- * lecteur qui ne lit que les titres comprend déjà le périmètre.
- */
-const phases = [
-  {
-    step: '01',
-    title: 'Concevoir',
-    detail:
-      'Définir les services que votre cloud interne doit offrir, et à quelles équipes. Choix des briques, modèle de responsabilité, isolation des environnements, politique d’accès.',
-    items: [
-      'Cartographie des besoins et des services à exposer',
-      'Modèle de responsabilité entre la plateforme et les équipes',
-      'Isolation réseau, cloisonnement des comptes et des projets',
-      'Dossier d’architecture et décisions documentées',
-    ],
-  },
-  {
-    step: '02',
-    title: 'Construire',
-    detail:
-      'Implémenter les services managés internes et industrialiser leur mise à disposition. C’est le travail réalisé sur le cloud privé d’un opérateur ferroviaire national : des services équivalents à Fargate, RDS ou Secret Manager, utilisables en libre-service.',
-    items: [
-      'Services conteneurisés auto-servis pour les équipes produit',
-      'Bases de données managées et coffre de secrets',
-      'Industrialisation complète en IaC, GitOps et CI/CD',
-      'Montée en compétence des équipes qui reprennent l’exploitation',
-    ],
-  },
-  {
-    step: '03',
-    title: 'Exploiter',
-    detail:
-      'Faire tourner la plateforme dans la durée : supervision, mises à jour, gestion des incidents et maîtrise des coûts. Une plateforme interne se dégrade vite quand personne n’en a la charge explicite.',
-    items: [
-      'Supervision, alerting et tableaux de bord exploitables',
-      'Gestion des versions, des certificats et des accès',
-      'Gestion des incidents et retours d’expérience écrits',
-      'Suivi des coûts et optimisation continue',
-    ],
-  },
-] as const;
-
-/** Situations qui déclenchent typiquement un projet de cloud souverain. */
-const triggers = [
-  {
-    title: 'Vous construisez un cloud interne',
-    body: 'Plusieurs équipes redéploient les mêmes briques. Il faut des services partagés, avec un modèle de responsabilité clair.',
-  },
-  {
-    title: 'Vous devez réduire une dépendance',
-    body: 'Réversibilité, directives internes ou exigences réglementaires : la sortie d’un hyperscaler se prépare avant d’être subie.',
-  },
-  {
-    title: 'Vous héritez d’une plateforme',
-    body: 'Le cloud privé existe déjà mais personne ne sait qui l’exploite. Reprise en main, documentation, puis transfert de charge.',
-  },
-] as const;
 ---
 
-<BaseLayout
-  title="Cloud souverain — concevoir et exploiter"
-  description={description}
-  canonical={`${SITE.url}/cloud-souverain/`}
->
+<BaseLayout title={pillar.title} description={pillar.description} paths={paths}>
   {
     breadcrumbs && (
       <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
     )
   }
-
-  <section class="section page-hero">
-    <div class="ambient-glow" aria-hidden="true"></div>
-    <div class="container">
-      <SectionHeading
-        eyebrow="Cloud souverain"
-        level="h1"
-        title="Concevoir, construire et exploiter"
-        accent="votre cloud interne."
-        lede="Du service managé interne à la sortie d’un hyperscaler : je conçois les briques, je dirige leur construction, puis je les exploite. Sur un cloud privé Kubernetes, avec les mêmes standards qu’un grand groupe."
-      />
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="#contact">Discuter de votre projet</a>
-        <a class="btn btn-ghost" href="/conseil/">
-          Voir aussi le conseil
-          <span aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Approche"
-        title="Trois temps,"
-        accent="un seul interlocuteur."
-      />
-      <ol class="phase-list">
-        {
-          phases.map((phase) => (
-            <li class="phase">
-              <div class="phase-head">
-                <span class="phase-step" aria-hidden="true">{phase.step}</span>
-                <h2 class="phase-title">{phase.title}</h2>
-              </div>
-              <p class="phase-detail">{phase.detail}</p>
-              <ul class="check-list phase-items">
-                {phase.items.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </li>
-          ))
-        }
-      </ol>
-    </div>
-  </section>
-
-  <section class="section section-alt">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Quand m’appeler"
-        title="Trois situations"
-        accent="où j’interviens."
-      />
-      <ul class="trigger-grid">
-        {
-          triggers.map((trigger) => (
-            <li class="card">
-              <h3 class="card-title text-display-sm">{trigger.title}</h3>
-              <p class="card-text">{trigger.body}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="container">
-      <SectionHeading
-        eyebrow="Référence"
-        title="Le cloud privé"
-        accent="d’un opérateur ferroviaire national."
-      />
-      <div class="case">
-        <p class="case-text">
-          Au sein de l’équipe responsable d’un parc de plus de 300 clusters
-          Kubernetes, j’ai participé à l’initiative de cloud privé du groupe, avec
-          la responsabilité de concevoir et de diriger la construction des services
-          managés : conteneurs auto-servis, bases de données, coffre de secrets.
-        </p>
-        <p class="case-text">
-          Ces briques ont ensuite alimenté des contributions open source et des
-          usages internes inédits pour le groupe. Le travail comprenait autant la
-          conception technique que la coordination des équipes qui allaient
-          exploiter la plateforme.
-        </p>
-        <ul class="tag-list">
-          <li class="tag">Kubernetes</li>
-          <li class="tag">Cloud privé</li>
-          <li class="tag">Services managés</li>
-          <li class="tag">Open source</li>
-          <li class="tag">Plateforme interne</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <Contact />
+  <SovereignCloud pillar={pillar} t={t} locale={locale} />
 </BaseLayout>
-
-<style>
-  .page-hero {
-    position: relative;
-    overflow: hidden;
-    padding-block: clamp(72px, 9vw, 128px) clamp(56px, 7vw, 96px);
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 32px;
-  }
-
-  .phase-list {
-    display: flex;
-    flex-direction: column;
-    margin: clamp(40px, 5vw, 64px) 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .phase {
-    padding: 32px 0;
-    border-top: 1px solid var(--color-hairline);
-  }
-
-  .phase:last-child {
-    border-bottom: 1px solid var(--color-hairline);
-  }
-
-  .phase-head {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 8px 18px;
-  }
-
-  .phase-step {
-    font-family: var(--font-display);
-    font-size: 0.8125rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--color-violet);
-  }
-
-  .phase-title {
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 2.6vw, 2rem);
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    color: var(--color-ivory);
-  }
-
-  .phase-detail {
-    margin: 14px 0 0;
-    max-width: 82ch;
-    font-size: 1rem;
-    line-height: 1.75;
-    color: var(--color-muted);
-  }
-
-  .phase-items {
-    margin-top: 20px;
-    max-width: 82ch;
-  }
-
-  .trigger-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 22px;
-    margin: clamp(40px, 5vw, 64px) 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .case {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-top: clamp(32px, 4vw, 48px);
-    padding: 30px;
-    border: 1px solid var(--color-hairline);
-    border-left: 2px solid var(--color-cyan);
-    border-radius: 0 16px 16px 0;
-    background-color: var(--color-surface);
-  }
-
-  .case-text {
-    margin: 0;
-    max-width: 82ch;
-    font-size: 1rem;
-    line-height: 1.75;
-    color: var(--color-muted);
-  }
-</style>

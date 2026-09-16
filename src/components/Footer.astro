@@ -1,12 +1,24 @@
 ---
 /**
- * Pied de page : navigation secondaire, coordonnées et informations légales.
+ * Footer: secondary navigation, contact details and legal information.
  *
- * Les mentions d'identité (SIRET, forme juridique) sont reprises de la source
- * unique du site, afin qu'elles restent identiques aux données structurées et
- * aux registres publics.
+ * Identity details (registration number, legal form) come from the site's single
+ * source, so they stay identical to the structured data and the public
+ * registers.
  */
-import { SITE, PROFILES, NAV_LINKS } from '@/consts';
+import { SITE, PROFILES } from '@/consts';
+import type { Dictionary, Locale } from '@/i18n';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to build locale-specific links. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+const legalHref = locale === 'fr' ? '/mentions-legales/' : '/en/legal-notices/';
+const rssHref = locale === 'fr' ? '/blog/rss.xml' : '/en/blog/rss.xml';
 ---
 
 <footer class="site-footer">
@@ -21,10 +33,7 @@ import { SITE, PROFILES, NAV_LINKS } from '@/consts';
           loading="lazy"
           decoding="async"
         />
-        <p class="footer-tagline">
-          Conseil et infogérance AWS &amp; Kubernetes pour des plateformes qui
-          doivent tenir en production.
-        </p>
+        <p class="footer-tagline">{t.footer.tagline}</p>
         <ul class="footer-socials">
           <li>
             <a href={PROFILES.linkedin} target="_blank" rel="noopener">LinkedIn</a>
@@ -39,23 +48,23 @@ import { SITE, PROFILES, NAV_LINKS } from '@/consts';
       </div>
 
       <nav class="footer-column" aria-labelledby="footer-nav">
-        <h2 class="footer-heading" id="footer-nav">Prestations</h2>
+        <h2 class="footer-heading" id="footer-nav">{t.footer.servicesHeading}</h2>
         <ul class="footer-links">
           {
-            NAV_LINKS.map((link) => (
+            t.nav.links.map((link) => (
               <li>
                 <a href={link.href}>{link.label}</a>
               </li>
             ))
           }
           <li>
-            <a href="/blog/rss.xml">Flux RSS</a>
+            <a href={rssHref}>{t.footer.rss}</a>
           </li>
         </ul>
       </nav>
 
       <nav class="footer-column" aria-labelledby="footer-ecosystem">
-        <h2 class="footer-heading" id="footer-ecosystem">Écosystème</h2>
+        <h2 class="footer-heading" id="footer-ecosystem">{t.footer.ecosystemHeading}</h2>
         <ul class="footer-links">
           <li>
             <a href={PROFILES.cloudPartners} target="_blank" rel="noopener">Cloud Partners</a>
@@ -70,7 +79,7 @@ import { SITE, PROFILES, NAV_LINKS } from '@/consts';
       </nav>
 
       <div class="footer-column">
-        <h2 class="footer-heading">Contact</h2>
+        <h2 class="footer-heading">{t.footer.contactHeading}</h2>
         <ul class="footer-links">
           <li>
             <a href={SITE.emailHref}>{SITE.email}</a>
@@ -82,12 +91,12 @@ import { SITE, PROFILES, NAV_LINKS } from '@/consts';
 
     <div class="footer-legal">
       <p>
-        &copy; {new Date().getFullYear()} {SITE.name} · {SITE.legalForm} au capital de{' '}
+        &copy; {new Date().getFullYear()} {SITE.name} · {SITE.legalForm} {t.legal.shareCapital}{' '}
         {SITE.shareCapital} · SIRET {SITE.siret}
       </p>
       <ul class="footer-legal-links">
-        <li><a href="/mentions-legales/">Mentions légales</a></li>
-        <li><a href={SITE.registryUrl} target="_blank" rel="noopener">Fiche entreprise</a></li>
+        <li><a href={legalHref}>{t.footer.legalNotices}</a></li>
+        <li><a href={SITE.registryUrl} target="_blank" rel="noopener">{t.footer.companyRecord}</a></li>
       </ul>
     </div>
   </div>

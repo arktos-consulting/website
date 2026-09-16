@@ -1,39 +1,47 @@
 ---
 /**
- * Section de contact : formulaire, coordonnées directes et widget de prise de
- * rendez-vous.
+ * Contact section: form, direct contact details and booking link.
  *
- * Le calendrier n'est pas embarqué au chargement de la page : le widget Calendly
- * est chargé à la demande, après un clic. Cela évite d'imposer un script tiers
- * et une connexion externe à chaque visite, ce qui pénalise le temps de
- * chargement et la vie privée.
+ * The calendar widget is not embedded when the page loads: Calendly is opened
+ * after a click. That avoids imposing a third-party script and an external
+ * connection on every visit, which costs load time and privacy.
  */
 import { SITE, PROFILES } from '@/consts';
+import type { Dictionary, Locale } from '@/i18n';
 import ContactForm from '@/components/ContactForm.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, passed through to the form. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
 ---
 
 <section class="section section-alt" id="contact">
   <div class="container contact-layout">
     <div class="contact-intro">
       <SectionHeading
-        eyebrow="Contact"
-        title="Parlons de"
-        accent="votre plateforme."
-        lede="Réponse sous un jour ouvré. Je vous dis si je suis la bonne personne — y compris quand la réponse est non."
+        eyebrow={t.contact.eyebrow}
+        title={t.contact.title}
+        accent={t.contact.accent}
+        lede={t.contact.lede}
       />
 
       <ul class="contact-channels">
         <li class="channel">
-          <span class="channel-label">E-mail</span>
+          <span class="channel-label">{t.contact.emailLabel}</span>
           <a class="channel-value" href={SITE.emailHref}>{SITE.email}</a>
         </li>
         <li class="channel">
-          <span class="channel-label">Localisation</span>
-          <span class="channel-value">{SITE.city}, France · remote accepté</span>
+          <span class="channel-label">{t.contact.locationLabel}</span>
+          <span class="channel-value">{t.contact.location}</span>
         </li>
         <li class="channel">
-          <span class="channel-label">LinkedIn</span>
+          <span class="channel-label">{t.contact.linkedinLabel}</span>
           <a class="channel-value" href={PROFILES.linkedin} target="_blank" rel="noopener">
             perriea-cloud
           </a>
@@ -41,7 +49,7 @@ import SectionHeading from '@/components/SectionHeading.astro';
       </ul>
 
       <div class="calendly-block">
-        <p class="calendly-hint">Ou réservez directement trente minutes.</p>
+        <p class="calendly-hint">{t.contact.calendlyHint}</p>
         <a
           class="btn btn-ghost"
           href={SITE.calendly}
@@ -49,14 +57,14 @@ import SectionHeading from '@/components/SectionHeading.astro';
           rel="noopener"
           data-calendly
         >
-          Réserver un créneau
+          {t.contact.calendlyCta}
           <span aria-hidden="true">→</span>
         </a>
       </div>
     </div>
 
     <div class="contact-form-wrapper">
-      <ContactForm />
+      <ContactForm t={t} locale={locale} />
     </div>
   </div>
 </section>

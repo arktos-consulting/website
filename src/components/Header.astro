@@ -1,31 +1,37 @@
 ---
 /**
- * Entête fixe : logo, navigation principale et appel à l'action.
+ * Fixed header: logo, main navigation, language switch and call to action.
  *
- * Le menu mobile repose sur une case à cocher masquée plutôt que sur du
- * JavaScript : il reste utilisable sans script et n'ajoute pas de coût
- * d'hydratation sur une page par ailleurs statique.
+ * The mobile menu is driven by a hidden checkbox rather than JavaScript, so it
+ * stays usable without scripting and adds no hydration cost to an otherwise
+ * static page.
+ *
+ * The language switch links to the equivalent page in the other locale. That URL
+ * is passed in from the page, because URL segments are translated rather than
+ * prefixed (`/cloud-souverain/` in French, `/en/sovereign-cloud/` in English):
+ * only the page itself knows its counterpart.
  */
 import { SITE } from '@/consts';
-
-interface NavLink {
-  /** Destination du lien. */
-  href: string;
-  /** Libellé affiché. */
-  label: string;
-}
+import type { Dictionary, Locale } from '@/i18n';
+import { alternateLocale, LANGUAGE_LABELS } from '@/i18n';
 
 interface Props {
-  /** Liens de navigation principale. */
-  links: readonly NavLink[];
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to label the language switch. */
+  locale: Locale;
+  /** URL of this page in the other locale, or `null` when there is no translation. */
+  alternateUrl: string | null;
 }
 
-const { links } = Astro.props;
+const { t, locale, alternateUrl } = Astro.props;
+const otherLocale = alternateLocale(locale);
+const homeHref = locale === 'fr' ? '/' : '/en/';
 ---
 
 <header class="site-header">
   <div class="container header-inner">
-    <a class="brand" href="/" aria-label={`${SITE.name}, retour à l'accueil`}>
+    <a class="brand" href={homeHref} aria-label={`${SITE.name}, ${t.nav.home}`}>
       <img
         src="/images/logo.svg"
         alt=""
@@ -37,7 +43,7 @@ const { links } = Astro.props;
       />
       <span class="brand-text">
         <span class="brand-name">Arktos</span>
-        <span class="brand-sub">Consulting</span>
+        <span class="brand-sub">{t.common.brandSub}</span>
       </span>
     </a>
 
@@ -45,7 +51,7 @@ const { links } = Astro.props;
       type="checkbox"
       id="nav-toggle"
       class="nav-toggle visually-hidden"
-      aria-label="Ouvrir le menu de navigation"
+      aria-label={t.nav.openMenu}
     />
     <label for="nav-toggle" class="nav-burger" aria-hidden="true">
       <span></span>
@@ -53,10 +59,10 @@ const { links } = Astro.props;
       <span></span>
     </label>
 
-    <nav class="site-nav" aria-label="Navigation principale">
+    <nav class="site-nav" aria-label={t.nav.mainNavigation}>
       <ul class="nav-list">
         {
-          links.map((link) => (
+          t.nav.links.map((link) => (
             <li>
               <a class="nav-link" href={link.href}>
                 {link.label}
@@ -65,8 +71,23 @@ const { links } = Astro.props;
           ))
         }
       </ul>
-      <a class="btn btn-primary nav-cta" href="/#contact">
-        Parlons de votre projet
+
+      {
+        alternateUrl && (
+          <a
+            class="lang-switch"
+            href={alternateUrl}
+            hreflang={otherLocale}
+            lang={otherLocale}
+            aria-label={t.nav.languageSwitch}
+          >
+            {LANGUAGE_LABELS[otherLocale]}
+          </a>
+        )
+      }
+
+      <a class="btn btn-primary nav-cta" href={`${homeHref}#contact`}>
+        {t.nav.cta}
       </a>
     </nav>
   </div>
@@ -157,11 +178,36 @@ const { links } = Astro.props;
     background-color: var(--color-surface-raised);
   }
 
+  /* Language switch: compact, and set apart from the navigation links so it is
+     not mistaken for a section of the site. */
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    margin-left: 10px;
+    padding: 9px 12px;
+    border: 1px solid var(--color-hairline);
+    border-radius: 8px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    transition:
+      color 0.2s,
+      border-color 0.2s;
+  }
+
+  .lang-switch:hover {
+    color: var(--color-cyan);
+    border-color: var(--color-cyan);
+  }
+
   .nav-cta {
     margin-left: 12px;
   }
 
-  /* Menu mobile : ouvert par la case à cocher, sans script */
+  /* Mobile menu: opened by the checkbox, no script involved */
   .nav-burger {
     display: none;
     flex-direction: column;
@@ -200,7 +246,7 @@ const { links } = Astro.props;
     outline-offset: 2px;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     .nav-burger {
       display: flex;
     }
@@ -237,6 +283,11 @@ const { links } = Astro.props;
     .nav-link {
       padding: 14px 12px;
       font-size: 1rem;
+    }
+
+    .lang-switch {
+      align-self: flex-start;
+      margin: 12px 0 0;
     }
 
     .nav-cta {

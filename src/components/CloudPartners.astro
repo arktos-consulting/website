@@ -1,53 +1,50 @@
 ---
 /**
- * Section « Cloud Partners » : le collectif d'experts AWS certifiés auquel
- * appartient Arktos Consulting.
+ * Cloud Partners section: the collective of certified AWS experts Arktos
+ * Consulting belongs to.
  *
- * Elle remplace la présentation biographique. Pour un acheteur de prestation
- * cloud, l'appartenance à un collectif certifié est un argument plus fort qu'un
- * parcours individuel : elle répond à la question de la continuité et de la
- * capacité, qui est précisément ce qu'un indépendant seul ne peut pas couvrir.
+ * It replaces the biographical introduction. To a cloud buyer, belonging to a
+ * certified collective is a stronger argument than an individual track record:
+ * it answers the question of continuity and capacity, which is precisely what a
+ * solo contractor cannot cover.
  *
- * Les chiffres et l'effectif sont ceux publiés par le collectif.
+ * The figures are those published by the collective.
  */
 import { PROFILES } from '@/consts';
+import type { Dictionary } from '@/i18n';
 
-/** Chiffres clés du collectif, tels que publiés sur le site Cloud Partners. */
-const collectiveStats = [
-  { value: '50+', label: 'certifications AWS maintenues' },
-  { value: '11', label: "domaines d'expertise couverts" },
-  { value: '10', label: 'architectes et ingénieurs' },
-] as const;
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+}
+
+const { t } = Astro.props;
 ---
 
 <section class="section section-alt" id="cloud-partners">
   <div class="container collective">
     <div class="collective-copy">
-      <p class="eyebrow eyebrow-aws">Le collectif</p>
+      <p class="eyebrow eyebrow-aws">{t.cloudPartners.eyebrow}</p>
       <h2 class="text-display-lg collective-title">
-        Pas une ESN.{' '}
-        <span class="accent">Un collectif d’experts AWS.</span>
+        {t.cloudPartners.title}{' '}
+        <span class="accent">{t.cloudPartners.accent}</span>
       </h2>
 
       <p class="lede collective-text">
-        Arktos Consulting est membre de <strong>Cloud Partners</strong>, un collectif
-        d’architectes et d’ingénieurs AWS certifiés. Ce n’est pas un réseau commercial :
-        chaque membre s’engage directement sur les projets qu’il porte.
+        {t.cloudPartners.bodyOneLead} <strong>Cloud Partners</strong>{t.cloudPartners.bodyOne}
       </p>
       <p class="lede collective-text">
-        Concrètement, vous gardez un interlocuteur unique sur votre projet, mais vous
-        accédez à dix spécialistes quand le sujet l’exige : sécurité, données,
-        machine learning, FinOps, IoT. Le partenariat AWS <em>Select Consulting</em>{' '}
-        est porté par le collectif et ses 50+ certifications.
+        {t.cloudPartners.bodyTwoLead} <em>Select Consulting</em>{' '}
+        {t.cloudPartners.bodyTwoTail}
       </p>
 
       <div class="collective-actions">
         <a class="btn btn-aws" href={PROFILES.cloudPartners} target="_blank" rel="noopener">
-          Découvrir le collectif
+          {t.cloudPartners.ctaPrimary}
           <span aria-hidden="true">→</span>
         </a>
         <a class="btn btn-ghost" href={PROFILES.awsPartner} target="_blank" rel="noopener">
-          Fiche partenaire AWS
+          {t.cloudPartners.ctaSecondary}
         </a>
       </div>
     </div>
@@ -56,7 +53,7 @@ const collectiveStats = [
       <div class="badge-wrap">
         <img
           src="/images/aws-partner.svg"
-          alt="AWS Select Consulting Partner"
+          alt={t.cloudPartners.badgeAlt}
           width="120"
           height="120"
           loading="lazy"
@@ -70,7 +67,7 @@ const collectiveStats = [
 
       <dl class="collective-stats">
         {
-          collectiveStats.map((stat) => (
+          t.cloudPartners.stats.map((stat) => (
             <div class="collective-stat">
               <dt class="collective-stat-value">{stat.value}</dt>
               <dd class="collective-stat-label">{stat.label}</dd>
@@ -101,9 +98,9 @@ const collectiveStats = [
     color: var(--color-ivory);
   }
 
-  /* Titre et sur-titre en orange AWS : cette section parle du collectif et du
-     partenariat, l'orange est la couleur qui porte ce signal. Le violet et le
-     cyan restent les accents du reste du site. */
+  /* Heading and overline in AWS orange: this section is about the collective and
+     the partnership, and orange carries that signal. Violet and cyan remain the
+     accents elsewhere on the site. */
   .eyebrow-aws {
     color: var(--color-aws);
   }
@@ -142,7 +139,7 @@ const collectiveStats = [
     margin-top: 12px;
   }
 
-  /* Colonne laterale : badge AWS, wordmark et chiffres */
+  /* Side column: AWS badge, wordmark and figures */
   .collective-side {
     display: flex;
     flex-direction: column;
@@ -159,8 +156,8 @@ const collectiveStats = [
     height: auto;
   }
 
-  /* Le logo du collectif est un mot-symbole, pas une image : il est recompose
-     avec la typographie du site pour rester net a toutes les densites. */
+  /* The collective's logo is a wordmark, not an image: it is recomposed with the
+     site's typography so it stays sharp at any density. */
   .wordmark {
     margin: 0;
     font-family: var(--font-display);
@@ -170,8 +167,8 @@ const collectiveStats = [
     color: var(--color-ivory);
   }
 
-  /* Reprend le rendu officiel du mot-symbole : « Cloud » en clair,
-     « Partners » en orange. */
+  /* Matches the official wordmark rendering: "Cloud" in white, "Partners" in
+     orange. */
   .wordmark span {
     color: var(--color-aws);
   }

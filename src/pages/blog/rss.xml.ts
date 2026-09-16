@@ -1,28 +1,30 @@
 /**
- * Flux RSS du blog.
+ * Blog RSS feed, French.
  *
- * Le fichier est produit au build comme une route statique. Un flux RSS n'est
- * pas un signal de référencement, mais il permet à un lecteur de suivre le site
- * sans revenir le consulter, et il alimente les agrégateurs techniques.
+ * Produced at build time as a static route. An RSS feed is not a ranking signal,
+ * but it lets a reader follow the site without coming back to it, and it feeds
+ * technical aggregators.
  */
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { SITE } from '@/consts';
+import { getDictionary } from '@/i18n';
 import { getPublishedPosts, formatDateIso } from '@/utils/blog';
 
 /**
- * Construit le flux RSS à partir des articles publiés.
+ * Builds the RSS feed from the published posts.
  *
- * @param context Contexte de la route Astro, fournissant l'URL du site
- * @returns La réponse HTTP contenant le flux XML
+ * @param context Astro route context, providing the site URL
+ * @returns The HTTP response carrying the XML feed
  */
 export async function GET(context: APIContext) {
-  const posts = await getPublishedPosts();
+  const locale = 'fr' as const;
+  const t = getDictionary(locale);
+  const posts = await getPublishedPosts(locale);
 
   return rss({
-    title: `${SITE.name} — notes techniques`,
-    description:
-      "Notes sur l'architecture AWS, Kubernetes et l'exploitation de plateformes.",
+    title: t.blog.feedTitle,
+    description: t.blog.feedDescription,
     site: context.site ?? SITE.url,
     items: posts.map((post) => ({
       title: post.data.title,
@@ -35,6 +37,6 @@ export async function GET(context: APIContext) {
         customData: `<updated>${formatDateIso(post.data.updatedAt)}</updated>`,
       }),
     })),
-    customData: `<language>${SITE.lang}</language>`,
+    customData: `<language>${locale}</language>`,
   });
 }

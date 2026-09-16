@@ -1,34 +1,40 @@
 ---
 /**
- * Carte d'article, utilisée dans le listing du blog.
+ * Post card, used in the blog listing.
  *
- * L'article entier est cliquable : le titre seul offrirait une cible trop
- * petite, et un lien imbriqué dans un autre lien n'est pas valide en HTML.
+ * The whole card is clickable: the title alone would be too small a target, and
+ * nesting a link inside another link is not valid HTML.
  */
-import type { CollectionEntry } from 'astro:content';
+import type { Dictionary, Locale } from '@/i18n';
+import type { PostEntry } from '@/utils/blog';
 import { formatDate, readingTime } from '@/utils/blog';
 
 interface Props {
-  /** Article à afficher. */
-  post: CollectionEntry<'blog'>;
+  /** Post to display. */
+  post: PostEntry;
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to format the date and build the post URL. */
+  locale: Locale;
 }
 
-const { post } = Astro.props;
+const { post, t, locale } = Astro.props;
 const { title, description, publishedAt, tags, summary } = post.data;
 const slug = post.id;
 const minutes = readingTime(post.body ?? '');
+const blogBase = locale === 'fr' ? '/blog/' : '/en/blog/';
 ---
 
 <li class="post-card">
   <article class="post">
     <p class="post-meta">
-      <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time>
+      <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt, locale)}</time>
       <span class="post-sep" aria-hidden="true">·</span>
-      <span>{minutes} min de lecture</span>
+      <span>{minutes} {t.common.readingTimeSuffix}</span>
     </p>
 
     <h2 class="post-title">
-      <a class="post-link" href={`/blog/${slug}/`}>{title}</a>
+      <a class="post-link" href={`${blogBase}${slug}/`}>{title}</a>
     </h2>
 
     <p class="post-description">{summary ?? description}</p>
@@ -47,6 +53,7 @@ const minutes = readingTime(post.body ?? '');
 
 <style>
   .post-card {
+    position: relative;
     border-top: 1px solid var(--color-hairline);
   }
 
@@ -81,17 +88,13 @@ const minutes = readingTime(post.body ?? '');
     text-wrap: balance;
   }
 
-  /* Le lien couvre toute la carte : la zone cliquable n'est pas limitée au
-     texte du titre. */
+  /* The link covers the whole card: the clickable area is not limited to the
+     title text. */
   .post-link::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 1;
-  }
-
-  .post-card {
-    position: relative;
   }
 
   .post-link {

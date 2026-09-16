@@ -1,0 +1,197 @@
+---
+/**
+ * Applied AI pillar: LLM agents and automation on business data.
+ *
+ * Rendered from content rather than written inline, so the French and English
+ * pages share one layout and cannot drift apart.
+ */
+import type { AiPillar } from '@/data/pillars';
+import type { Dictionary, Locale } from '@/i18n';
+import SectionHeading from '@/components/SectionHeading.astro';
+import PillarHero from '@/components/PillarHero.astro';
+import Contact from '@/components/Contact.astro';
+
+interface Props {
+  /** Page content for the current locale. */
+  pillar: AiPillar;
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, passed down to the contact section. */
+  locale: Locale;
+}
+
+const { pillar, t, locale } = Astro.props;
+---
+
+<PillarHero heading={pillar.hero} cta={pillar.cta} title={pillar.title} />
+
+<section class="section">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.useCasesHeading.eyebrow}
+      title={pillar.useCasesHeading.title}
+      accent={pillar.useCasesHeading.accent}
+      lede={pillar.useCasesHeading.lede}
+    />
+    <ol class="use-case-list">
+      {
+        pillar.useCases.map((useCase) => (
+          <li class="use-case">
+            <div class="use-case-head">
+              <span class="use-case-step" aria-hidden="true">{useCase.step}</span>
+              <h2 class="use-case-title">{useCase.title}</h2>
+            </div>
+            <p class="use-case-detail">{useCase.detail}</p>
+            <ul class="check-list use-case-items">
+              {useCase.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.cautionsHeading.eyebrow}
+      title={pillar.cautionsHeading.title}
+      accent={pillar.cautionsHeading.accent}
+    />
+    <ul class="caution-grid">
+      {
+        pillar.cautions.map((caution) => (
+          <li class="card">
+            <h3 class="card-title text-display-sm">{caution.title}</h3>
+            <p class="card-text">{caution.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.credentialsHeading.eyebrow}
+      title={pillar.credentialsHeading.title}
+      accent={pillar.credentialsHeading.accent}
+      lede={pillar.credentialsHeading.lede}
+    />
+    <ul class="credential-list">
+      {
+        pillar.credentials.map((credential) => (
+          <li class="credential">
+            <h3 class="credential-label">{credential.label}</h3>
+            <p class="credential-detail">{credential.detail}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<Contact t={t} locale={locale} />
+
+<style>
+  .use-case-list {
+    display: flex;
+    flex-direction: column;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .use-case {
+    padding: 32px 0;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .use-case:last-child {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .use-case-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 18px;
+  }
+
+  .use-case-step {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-violet);
+  }
+
+  .use-case-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--color-ivory);
+  }
+
+  .use-case-detail {
+    margin: 14px 0 0;
+    max-width: 82ch;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+  }
+
+  .use-case-items {
+    margin-top: 20px;
+    max-width: 82ch;
+  }
+
+  .caution-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .credential-list {
+    display: flex;
+    flex-direction: column;
+    margin: clamp(32px, 4vw, 48px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .credential {
+    padding: 22px 0;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .credential:last-child {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .credential-label {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--color-cyan);
+  }
+
+  .credential-detail {
+    margin: 0;
+    max-width: 82ch;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+</style>

@@ -1,42 +1,62 @@
 ---
 /**
- * Layout racine : entête, pied de page et métadonnées communes à toutes les pages.
+ * Root layout: header, footer and metadata shared by every page.
  *
- * Les balises de référencement sont produites ici à partir d'une source unique,
- * de sorte qu'un titre ou une description ne puisse pas diverger entre le
- * `<head>` et les données structurées.
+ * Search tags are produced here from a single source, so a title or description
+ * cannot drift between the `<head>` and the structured data.
+ *
+ * Locale handling lives here too. Each page passes its own translated paths for
+ * both locales; the layout derives the canonical URL, the `hreflang` alternates
+ * and the dictionary, so no page has to reason about it.
  */
 import '@/styles/global.css';
 import '@/styles/components.css';
 
-import { SITE, NAV_LINKS } from '@/consts';
+import { SITE } from '@/consts';
 import { buildStructuredData, serializeJsonLd } from '@/utils/seo';
+import {
+  getDictionary,
+  HREFLANG,
+  OG_LOCALES,
+  toLocale,
+  DEFAULT_LOCALE,
+  type Locale,
+} from '@/i18n';
 import Header from '@/components/Header.astro';
 import Footer from '@/components/Footer.astro';
 
 interface Props {
-  /** Titre de la page, sans le nom de la société. */
+  /** Page title, without the company name. */
   title: string;
-  /** Description affichée dans les résultats de recherche. */
+  /** Description shown in search results. */
   description: string;
-  /** URL canonique de la page. */
-  canonical?: string;
-  /** Certifications à déclarer en données structurées. */
+  /**
+   * Path of this page in each locale, starting with a slash.
+   *
+   * Required rather than derived for indexable pages: URL segments are
+   * translated, so the layout cannot compute the counterpart of
+   * `/cloud-souverain/` on its own. Omit a locale when the page has no
+   * translation, and omit the whole prop on pages that are not translatable
+   * (an error page, for instance) — the layout then falls back to the actual
+   * request path.
+   */
+  paths?: Partial<Record<Locale, string>>;
+  /** Certifications to declare in structured data. */
   certifications?: readonly string[];
-  /** Empêche l'indexation, pour les pages utilitaires. */
+  /** Prevents indexing, for utility pages. */
   noindex?: boolean;
-  /** Type Open Graph ; `article` sur les billets de blog, `website` ailleurs. */
+  /** Open Graph type; `article` on blog posts, `website` elsewhere. */
   ogType?: 'website' | 'article';
-  /** Dates de publication et de révision, requises par `og:type=article`. */
+  /** Publication and revision dates, required by `og:type=article`. */
   articleTimes?: { published: Date; updated?: Date };
-  /** Image de partage spécifique, sinon l'image du site est utilisée. */
+  /** Specific share image, otherwise the site image is used. */
   ogImage?: string;
 }
 
 const {
   title,
   description,
-  canonical,
+  paths = {},
   certifications = [],
   noindex = false,
   ogType = 'website',
@@ -44,28 +64,58 @@ const {
   ogImage = `${SITE.url}/images/og-cover.jpg`,
 } = Astro.props;
 
-const pageUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).href;
-const fullTitle =
-  Astro.url.pathname === '/'
-    ? `${SITE.name} — Freelance AWS & Kubernetes à Lyon`
-    : `${title} — ${SITE.name}`;
+const locale = toLocale(Astro.currentLocale) ?? DEFAULT_LOCALE;
+const t = getDictionary(locale);
+
+/**
+ * Path of this page in the current locale.
+ *
+ * Falls back to the request path, which covers pages that declare no
+ * translation pair: an error page still needs a canonical URL and a path for its
+ * structured data, and the path it was rendered at is the correct answer.
+ */
+const path = paths[locale] ?? Astro.url.pathname;
+const pageUrl = new URL(path, Astro.site).href;
+const alternateUrl = paths[locale === 'fr' ? 'en' : 'fr'] ?? null;
+
+/** Home pages carry their own full title; others get the company suffix. */
+const isHome = path === '/' || path === '/en/';
+const fullTitle = isHome
+  ? `${SITE.name} — ${t.hero.eyebrow}`
+  : `${title} — ${SITE.name}`;
 
 const structuredData = buildStructuredData({
   pageUrl,
   pageTitle: fullTitle,
   pageDescription: description,
+  locale,
   certifications,
 });
 ---
 
 <!doctype html>
-<html lang={SITE.lang}>
+<html lang={locale}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={pageUrl} />
+
+    {
+      /* Reciprocal alternates. Each language points at its own translation and
+         at itself; a language that is absent is simply not declared, which is
+         safer than pointing hreflang at the wrong URL. */
+      Object.entries(HREFLANG).map(([code, hreflang]) => {
+        const target = paths[code as Locale];
+        return target ? (
+          <link rel="alternate" hreflang={hreflang} href={new URL(target, Astro.site).href} />
+        ) : null;
+      })
+    }
+    {
+      paths.fr && <link rel="alternate" hreflang="x-default" href={new URL(paths.fr, Astro.site).href} />
+    }
 
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
@@ -74,17 +124,19 @@ const structuredData = buildStructuredData({
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={SITE.name} />
-    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:locale" content={OG_LOCALES[locale]} />
+    {
+      alternateUrl && (
+        <meta property="og:locale:alternate" content={OG_LOCALES[locale === 'fr' ? 'en' : 'fr']} />
+      )
+    }
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={pageUrl} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="Arktos Consulting — conseil et infogérance AWS, Kubernetes à Lyon"
-    />
+    <meta property="og:image:alt" content={t.footer.tagline} />
 
     {
       articleTimes && (
@@ -113,11 +165,11 @@ const structuredData = buildStructuredData({
     <script type="application/ld+json" set:html={serializeJsonLd(structuredData)} />
   </head>
   <body>
-    <a class="skip-link" href="#main">Aller au contenu principal</a>
-    <Header links={NAV_LINKS} />
+    <a class="skip-link" href="#main">{t.common.skipToContent}</a>
+    <Header t={t} locale={locale} alternateUrl={alternateUrl} />
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    <Footer t={t} locale={locale} />
   </body>
 </html>

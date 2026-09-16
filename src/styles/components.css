@@ -1,8 +1,8 @@
 /* ============================================================================
-   Styles transversaux : boutons, cartes, filets.
-   Chargés une seule fois dans le layout pour que tous les composants partagent
-   la même définition, un style scopé par composant ne pouvant pas cibler les
-   éléments projetés par un <slot>.
+   Cross-cutting styles: buttons, cards, hairlines.
+   Loaded once in the layout so that every component shares the same definition,
+   since a component-scoped style cannot target the elements projected by a
+   <slot>.
    ========================================================================= */
 
 .btn {
@@ -31,7 +31,7 @@
 
 .btn-primary {
   background: linear-gradient(100deg, var(--color-violet) 0%, var(--color-azure) 100%);
-  /* Texte en encre sur le dégradé : 6.3:1 minimum, conforme AA */
+  /* Ink text on the gradient: 6.3:1 minimum, AA compliant */
   color: var(--color-ink);
   box-shadow: 0 6px 24px color-mix(in srgb, var(--color-violet) 32%, transparent);
 }
@@ -51,8 +51,8 @@
   color: var(--color-cyan);
 }
 
-/* Bouton à la couleur du partenaire AWS. Texte en encre sur l'orange : 9,5:1,
-   conforme AAA. Un texte clair sur cet orange tomberait à 1,9:1. */
+/* Button in the AWS partner colour. Ink text on the orange: 9.5:1,
+   AAA compliant. Light text on this orange would drop to 1.9:1. */
 .btn-aws {
   background-color: var(--color-aws);
   color: var(--color-ink);
@@ -69,7 +69,7 @@
   font-size: 0.875rem;
 }
 
-/* Carte de contenu : surface légèrement surélevée, filet supérieur accentué */
+/* Content card: slightly raised surface, accented top hairline */
 .card {
   position: relative;
   display: flex;
@@ -101,7 +101,7 @@
   line-height: 1.7;
 }
 
-/* Liste de puces avec marqueur en chevron */
+/* Bullet list with a chevron marker */
 .check-list {
   display: flex;
   flex-direction: column;
@@ -131,7 +131,7 @@
   transform: rotate(-45deg);
 }
 
-/* Étiquettes de technologies */
+/* Technology tags */
 .tag-list {
   display: flex;
   flex-wrap: wrap;
@@ -151,7 +151,7 @@
   letter-spacing: 0.01em;
 }
 
-/* Sections génériques */
+/* Generic sections */
 .section {
   position: relative;
   padding-block: clamp(64px, 8vw, 112px);
@@ -165,9 +165,9 @@
   border-top: 1px solid var(--color-hairline);
 }
 
-/* ------------------------------------------------- formulaire de contact --- */
-/* Styles globaux : le formulaire est un composant React, que les styles
-   scopés d'un composant Astro ne peuvent pas atteindre. */
+/* ---------------------------------------------------------- contact form --- */
+/* Global styles: the form is a React component, which the scoped styles of an
+   Astro component cannot reach. */
 
 .contact-form {
   display: flex;

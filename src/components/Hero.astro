@@ -1,45 +1,52 @@
 ---
 /**
- * Section d'accroche de la page d'accueil.
+ * Home page hero section.
  *
- * Présente la proposition de valeur, les preuves chiffrées et les deux appels
- * à l'action. Le premier paragraphe répond directement à la question
- * « que faites-vous et pour qui ? », ce que les moteurs de réponse extraient
- * avant le reste du contenu.
+ * Presents the value proposition, the figures backing it and the two calls to
+ * action. The opening paragraph answers "what do you do, and for whom" directly,
+ * which is what answer engines extract before the rest of the page.
+ *
+ * The figures are computed from `CAREER` rather than typed in, so they cannot go
+ * stale: a hand-written "9 years" becomes wrong the following year.
  */
 import { totalYears, kubernetesYears } from '@/utils/career';
-import { CLIENT_LOGOS } from '@/data/content';
+import { getContent } from '@/data';
+import type { Dictionary, Locale } from '@/i18n';
 
-const years = totalYears();
-const k8sYears = kubernetesYears();
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to resolve editorial content. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+const { CLIENT_LOGOS } = getContent(locale);
 
 const stats = [
-  { value: `${years}`, label: "ans d'expérience" },
-  { value: `${k8sYears}`, label: 'ans sur Kubernetes' },
-  { value: '300+', label: 'clusters opérés' },
+  { value: `${totalYears()}`, label: t.hero.statYears },
+  { value: `${kubernetesYears()}`, label: t.hero.statKubernetes },
+  { value: t.hero.statClustersValue, label: t.hero.statClusters },
 ] as const;
+
+const homeHref = locale === 'fr' ? '/' : '/en/';
 ---
 
 <section class="hero">
   <div class="ambient-glow" aria-hidden="true"></div>
   <div class="container hero-inner">
     <div class="hero-copy">
-      <p class="eyebrow">Freelance AWS &amp; Kubernetes · Lyon</p>
+      <p class="eyebrow">{t.hero.eyebrow}</p>
       <h1 class="text-display-xl hero-title">
-        J’exploite et je fiabilise{' '}
-        <span class="accent">votre plateforme cloud.</span>
+        {t.hero.titleLead}{' '}
+        <span class="accent">{t.hero.titleAccent}</span>
       </h1>
-      <p class="lede hero-lede">
-        Audit d’architecture, gouvernance multi-comptes, plans FinOps. Exploitation de
-        clusters EKS, supervision, incidents, mises à jour. Agents LLM et automatisation
-        sur vos données métier. Conception et construction de services managés pour un
-        cloud souverain.
-      </p>
+      <p class="lede hero-lede">{t.hero.lede}</p>
 
       <div class="hero-actions">
-        <a class="btn btn-primary" href="/#contact">Parlons de votre projet</a>
-        <a class="btn btn-ghost" href="/conseil/">
-          Voir les prestations
+        <a class="btn btn-primary" href={`${homeHref}#contact`}>{t.hero.ctaPrimary}</a>
+        <a class="btn btn-ghost" href={t.nav.links[0]?.href ?? homeHref}>
+          {t.hero.ctaSecondary}
           <span aria-hidden="true">→</span>
         </a>
       </div>
@@ -58,7 +65,7 @@ const stats = [
   </div>
 
   <div class="container logo-strip">
-    <p class="logo-strip-label">Ils m’ont fait confiance</p>
+    <p class="logo-strip-label">{t.hero.clientsLabel}</p>
     <ul class="logo-list">
       {
         CLIENT_LOGOS.map((client) => (
@@ -124,9 +131,9 @@ const stats = [
     margin-top: 8px;
   }
 
-  /* Preuves chiffrées : filet supérieur, gros chiffre, libellé en dessous.
-     Trois chiffres seulement, sur une colonne : la colonne latérale reste
-     étroite et le hero garde la même hauteur que le titre. */
+  /* Evidence figures: top hairline, large number, label underneath. Three
+     figures only, in a single column: the side column stays narrow and the hero
+     keeps the same height as the heading. */
   .hero-stats {
     display: flex;
     flex-direction: column;
@@ -154,7 +161,7 @@ const stats = [
     color: var(--color-muted);
   }
 
-  /* Bandeau de logos clients */
+  /* Client logo strip */
   .logo-strip {
     position: relative;
     padding-block: 28px;
@@ -170,10 +177,9 @@ const stats = [
     color: var(--color-muted);
   }
 
-  /* Rangée de logos : les sept marques se répartissent la largeur disponible à
-     parts égales, chacune centrée dans sa colonne. La grille plutôt que le flex
-     garantit que la rangée occupe toute la largeur même quand un logo est plus
-     court que les autres. */
+  /* Logo row: the seven brands share the available width equally, each centred
+     in its column. A grid rather than flex guarantees the row spans the full
+     width even when one logo is shorter than the others. */
   .logo-list {
     display: grid;
     grid-template-columns: repeat(7, minmax(0, 1fr));
@@ -191,9 +197,9 @@ const stats = [
     min-width: 0;
   }
 
-  /* Les logos sont des silhouettes blanches à des ratios très différents
-     (de 1,9 à 5,9). On plafonne la hauteur et la largeur pour qu'aucune marque
-     n'écrase les autres, en conservant leurs proportions. */
+  /* Logos are white silhouettes at very different ratios (from 1.9 to 5.9).
+     Height and width are capped so no brand crushes the others, while keeping
+     their proportions. */
   .logo-item img {
     height: auto;
     width: auto;
@@ -214,9 +220,9 @@ const stats = [
       gap: 48px;
     }
 
-    /* En dessous de sept colonnes, une grille laisserait la dernière ligne
-       orpheline et alignée à gauche. Un flex centré répartit les logos
-       restants au milieu, ce qui reste équilibré quel que soit leur nombre. */
+    /* Below seven columns, a grid would leave the last row orphaned and
+       left-aligned. A centred flex distributes the remaining logos in the
+       middle, which stays balanced whatever their number. */
     .logo-list {
       display: flex;
       flex-wrap: wrap;
