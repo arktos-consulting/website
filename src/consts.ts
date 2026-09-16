@@ -67,7 +67,9 @@ export const CAREER = {
 /** Navigation principale, partagée entre l'entête et le pied de page. */
 export const NAV_LINKS = [
   { href: '/conseil/', label: 'Conseil' },
+  { href: '/cloud-souverain/', label: 'Cloud souverain' },
+  { href: '/ia/', label: 'IA' },
   { href: '/infogerance/', label: 'Infogérance' },
+  { href: '/blog/', label: 'Blog' },
   { href: '/references/', label: 'Références' },
-  { href: '/#faq', label: 'FAQ' },
 ] as const;

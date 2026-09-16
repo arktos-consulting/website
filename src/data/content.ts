@@ -1,9 +1,12 @@
 /**
- * Données de contenu du site.
+ * Contenu éditorial du site.
  *
- * Tout ce qui est affiché provient de ce fichier, afin que les pages, les
- * données structurées et les métadonnées restent synchronisées. Les faits sont
- * issus du parcours réel (CV, missions) : rien n'est extrapolé ici.
+ * Règle de rédaction : une idée par phrase, et aucune phrase ne commente la
+ * précédente. Chaque affirmation doit rester compréhensible hors contexte,
+ * aussi bien pour un lecteur qui parcourt la page que pour un moteur de
+ * réponse qui en extrait un fragment.
+ *
+ * Les faits proviennent du parcours réel (CV, missions) : rien n'est extrapolé.
  */
 
 /** Un service proposé, présenté en carte et déclaré en `OfferCatalog`. */
@@ -14,8 +17,6 @@ export interface Service {
   title: string;
   /** Résumé court affiché en carte. */
   summary: string;
-  /** Résultat concret attendu par le client. */
-  outcome: string;
   /** Prestations détaillées incluses dans l'offre. */
   includes: readonly string[];
   /** Lien vers la page pilier dédiée, si elle existe. */
@@ -50,7 +51,7 @@ export interface Differentiator {
 export interface FaqEntry {
   /** Question telle qu'un prospect la poserait. */
   question: string;
-  /** Réponse directe, en une à trois phrases. */
+  /** Réponse directe, en une à deux phrases. */
   answer: string;
 }
 
@@ -59,56 +60,44 @@ export const SERVICES: readonly Service[] = [
   {
     slug: 'conseil',
     title: 'Conseil & architecture AWS',
-    summary:
-      "Audit, cadrage et conception de votre plateforme cloud. Vous repartez avec des décisions argumentées et des équipes autonomes.",
-    outcome: 'Une architecture justifiée, chiffrée, et reprise en main par vos équipes.',
+    summary: 'Audit et conception de votre plateforme cloud.',
     includes: [
-      'Audit d’architecture, de sécurité et de coûts',
-      'Conception multi-comptes, IAM et gouvernance réseau',
-      'Stratégie FinOps et maîtrise de la facture',
-      'Documentation et transfert de compétences',
+      'Audit architecture, sécurité et coûts',
+      'Gouvernance multi-comptes et IAM',
+      'Stratégie FinOps',
     ],
     href: '/conseil/',
   },
   {
-    slug: 'infogerance',
-    title: 'Infogérance & exploitation Kubernetes',
+    slug: 'cloud-souverain',
+    title: 'Cloud souverain',
     summary:
-      "Je prends en charge l'exploitation de votre plateforme EKS : supervision, mises à jour, gestion des incidents et maîtrise des coûts.",
-    outcome: 'Une plateforme supervisée, à jour et dont le coût reste sous contrôle.',
+      'Concevoir, construire et exploiter un cloud interne, ou sortir d’une dépendance à un hyperscaler.',
     includes: [
-      'Exploitation de clusters EKS et charges de travail',
-      'Supervision, alerting et gestion des incidents',
-      'GitOps, mises à jour et durcissement continu',
-      'Revue de coûts et optimisation FinOps',
+      'Conception de services managés internes',
+      'Réversibilité et sortie d’hyperscaler',
+      'Exploitation d’un cloud privé',
     ],
+    href: '/cloud-souverain/',
+  },
+  {
+    slug: 'infogerance',
+    title: 'Infogérance Kubernetes',
+    summary: "J'exploite votre plateforme EKS : supervision, incidents, coûts.",
+    includes: ['Exploitation EKS et mises à jour', 'Supervision et incidents', 'Maîtrise des coûts'],
     href: '/infogerance/',
   },
   {
-    slug: 'engineering',
-    title: 'Ingénierie logicielle Go & Python',
+    slug: 'ia',
+    title: 'IA appliquée',
     summary:
-      'Développement de services backend, d’APIs et de pipelines de données, dans la même main que l’infrastructure qui les porte.',
-    outcome: 'Des services en production, dont l’infrastructure et le code sont cohérents.',
+      'Agents LLM et automatisation sur vos données métier, de la preuve de concept à la production.',
     includes: [
-      'Microservices et APIs en Go',
-      'Pipelines de données et traitements Python',
-      'Industrialisation CI/CD et GitOps',
-      'Observabilité des services livrés',
+      'Agents LLM connectés à vos données',
+      'Recherche documentaire et extraction',
+      'Industrialisation : MLOps, coûts, supervision',
     ],
-  },
-  {
-    slug: 'renfort',
-    title: 'Renfort technique & CTO externalisé',
-    summary:
-      "Renfort sur un besoin précis, ou appui à un CTO qui doit structurer, stabiliser puis scaler sa plateforme.",
-    outcome: 'Un renfort senior opérationnel rapidement, sans phase d’apprentissage.',
-    includes: [
-      'Renfort de courte ou longue durée',
-      'Cadrage technique et arbitrages d’architecture',
-      'Structuration des pratiques d’exploitation',
-      'Montée en compétence des équipes internes',
-    ],
+    href: '/ia/',
   },
 ] as const;
 
@@ -116,19 +105,19 @@ export const SERVICES: readonly Service[] = [
 export const DIFFERENTIATORS: readonly Differentiator[] = [
   {
     title: 'Vous parlez à celui qui construit',
-    body: "Pas d'avant-vente, pas de chef de projet interposé, pas de sous-traitance. L'audit que vous achetez et l'architecture que vous recevez sont produites par la personne qui vous parle.",
+    body: 'Pas d’avant-vente ni de sous-traitance. Le même interlocuteur du cadrage à la production.',
   },
   {
     title: 'Je conteste la demande quand elle dessert l’objectif',
-    body: "Une demande décrit souvent une solution, pas le problème. Quand une approche moins coûteuse obtient le même résultat, je le dis, même si cela réduit la mission.",
+    body: 'Si une approche moins coûteuse obtient le même résultat, je le dis.',
   },
   {
-    title: 'Des équipes autonomes à la fin de la mission',
-    body: "Je documente ce que je fais et je forme vos équipes au run. Une mission réussie se termine sans que vous ayez besoin de la prolonger.",
+    title: 'Des équipes autonomes à la fin',
+    body: 'Je documente et je forme au run. Une mission réussie n’a pas besoin d’être prolongée.',
   },
   {
     title: 'Un périmètre explicite',
-    body: "Ce qui est couvert, ce qui ne l'est pas, et à quel délai je réponds : c'est écrit avant de commencer. Un engagement flou se retourne toujours contre le projet.",
+    body: 'Ce qui est couvert, ce qui ne l’est pas, et sous quel délai je réponds : écrit avant de commencer.',
   },
 ] as const;
 
@@ -138,37 +127,37 @@ export const MISSIONS: readonly Mission[] = [
     clientType: 'Organisme financier public',
     client: 'Bpifrance',
     period: '2024 — 2025',
-    title: 'Traçabilité obligatoire des changements sur Kubernetes',
+    title: 'Traçabilité réglementaire des changements Kubernetes',
     description:
-      "Dans une équipe de dix personnes, création d'un outil de traçabilité des modifications de cluster — une exigence réglementaire du secteur financier — avec le reporting associé. Participation à la R&D sur Knative et à l'atelier de réversibilité vis-à-vis d'AWS.",
-    tags: ['Kubernetes', 'Gouvernance', 'Conformité', 'Knative'],
+      'Outil de traçabilité des modifications de cluster, avec reporting. R&D sur Knative et atelier de réversibilité AWS.',
+    tags: ['Kubernetes', 'Conformité', 'Knative'],
   },
   {
-    clientType: 'Éditeur logiciel, plateforme LLM SaaS',
+    clientType: 'Éditeur logiciel, plateforme LLM',
     client: 'Yseop',
     period: '2023 — 2024',
     title: 'Industrialisation MLOps sur AWS et on-premise',
     description:
-      "Sur une plateforme d'intelligence artificielle déployée à la fois sur AWS et en on-premise : durcissement des environnements, application des meilleures pratiques Kubernetes, et suppression des frictions de la chaîne MLOps. Transfert des pratiques SRE aux équipes.",
-    tags: ['AWS', 'Kubernetes', 'SRE', 'MLOps', 'FinOps'],
+      'Durcissement des environnements et suppression des frictions de la chaîne MLOps. Transfert des pratiques SRE aux équipes.',
+    tags: ['AWS', 'MLOps', 'SRE', 'FinOps'],
   },
   {
     clientType: 'Opérateur ferroviaire national',
     client: 'SNCF',
     period: '2022 — 2023',
-    title: 'Services managés sur un cloud privé, pour un parc de 300+ clusters',
+    title: 'Construction des services managés d’un cloud privé',
     description:
-      "Conception et direction de la construction de services de type Fargate, RDS et Secret Manager, utilisables par les équipes responsables du parc de plus de 300 clusters Kubernetes du groupe. Contributions open source sur les briques produites.",
-    tags: ['Kubernetes', 'Cloud privé', 'Open source', 'Plateforme'],
+      'Conception et direction de la construction des services managés du cloud privé du groupe — conteneurs auto-servis, bases de données, coffre de secrets — pour un parc de plus de 300 clusters Kubernetes.',
+    tags: ['Cloud privé', 'Kubernetes', 'Services managés', 'Open source'],
   },
   {
     clientType: 'Éditeur SaaS, 800+ microservices',
     client: 'Seiitra',
     period: '2021 — 2022',
-    title: 'Sécurisation d’une plateforme Azure/Kubernetes et plan FinOps',
+    title: 'Sécurisation Azure/Kubernetes et plan FinOps',
     description:
-      "Restructuration des environnements Azure et Kubernetes pour corriger des lacunes de sécurité et de scalabilité sur plus de 800 microservices. Mise en place d'un plan d'action FinOps et définition des standards d'exploitation réutilisables en SaaS comme en on-premise.",
-    tags: ['Azure', 'Kubernetes', 'FinOps', 'Standards'],
+      'Correction des lacunes de sécurité et de scalabilité sur plus de 800 microservices, et définition des standards d’exploitation.',
+    tags: ['Azure', 'Kubernetes', 'FinOps'],
   },
   {
     clientType: 'Négociant industriel, distribution B2B',
@@ -176,8 +165,8 @@ export const MISSIONS: readonly Mission[] = [
     period: '2020 — 2021',
     title: 'Bascule du commerce physique vers la vente en ligne',
     description:
-      "Accompagnement d'une réorganisation interne et commerciale accélérée par la crise sanitaire : définition des normes et directives du projet, puis sensibilisation des développeurs aux pratiques DevOps et des équipes de run au SRE.",
-    tags: ['DevOps', 'Transformation', 'SRE', 'CI/CD'],
+      'Définition des normes du projet, puis sensibilisation des développeurs aux pratiques DevOps et au SRE.',
+    tags: ['DevOps', 'Transformation', 'CI/CD'],
   },
   {
     clientType: 'Plateforme de santé, données sensibles',
@@ -185,80 +174,60 @@ export const MISSIONS: readonly Mission[] = [
     period: '2019',
     title: 'Migration d’un bare metal vers Kubernetes sur AWS',
     description:
-      "Remplacement d'une infrastructure bare metal par un Kubernetes sur AWS (Kops), en collaboration avec une équipe DevOps de six personnes. Mise en place des directives de sécurité liées aux données de santé nécessaires à la conformité légale.",
-    tags: ['AWS', 'Kubernetes', 'Données de santé', 'Sécurité'],
+      'Remplacement d’une infrastructure bare metal par un Kubernetes sur AWS, avec les directives de sécurité liées aux données de santé.',
+    tags: ['AWS', 'Kubernetes', 'Santé'],
   },
   {
     clientType: 'Groupe audiovisuel',
     client: 'Canal+',
     period: '2019',
-    title: 'Remplacement des pipelines CI/CD historiques',
+    title: 'Remplacement des pipelines CI/CD Jenkins',
     description:
-      "Substitution des pipelines gérés par Jenkins par un système Kubernetes optimisé pour l'éphémérité des ressources, après évaluation de TektonCD, DroneIO et JenkinsX serverless. Préparation de la migration des charges de travail avec les équipes.",
-    tags: ['CI/CD', 'Kubernetes', 'JenkinsX', 'TektonCD'],
+      'Pipelines Kubernetes optimisés pour l’éphémérité des ressources, après évaluation de TektonCD, DroneIO et JenkinsX.',
+    tags: ['CI/CD', 'Kubernetes', 'TektonCD'],
   },
   {
-    clientType: 'Initiatives personnelles, en production',
+    clientType: 'Ma propre plateforme, en production',
     client: 'Hartza Capital',
     period: 'depuis 2018',
-    title: 'Plateforme d’analyse continue des marchés financiers',
+    title: 'Analyse continue des marchés financiers',
     description:
-      "Conception et exploitation d'une architecture microservices de plus de 90 services Go, complétée de serverless AWS (Lambda, Fargate, RDS) et d'agents LLM d'interprétation des données de marché.",
-    tags: ['Go', 'Microservices', 'Serverless', 'LLM'],
+      'Architecture de plus de 90 microservices Go, serverless AWS et agents LLM d’interprétation des données.',
+    tags: ['Go', 'Microservices', 'LLM'],
   },
 ] as const;
 
 /** Questions fréquentes, publiées en données structurées `FAQPage`. */
 export const FAQ: readonly FaqEntry[] = [
   {
-    question: 'Comment se déroule une première prise de contact ?',
+    question: 'Comment démarrer ?',
     answer:
-      "Vous réservez un créneau de trente minutes. On cadre le problème et l'objectif, puis je vous dis si je suis la bonne personne — y compris quand la réponse est non. Aucun rendez-vous commercial intermédiaire.",
+      'Vous réservez un créneau de trente minutes. On cadre le problème, puis je vous dis si je suis la bonne personne — y compris quand la réponse est non.',
   },
   {
-    question: 'Quels sont les délais d’intervention ?',
+    question: 'Quels sont les délais ?',
     answer:
-      "Une réponse à toute demande sous un jour ouvré. Pour une mission de conseil, le démarrage se situe généralement entre deux et quatre semaines selon la disponibilité en cours, et une intervention urgente sur incident est examinée au cas par cas.",
-  },
-  {
-    question: 'Travaillez-vous à distance ou sur site ?',
-    answer:
-      "Les deux. Je suis basé à Lyon et travaille en remote avec des clients partout en France et en Europe. Les phases de cadrage et d'audit gagnent à se faire sur place : je m'y déplace.",
-  },
-  {
-    question: 'Quelle est la taille de mission minimale ?',
-    answer:
-      "Un audit d'architecture ciblé peut tenir en quelques jours. Les missions de conseil se comptent plutôt en semaines, et l'infogérance est un engagement récurrent dont la durée se définit ensemble.",
+      'Réponse sous un jour ouvré. Une mission de conseil démarre généralement en deux à quatre semaines.',
   },
   {
     question: 'Comment facturez-vous ?',
     answer:
-      "Au forfait pour un périmètre défini, ou en régie pour un renfort dont la durée est difficile à fixer au départ. Le mode est choisi à la fin du cadrage, une fois le périmètre clair.",
+      'Au forfait pour un périmètre défini, ou en régie pour un renfort. Le mode est choisi à la fin du cadrage.',
   },
   {
-    question: 'Y a-t-il une astreinte en infogérance ?',
+    question: 'Et à la fin de la mission ?',
     answer:
-      "Les modalités d'astreinte et le niveau de couverture se définissent mission par mission, en fonction de la criticité de votre plateforme. C'est un point du contrat, pas une option activée après coup.",
-  },
-  {
-    question: 'Que se passe-t-il à la fin de la mission ?',
-    answer:
-      "Vous conservez l'architecture, la documentation et les accès. Je forme vos équipes au run pendant la mission, de sorte que la passation soit une formalité et non un projet annexe.",
-  },
-  {
-    question: 'Pouvez-vous travailler avec nos équipes existantes ?',
-    answer:
-      "C'est le cas le plus fréquent. J'ai travaillé dans des équipes allant de six à plus de dix personnes, en tant que renfort, référent technique ou lead selon le besoin.",
+      'Vous conservez l’architecture, la documentation et les accès. Je forme vos équipes au run pendant la mission.',
   },
 ] as const;
 
 /** Logos clients affichés dans le bandeau de confiance. */
 export const CLIENT_LOGOS = [
-  { name: 'Bpifrance', src: '/images/bpifrance.png' },
-  { name: 'SNCF', src: '/images/sncf.png' },
-  { name: 'Doctolib', src: '/images/doctolib.png' },
-  { name: 'Canal+', src: '/images/canalplus.png' },
-  { name: 'Yseop', src: '/images/yseop.png' },
-  { name: 'Descours & Cabaud', src: '/images/descours_cabaud.png' },
-  { name: 'Seiitra', src: '/images/seiitra.jpg' },
+  { name: 'Bpifrance', src: '/images/clients/bpifrance.png' },
+  { name: 'SNCF', src: '/images/clients/sncf.png' },
+  { name: 'Doctolib', src: '/images/clients/doctolib.png' },
+  { name: 'Canal+', src: '/images/clients/canalplus.png' },
+  { name: 'Yseop', src: '/images/clients/yseop.png' },
+  { name: 'Descours & Cabaud', src: '/images/clients/descours_cabaud.png' },
+  { name: 'Seiitra', src: '/images/clients/seiitra.png' },
 ] as const;

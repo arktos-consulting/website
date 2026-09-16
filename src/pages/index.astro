@@ -11,16 +11,15 @@ import Hero from '@/components/Hero.astro';
 import Services from '@/components/Services.astro';
 import WhyUs from '@/components/WhyUs.astro';
 import References from '@/components/References.astro';
-import About from '@/components/About.astro';
+import CloudPartners from '@/components/CloudPartners.astro';
 import Faq from '@/components/Faq.astro';
 import Contact from '@/components/Contact.astro';
 import { SITE } from '@/consts';
-import { totalYears, freelanceYears } from '@/utils/career';
+import { totalYears } from '@/utils/career';
 
 const years = totalYears();
-const independentYears = freelanceYears();
 
-const description = `Freelance AWS et Kubernetes à Lyon : conseil en architecture cloud et infogérance de plateformes EKS. ${years} ans d'expérience, dont ${independentYears} en indépendant.`;
+const description = `Freelance AWS et Kubernetes à Lyon : audit d'architecture, cloud souverain, agents LLM et automatisation, exploitation de clusters EKS, maîtrise des coûts. ${years} ans d'expérience.`;
 ---
 
 <BaseLayout
@@ -31,8 +30,8 @@ const description = `Freelance AWS et Kubernetes à Lyon : conseil en architectu
   <Hero />
   <Services />
   <WhyUs />
-  <References limit={3} />
-  <About />
+  <References limit={4} compact />
+  <CloudPartners />
   <Faq />
   <Contact />
 </BaseLayout>

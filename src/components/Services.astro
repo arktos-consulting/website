@@ -14,10 +14,13 @@ import SectionHeading from '@/components/SectionHeading.astro';
   <div class="container">
     <SectionHeading
       eyebrow="Prestations"
-      title="Deux métiers,"
-      accent="tenus par la même personne."
-      lede="Je conçois votre plateforme puis je l’exploite, sans intermédiaire entre l’architecture décidée et la production opérée. Chaque offre est cadrée avant d’être facturée."
+      title="Ce que je prends"
+      accent="en charge."
     />
+    <p class="services-lede lede">
+      Quatre domaines, tenus par la même personne — de l’audit à l’exploitation.
+      Chaque mission est cadrée avant d’être facturée.
+    </p>
 
     <ul class="service-grid">
       {
@@ -25,10 +28,6 @@ import SectionHeading from '@/components/SectionHeading.astro';
           <li class="card service-card">
             <h3 class="card-title text-display-sm">{service.title}</h3>
             <p class="card-text">{service.summary}</p>
-            <p class="service-outcome">
-              <span class="visually-hidden">Résultat attendu : </span>
-              {service.outcome}
-            </p>
             <ul class="check-list">
               {service.includes.map((item) => (
                 <li>{item}</li>
@@ -55,7 +54,12 @@ import SectionHeading from '@/components/SectionHeading.astro';
     margin: 0;
     padding: 0;
     list-style: none;
-    margin-top: clamp(40px, 5vw, 64px);
+    margin-top: clamp(32px, 4vw, 48px);
+  }
+
+  .services-lede {
+    margin: 4px 0 0;
+    max-width: 62ch;
   }
 
   .service-card {
@@ -69,18 +73,6 @@ import SectionHeading from '@/components/SectionHeading.astro';
 
   .service-card:nth-child(4) {
     --card-offset: 22;
-  }
-
-  .service-outcome {
-    margin: 0;
-    padding: 12px 16px;
-    border-left: 2px solid var(--color-cyan);
-    background-color: var(--color-surface-raised);
-    border-radius: 0 8px 8px 0;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-ivory);
-    line-height: 1.55;
   }
 
   .service-link {

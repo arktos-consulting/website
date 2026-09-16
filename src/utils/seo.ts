@@ -39,6 +39,10 @@ export function buildStructuredData(options: {
     knowsAbout: [
       'Amazon Web Services',
       'Kubernetes',
+      'Cloud souverain',
+      'Cloud privé',
+      'Intelligence artificielle',
+      'Agents LLM',
       'Terraform',
       'GitOps',
       'Go',
@@ -87,6 +91,11 @@ export function buildStructuredData(options: {
     knowsAbout: [
       'Infogérance Kubernetes',
       'Architecture AWS',
+      'Cloud souverain',
+      'Cloud privé',
+      'Intelligence artificielle',
+      'Agents LLM',
+      'MLOps',
       'FinOps',
       'GitOps',
       'Site Reliability Engineering',
@@ -95,6 +104,8 @@ export function buildStructuredData(options: {
       '@type': 'Organization',
       name: 'Cloud Partners',
       url: PROFILES.cloudPartners,
+      description:
+        'Collectif de dix architectes et ingénieurs AWS certifiés, partenariat AWS Select Consulting.',
     },
     sameAs: [PROFILES.linkedin, PROFILES.github, SITE.registryUrl],
     ...(certifications.length > 0 && {

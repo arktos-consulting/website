@@ -1,0 +1,320 @@
+---
+/**
+ * Page pilier « IA appliquée ».
+ *
+ * Elle cible les projets d'IA en entreprise qui échouent au passage en
+ * production : maquette convaincante, aucune industrialisation, coûts non
+ * maîtrisés. L'angle est délibérément opérationnel plutôt que technologique :
+ * l'expérience vient d'agents LLM réellement exploités, et d'une plateforme d'IA
+ * déployée à la fois sur AWS et en on-premise.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Contact from '@/components/Contact.astro';
+import { SITE } from '@/consts';
+import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
+
+const description =
+  "IA appliquée en entreprise : agents LLM connectés à vos données, extraction documentaire, recherche dans vos archives, industrialisation MLOps et maîtrise des coûts. Freelance à Lyon.";
+
+const breadcrumbs = buildBreadcrumbs([
+  { name: 'Accueil', url: `${SITE.url}/` },
+  { name: 'IA appliquée', url: `${SITE.url}/ia/` },
+]);
+
+/**
+ * Cas d'usage proposés, du plus accessible au plus engageant.
+ *
+ * Le premier sert de porte d'entrée : un périmètre court, un résultat
+ * vérifiable, avant d'engager une refonte plus large.
+ */
+const useCases = [
+  {
+    step: '01',
+    title: 'Exploiter vos archives documentaires',
+    detail:
+      'Vos documents existent, mais personne ne peut les interroger. Contrats, factures, dossiers clients, comptes rendus : une recherche qui répond en citant la source, au lieu de renvoyer une liste de fichiers.',
+    items: [
+      'Recherche en langage naturel dans vos documents',
+      'Réponse avec citation de la source et de la page',
+      'Extraction de champs vers vos outils existants',
+      'Périmètre restreint, résultat vérifiable en quelques semaines',
+    ],
+  },
+  {
+    step: '02',
+    title: 'Automatiser un traitement répétitif',
+    detail:
+      'Un agent qui lit, classe, contrôle ou prépare ce que vos équipes font à la main. La valeur vient rarement du modèle seul : elle vient du raccordement propre à vos données et de la vérification du résultat.',
+    items: [
+      'Rapprochements et contrôles de cohérence',
+      'Préparation de dossiers et de synthèses',
+      'Classement et routage de pièces entrantes',
+      'Journalisation pour auditer ce que l’agent a décidé',
+    ],
+  },
+  {
+    step: '03',
+    title: 'Industrialiser et maîtriser les coûts',
+    detail:
+      'La maquette fonctionne, la mise en production révèle les vrais problèmes : dérive de qualité, coût par appel imprévisible, absence de supervision. C’est là que la plupart des projets s’arrêtent.',
+    items: [
+      'Évaluation continue de la qualité des réponses',
+      'Suivi du coût par appel et par utilisateur',
+      'Supervision, alerting et journaux exploitables',
+      'Choix raisonné entre modèle hébergé, API ou local',
+    ],
+  },
+] as const;
+
+/** Points de vigilance que l'expérience a rendus concrets. */
+const cautions = [
+  {
+    title: 'Vos données ne sortent pas sans décision',
+    body: 'Le choix entre API externe, modèle hébergé dans votre cloud ou modèle local est un arbitrage, pas un défaut. Il se tranche selon la sensibilité des données et vos obligations.',
+  },
+  {
+    title: 'Un agent se mesure, il ne se croit pas sur parole',
+    body: 'Sans jeu d’évaluation, une régression passe inaperçue pendant des semaines. La mesure de qualité se met en place dès la première version, pas après.',
+  },
+  {
+    title: 'Le coût par appel se pilote',
+    body: 'Une IA non surveillée coûte cher en silence. Le suivi du coût par usage est un indicateur de production, au même titre que la latence.',
+  },
+] as const;
+
+/** Références mobilisables sur le sujet. */
+const credentials = [
+  {
+    label: 'Hartza Capital',
+    detail:
+      'Agents LLM d’interprétation de données de marché, en production depuis 2018, sur une architecture de plus de 90 microservices Go.',
+  },
+  {
+    label: 'Yseop',
+    detail:
+      'Plateforme d’intelligence artificielle de type LLM SaaS, déployée sur AWS et en on-premise. Industrialisation de la chaîne MLOps et durcissement des environnements.',
+  },
+  {
+    label: 'Cloud Partners',
+    detail:
+      'Collectif membre du réseau de partenaires AWS, avec une offre dédiée AI/Machine Learning : SageMaker, MLOps, NLP, vision par ordinateur.',
+  },
+] as const;
+---
+
+<BaseLayout
+  title="IA appliquée — agents LLM et automatisation"
+  description={description}
+  canonical={`${SITE.url}/ia/`}
+>
+  {
+    breadcrumbs && (
+      <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
+    )
+  }
+
+  <section class="section page-hero">
+    <div class="ambient-glow" aria-hidden="true"></div>
+    <div class="container">
+      <SectionHeading
+        eyebrow="IA appliquée"
+        level="h1"
+        title="Des agents qui travaillent sur"
+        accent="vos données, en production."
+        lede="La plupart des projets d’IA s’arrêtent à la démonstration. Je m’occupe de ce qui vient après : raccorder le modèle à vos données, mesurer la qualité, maîtriser le coût, mettre en exploitation."
+      />
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contact">Discuter d’un cas d’usage</a>
+        <a class="btn btn-ghost" href="/conseil/">
+          Voir aussi le conseil
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Cas d’usage"
+        title="Trois manières"
+        accent="de commencer."
+        lede="Le premier cas est une porte d’entrée volontairement courte : un résultat vérifiable, sur un périmètre restreint, avant d’engager davantage."
+      />
+      <ol class="use-case-list">
+        {
+          useCases.map((useCase) => (
+            <li class="use-case">
+              <div class="use-case-head">
+                <span class="use-case-step" aria-hidden="true">{useCase.step}</span>
+                <h2 class="use-case-title">{useCase.title}</h2>
+              </div>
+              <p class="use-case-detail">{useCase.detail}</p>
+              <ul class="check-list use-case-items">
+                {useCase.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Points de vigilance"
+        title="Trois décisions"
+        accent="à prendre tôt."
+      />
+      <ul class="caution-grid">
+        {
+          cautions.map((caution) => (
+            <li class="card">
+              <h3 class="card-title text-display-sm">{caution.title}</h3>
+              <p class="card-text">{caution.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Expérience"
+        title="Ce n’est pas"
+        accent="un premier projet."
+        lede="Je fais tourner de l’IA en production depuis 2018, et j’ai industrialisé une plateforme LLM d’éditeur."
+      />
+      <ul class="credential-list">
+        {
+          credentials.map((credential) => (
+            <li class="credential">
+              <h3 class="credential-label">{credential.label}</h3>
+              <p class="credential-detail">{credential.detail}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <Contact />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(72px, 9vw, 128px) clamp(56px, 7vw, 96px);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 32px;
+  }
+
+  .use-case-list {
+    display: flex;
+    flex-direction: column;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .use-case {
+    padding: 32px 0;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .use-case:last-child {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .use-case-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 18px;
+  }
+
+  .use-case-step {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-violet);
+  }
+
+  .use-case-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--color-ivory);
+  }
+
+  .use-case-detail {
+    margin: 14px 0 0;
+    max-width: 82ch;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+  }
+
+  .use-case-items {
+    margin-top: 20px;
+    max-width: 82ch;
+  }
+
+  .caution-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .credential-list {
+    display: flex;
+    flex-direction: column;
+    margin: clamp(32px, 4vw, 48px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .credential {
+    padding: 22px 0;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .credential:last-child {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .credential-label {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--color-cyan);
+  }
+
+  .credential-detail {
+    margin: 0;
+    max-width: 82ch;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+</style>
