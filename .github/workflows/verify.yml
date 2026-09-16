@@ -31,11 +31,17 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Verify types
+      # Covers both TypeScript and the Astro components. `tsc` alone does not
+      # read .astro files, so a missing type export in a component passes it and
+      # only fails here.
+      - name: Verify types and components
         run: bun run typecheck
-
-      - name: Verify Astro components
-        run: bunx astro check
 
       - name: Build site
         run: bun run build
+
+      # Runs against `dist/`, so it must come after the build. Checks the
+      # bilingual invariants: reciprocal hreflang in the sitemap and the HTML,
+      # noindex pages excluded, no French text in an English page.
+      - name: Verify bilingual output
+        run: bun run verify:i18n

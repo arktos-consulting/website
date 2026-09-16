@@ -9,9 +9,11 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check",
+    "check": "astro sync && astro check",
     "sync": "astro sync",
-    "typecheck": "astro sync && tsc --noEmit"
+    "typecheck": "astro sync && astro check && tsc --noEmit",
+    "verify:i18n": "node scripts/verify-i18n.mjs",
+    "verify": "bun run typecheck && bun run build && bun run verify:i18n"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
