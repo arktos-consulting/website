@@ -1,0 +1,18 @@
+---
+/**
+ * 404 page, French default.
+ *
+ * Exported as `404.html` at the root, which GitHub Pages serves automatically on
+ * an unknown URL. `noindex` keeps the error page out of search results.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ErrorPage from '@/components/ErrorPage.astro';
+import { getDictionary } from '@/i18n';
+
+const locale = 'fr' as const;
+const t = getDictionary(locale);
+---
+
+<BaseLayout title={t.notFound.title} description={t.notFound.description} noindex>
+  <ErrorPage t={t} locale={locale} />
+</BaseLayout>

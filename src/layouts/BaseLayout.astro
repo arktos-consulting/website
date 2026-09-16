@@ -1,0 +1,181 @@
+---
+/**
+ * Root layout: header, footer and metadata shared by every page.
+ *
+ * Search tags are produced here from a single source, so a title or description
+ * cannot drift between the `<head>` and the structured data.
+ *
+ * Locale handling lives here too. The layout resolves the pair of URLs the page
+ * answers on from its own request path, which means a page cannot forget to
+ * declare its translation: the mapping is centralised in `@/i18n/routes` and
+ * shared with the sitemap.
+ */
+import '@/styles/global.css';
+import '@/styles/components.css';
+
+import { SITE } from '@/consts';
+import { buildStructuredData, serializeJsonLd } from '@/utils/seo';
+import {
+  getDictionary,
+  HREFLANG,
+  OG_LOCALES,
+  toLocale,
+  DEFAULT_LOCALE,
+  findRoutePair,
+  alternatePath,
+  type Locale,
+} from '@/i18n';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+
+interface Props {
+  /** Page title, without the company name. */
+  title: string;
+  /** Description shown in search results. */
+  description: string;
+  /**
+   * Overrides the path the page is considered to live at.
+   *
+   * Rarely needed: the layout reads the request path and looks it up in the
+   * translation table. Set this only when the rendered path is not the canonical
+   * one — a paginated listing, for instance.
+   */
+  path?: string;
+  /** Certifications to declare in structured data. */
+  certifications?: readonly string[];
+  /** Prevents indexing, for utility pages. */
+  noindex?: boolean;
+  /** Open Graph type; `article` on blog posts, `website` elsewhere. */
+  ogType?: 'website' | 'article';
+  /** Publication and revision dates, required by `og:type=article`. */
+  articleTimes?: { published: Date; updated?: Date };
+  /** Specific share image, otherwise the site image is used. */
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  path = Astro.url.pathname,
+  certifications = [],
+  noindex = false,
+  ogType = 'website',
+  articleTimes,
+  ogImage = `${SITE.url}/images/og-cover.jpg`,
+} = Astro.props;
+
+const locale = toLocale(Astro.currentLocale) ?? DEFAULT_LOCALE;
+const t = getDictionary(locale);
+
+const pageUrl = new URL(path, Astro.site).href;
+
+/**
+ * The page's translation pair, looked up from the path.
+ *
+ * `null` means the page exists in one language only. It then gets a canonical
+ * URL and no `hreflang` at all, which is safer than pointing an alternate at a
+ * page that does not answer in that language.
+ */
+const pair = findRoutePair(path);
+const otherLocale: Locale = locale === 'fr' ? 'en' : 'fr';
+
+/**
+ * Target of the language switch, as a path rather than an absolute URL, so the
+ * visitor stays on the host they are on: a preview deployment must not send them
+ * to production.
+ */
+const switchHref = alternatePath(path, locale);
+
+/** Home pages carry their own full title; others get the company suffix. */
+const isHome = path === '/' || path === '/en/';
+const fullTitle = isHome
+  ? `${SITE.name} — ${t.hero.eyebrow}`
+  : `${title} — ${SITE.name}`;
+
+const structuredData = buildStructuredData({
+  pageUrl,
+  pageTitle: fullTitle,
+  pageDescription: description,
+  locale,
+  certifications,
+});
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={pageUrl} />
+
+    {
+      /* Reciprocal alternates, derived from the shared translation table. Each
+         language points at its own translation and at itself; x-default names
+         the French page, which is the site's primary language. */
+      pair && (
+        <>
+          <link rel="alternate" hreflang={HREFLANG.fr} href={new URL(pair.fr, Astro.site).href} />
+          <link rel="alternate" hreflang={HREFLANG.en} href={new URL(pair.en, Astro.site).href} />
+          <link rel="alternate" hreflang="x-default" href={new URL(pair.fr, Astro.site).href} />
+        </>
+      )
+    }
+
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content={OG_LOCALES[locale]} />
+    {
+      switchHref && (
+        <meta property="og:locale:alternate" content={OG_LOCALES[otherLocale]} />
+      )
+    }
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={t.footer.tagline} />
+
+    {
+      articleTimes && (
+        <>
+          <meta
+            property="article:published_time"
+            content={articleTimes.published.toISOString()}
+          />
+          {articleTimes.updated && (
+            <meta property="article:modified_time" content={articleTimes.updated.toISOString()} />
+          )}
+          <meta property="article:author" content={SITE.founder} />
+        </>
+      )
+    }
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta name="theme-color" content="#05031a" />
+
+    <script type="application/ld+json" set:html={serializeJsonLd(structuredData)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.common.skipToContent}</a>
+    <Header t={t} locale={locale} alternateUrl={switchHref} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer t={t} locale={locale} />
+  </body>
+</html>

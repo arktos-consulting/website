@@ -1,0 +1,165 @@
+---
+/**
+ * Legal notices and personal data information.
+ *
+ * A utility page: kept out of the sitemap and out of search results, while
+ * staying reachable from the footer.
+ */
+import { SITE } from '@/consts';
+import type { Dictionary } from '@/i18n';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+}
+
+const { t } = Astro.props;
+---
+
+<section class="section page-hero">
+  <div class="container">
+    <h1 class="text-display-lg">{t.legal.heading}</h1>
+    <p class="lede hero-lede">{t.legal.lede}</p>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container legal">
+    <article>
+      <h2 class="legal-title">{t.legal.publisherHeading}</h2>
+      <dl class="legal-list">
+        <div>
+          <dt>{t.legal.denomination}</dt>
+          <dd>{SITE.legalName}</dd>
+        </div>
+        <div>
+          <dt>{t.legal.legalForm}</dt>
+          <dd>{SITE.legalForm} {t.legal.shareCapital} {SITE.shareCapital}</dd>
+        </div>
+        <div>
+          <dt>{t.legal.siretLabel}</dt>
+          <dd>{SITE.siret}</dd>
+        </div>
+        <div>
+          <dt>{t.legal.registeredOffice}</dt>
+          <dd>{SITE.city}, {SITE.region}, France</dd>
+        </div>
+        <div>
+          <dt>{t.legal.contactLabel}</dt>
+          <dd><a href={SITE.emailHref}>{SITE.email}</a></dd>
+        </div>
+      </dl>
+      <p class="legal-text">
+        {t.legal.registryText}
+        <a href={SITE.registryUrl} target="_blank" rel="noopener">{t.legal.registryLink}</a>.
+      </p>
+    </article>
+
+    <article>
+      <h2 class="legal-title">{t.legal.hostingHeading}</h2>
+      <p class="legal-text">{t.legal.hostingText}</p>
+    </article>
+
+    <article>
+      <h2 class="legal-title">{t.legal.dataHeading}</h2>
+      <p class="legal-text">{t.legal.dataTextOne}</p>
+      <p class="legal-text">{t.legal.dataTextTwo}</p>
+      <p class="legal-text">
+        {t.legal.dataTextThree}
+        <a href={SITE.emailHref}>{SITE.email}</a>.
+      </p>
+    </article>
+
+    <article>
+      <h2 class="legal-title">{t.legal.ipHeading}</h2>
+      <p class="legal-text">
+        {t.legal.ipTextLead}{SITE.legalName}{t.legal.ipTextTail}
+      </p>
+    </article>
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    padding-block: clamp(72px, 9vw, 128px) clamp(40px, 5vw, 64px);
+  }
+
+  .hero-lede {
+    margin: 16px 0 0;
+    max-width: 62ch;
+  }
+
+  .legal {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    max-width: 78ch;
+  }
+
+  .legal-title {
+    margin: 0 0 20px;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-ivory);
+  }
+
+  .legal-text {
+    margin: 0 0 14px;
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+  }
+
+  .legal-text:last-child {
+    margin-bottom: 0;
+  }
+
+  .legal-text a {
+    color: var(--color-cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .legal-list {
+    display: grid;
+    gap: 14px;
+    margin: 0 0 20px;
+  }
+
+  .legal-list div {
+    display: grid;
+    grid-template-columns: minmax(120px, 180px) minmax(0, 1fr);
+    gap: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .legal-list dt {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .legal-list dd {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--color-ivory);
+  }
+
+  .legal-list a {
+    color: var(--color-cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 600px) {
+    .legal-list div {
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+  }
+</style>

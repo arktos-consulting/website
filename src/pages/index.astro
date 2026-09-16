@@ -1,0 +1,21 @@
+---
+/**
+ * Home page, French route.
+ *
+ * Declares the locale and the pair of URLs the page answers on; the sections
+ * themselves live in `HomePage.astro`, shared with the English route.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HomePage from '@/components/HomePage.astro';
+import { getDictionary } from '@/i18n';
+
+const locale = 'fr' as const;
+const t = getDictionary(locale);
+---
+
+<BaseLayout
+  title={t.hero.metaTitle}
+  description={t.hero.metaDescription}
+>
+  <HomePage t={t} locale={locale} />
+</BaseLayout>

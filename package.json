@@ -1,0 +1,33 @@
+{
+  "name": "arktos-consulting-website",
+  "type": "module",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Site web Arktos Consulting - Freelance AWS, Kubernetes & Software Engineering à Lyon",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro sync && astro check",
+    "sync": "astro sync",
+    "typecheck": "astro sync && astro check && tsc --noEmit",
+    "verify:i18n": "node scripts/verify-i18n.mjs",
+    "verify": "bun run typecheck && bun run build && bun run verify:i18n"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "3.7.4",
+    "@tailwindcss/vite": "4.3.3",
+    "astro": "7.3.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "typescript": "6.0.3"
+  }
+}

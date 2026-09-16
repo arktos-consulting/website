@@ -1,0 +1,252 @@
+---
+/**
+ * Home page hero section.
+ *
+ * Presents the value proposition, the figures backing it and the two calls to
+ * action. The opening paragraph answers "what do you do, and for whom" directly,
+ * which is what answer engines extract before the rest of the page.
+ *
+ * The figures are computed from `CAREER` rather than typed in, so they cannot go
+ * stale: a hand-written "9 years" becomes wrong the following year.
+ */
+import { totalYears, kubernetesYears } from '@/utils/career';
+import { getContent } from '@/data';
+import type { Dictionary, Locale } from '@/i18n';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to resolve editorial content. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+const { CLIENT_LOGOS } = getContent(locale);
+
+const stats = [
+  { value: `${totalYears()}`, label: t.hero.statYears },
+  { value: `${kubernetesYears()}`, label: t.hero.statKubernetes },
+  { value: t.hero.statClustersValue, label: t.hero.statClusters },
+] as const;
+
+const homeHref = locale === 'fr' ? '/' : '/en/';
+---
+
+<section class="hero">
+  <div class="ambient-glow" aria-hidden="true"></div>
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow">{t.hero.eyebrow}</p>
+      <h1 class="text-display-xl hero-title">
+        {t.hero.titleLead}{' '}
+        <span class="accent">{t.hero.titleAccent}</span>
+      </h1>
+      <p class="lede hero-lede">{t.hero.lede}</p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href={`${homeHref}#contact`}>{t.hero.ctaPrimary}</a>
+        <a class="btn btn-ghost" href={t.nav.links[0]?.href ?? homeHref}>
+          {t.hero.ctaSecondary}
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+
+    <dl class="hero-stats">
+      {
+        stats.map((stat) => (
+          <div class="stat">
+            <dt class="stat-value">{stat.value}</dt>
+            <dd class="stat-label">{stat.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+
+  <div class="container logo-strip">
+    <p class="logo-strip-label">{t.hero.clientsLabel}</p>
+    <ul class="logo-list">
+      {
+        CLIENT_LOGOS.map((client) => (
+          <li class="logo-item">
+            <img src={client.src} alt={client.name} loading="lazy" decoding="async" />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding: 72px 0 0;
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .hero-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+    padding-bottom: 56px;
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .hero-title {
+    margin: 0;
+    color: var(--color-ivory);
+  }
+
+  .accent {
+    background: linear-gradient(
+      100deg,
+      var(--color-violet) 0%,
+      var(--color-azure) 45%,
+      var(--color-cyan) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero-lede {
+    margin: 0;
+    max-width: 60ch;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+  /* Evidence figures: top hairline, large number, label underneath. Three
+     figures only, in a single column: the side column stays narrow and the hero
+     keeps the same height as the heading. */
+  .hero-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin: 0;
+  }
+
+  .stat {
+    border-top: 1px solid var(--color-hairline);
+    padding-top: 18px;
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-cyan);
+  }
+
+  .stat-label {
+    margin: 8px 0 0;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  /* Client logo strip */
+  .logo-strip {
+    position: relative;
+    padding-block: 28px;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .logo-strip-label {
+    margin: 0 0 18px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  /* Logo row: the seven brands share the available width equally, each centred
+     in its column. A grid rather than flex guarantees the row spans the full
+     width even when one logo is shorter than the others. */
+  .logo-list {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    align-items: center;
+    gap: clamp(16px, 3vw, 40px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+  }
+
+  /* Logos are white silhouettes at very different ratios (from 1.9 to 5.9).
+     Height and width are capped so no brand crushes the others, while keeping
+     their proportions. */
+  .logo-item img {
+    height: auto;
+    width: auto;
+    max-height: 26px;
+    max-width: 100%;
+    object-fit: contain;
+    opacity: 0.72;
+    transition: opacity 0.25s;
+  }
+
+  .logo-item:hover img {
+    opacity: 1;
+  }
+
+  @media (max-width: 1000px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    /* Below seven columns, a grid would leave the last row orphaned and
+       left-aligned. A centred flex distributes the remaining logos in the
+       middle, which stays balanced whatever their number. */
+    .logo-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 22px 28px;
+    }
+
+    .logo-item {
+      flex: 0 1 auto;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .logo-list {
+      gap: 18px 24px;
+    }
+
+    .logo-item img {
+      max-height: 21px;
+    }
+
+    .hero-stats {
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+  }
+</style>

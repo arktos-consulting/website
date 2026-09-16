@@ -1,0 +1,21 @@
+---
+/**
+ * Blog listing, French route.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import BlogIndex from '@/components/BlogIndex.astro';
+import { getDictionary } from '@/i18n';
+
+const locale = 'fr' as const;
+const t = getDictionary(locale);
+
+const description =
+  "Notes techniques sur AWS, Kubernetes et l'exploitation de plateformes : FinOps, infogérance, conformité. Ce que le terrain apprend, publié quand il y a quelque chose de précis à dire.";
+---
+
+<BaseLayout
+  title={t.blog.title}
+  description={description}
+>
+  <BlogIndex t={t} locale={locale} />
+</BaseLayout>

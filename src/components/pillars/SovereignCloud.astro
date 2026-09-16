@@ -1,0 +1,177 @@
+---
+/**
+ * Sovereign cloud pillar: design, build and operate an internal cloud.
+ *
+ * Rendered from content rather than written inline, so the French and English
+ * pages share one layout and cannot drift apart.
+ */
+import type { SovereignCloudPillar } from '@/data/pillars';
+import type { Dictionary, Locale } from '@/i18n';
+import SectionHeading from '@/components/SectionHeading.astro';
+import PillarHero from '@/components/PillarHero.astro';
+import Contact from '@/components/Contact.astro';
+
+interface Props {
+  /** Page content for the current locale. */
+  pillar: SovereignCloudPillar;
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, passed down to the contact section. */
+  locale: Locale;
+}
+
+const { pillar, t, locale } = Astro.props;
+---
+
+<PillarHero heading={pillar.hero} cta={pillar.cta} title={pillar.title} />
+
+<section class="section">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.approach.eyebrow}
+      title={pillar.approach.title}
+      accent={pillar.approach.accent}
+    />
+    <ol class="phase-list">
+      {
+        pillar.phases.map((phase) => (
+          <li class="phase">
+            <div class="phase-head">
+              <span class="phase-step" aria-hidden="true">{phase.step}</span>
+              <h2 class="phase-title">{phase.title}</h2>
+            </div>
+            <p class="phase-detail">{phase.detail}</p>
+            <ul class="check-list phase-items">
+              {phase.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.triggersHeading.eyebrow}
+      title={pillar.triggersHeading.title}
+      accent={pillar.triggersHeading.accent}
+    />
+    <ul class="trigger-grid">
+      {
+        pillar.triggers.map((trigger) => (
+          <li class="card">
+            <h3 class="card-title text-display-sm">{trigger.title}</h3>
+            <p class="card-text">{trigger.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.caseHeading.eyebrow}
+      title={pillar.caseHeading.title}
+      accent={pillar.caseHeading.accent}
+    />
+    <div class="case">
+      {pillar.caseParagraphs.map((paragraph) => <p class="case-text">{paragraph}</p>)}
+      <ul class="tag-list">
+        {pillar.caseTags.map((tag) => <li class="tag">{tag}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<Contact t={t} locale={locale} />
+
+<style>
+  .phase-list {
+    display: flex;
+    flex-direction: column;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .phase {
+    padding: 32px 0;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .phase:last-child {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .phase-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 18px;
+  }
+
+  .phase-step {
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-violet);
+  }
+
+  .phase-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: var(--color-ivory);
+  }
+
+  .phase-detail {
+    margin: 14px 0 0;
+    max-width: 82ch;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+  }
+
+  .phase-items {
+    margin-top: 20px;
+    max-width: 82ch;
+  }
+
+  .trigger-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .case {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: clamp(32px, 4vw, 48px);
+    padding: 30px;
+    border: 1px solid var(--color-hairline);
+    border-left: 2px solid var(--color-cyan);
+    border-radius: 0 16px 16px 0;
+    background-color: var(--color-surface);
+  }
+
+  .case-text {
+    margin: 0;
+    max-width: 82ch;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+  }
+</style>

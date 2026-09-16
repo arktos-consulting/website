@@ -1,0 +1,62 @@
+---
+/**
+ * Section heading with an overline label and an optional introduction.
+ *
+ * The heading accepts a highlighted fragment, coloured with a gradient: it is
+ * the site's typographic signature, with the accent carrying the word that holds
+ * the idea rather than the whole heading.
+ */
+interface Props {
+  /** Small-caps overline. */
+  eyebrow?: string;
+  /** Start of the heading, in full colour. */
+  title: string;
+  /** End of the heading, highlighted with the accent gradient. */
+  accent?: string;
+  /** Introductory paragraph under the heading. */
+  lede?: string;
+  /** HTML heading level, to respect the page hierarchy. */
+  level?: 'h1' | 'h2';
+}
+
+const { eyebrow, title, accent, lede, level = 'h2' } = Astro.props;
+const Heading = level;
+---
+
+<div class="section-head">
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <Heading class:list={['section-title', level === 'h1' ? 'text-display-xl' : 'text-display-lg']}>
+    {title}{accent && <span class="accent"> {accent}</span>}
+  </Heading>
+  {lede && <p class="lede section-lede">{lede}</p>}
+</div>
+
+<style>
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 62ch;
+  }
+
+  .section-title {
+    color: var(--color-ivory);
+    margin: 0;
+  }
+
+  .accent {
+    background: linear-gradient(
+      100deg,
+      var(--color-violet) 0%,
+      var(--color-azure) 45%,
+      var(--color-cyan) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .section-lede {
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,21 @@
+---
+/**
+ * Home page, English route.
+ *
+ * Serves `/en/`. The body is the same component as the French home page, with
+ * the English dictionary and content resolved from the locale.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import HomePage from '@/components/HomePage.astro';
+import { getDictionary } from '@/i18n';
+
+const locale = 'en' as const;
+const t = getDictionary(locale);
+---
+
+<BaseLayout
+  title={t.hero.metaTitle}
+  description={t.hero.metaDescription}
+>
+  <HomePage t={t} locale={locale} />
+</BaseLayout>

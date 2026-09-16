@@ -1,0 +1,17 @@
+---
+/**
+ * Legal notices, French route.
+ *
+ * Excluded from the sitemap and from indexing, since it is a utility page.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import LegalPage from '@/components/LegalPage.astro';
+import { getDictionary } from '@/i18n';
+
+const locale = 'fr' as const;
+const t = getDictionary(locale);
+---
+
+<BaseLayout title={t.legal.title} description={t.legal.description} noindex>
+  <LegalPage t={t} />
+</BaseLayout>

@@ -1,0 +1,47 @@
+name: Verify
+
+# Verifies the site on every pull request and on every pushed branch.
+#
+# This workflow is separate from the deployment one: a verification must run on
+# a PR before merge, not only after a push to main. The deployment re-runs its
+# own checks on its side, so that a commit arriving directly on main can never
+# be published without being verified.
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # Covers both TypeScript and the Astro components. `tsc` alone does not
+      # read .astro files, so a missing type export in a component passes it and
+      # only fails here.
+      - name: Verify types and components
+        run: bun run typecheck
+
+      - name: Build site
+        run: bun run build
+
+      # Runs against `dist/`, so it must come after the build. Checks the
+      # bilingual invariants: reciprocal hreflang in the sitemap and the HTML,
+      # noindex pages excluded, no French text in an English page.
+      - name: Verify bilingual output
+        run: bun run verify:i18n

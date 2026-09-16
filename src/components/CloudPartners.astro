@@ -1,0 +1,214 @@
+---
+/**
+ * Cloud Partners section: the collective of certified AWS experts Arktos
+ * Consulting belongs to.
+ *
+ * It replaces the biographical introduction. To a cloud buyer, belonging to a
+ * certified collective is a stronger argument than an individual track record:
+ * it answers the question of continuity and capacity, which is precisely what a
+ * solo contractor cannot cover.
+ *
+ * The figures are those published by the collective.
+ */
+import { PROFILES } from '@/consts';
+import type { Dictionary } from '@/i18n';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+}
+
+const { t } = Astro.props;
+---
+
+<section class="section section-alt" id="cloud-partners">
+  <div class="container collective">
+    <div class="collective-copy">
+      <p class="eyebrow eyebrow-aws">{t.cloudPartners.eyebrow}</p>
+      <h2 class="text-display-lg collective-title">
+        {t.cloudPartners.title}{' '}
+        <span class="accent">{t.cloudPartners.accent}</span>
+      </h2>
+
+      <p class="lede collective-text">
+        {t.cloudPartners.bodyOneLead} <strong>Cloud Partners</strong>{t.cloudPartners.bodyOne}
+      </p>
+      <p class="lede collective-text">
+        {t.cloudPartners.bodyTwoLead} <em>Select Consulting</em>{' '}
+        {t.cloudPartners.bodyTwoTail}
+      </p>
+
+      <div class="collective-actions">
+        <a class="btn btn-aws" href={PROFILES.cloudPartners} target="_blank" rel="noopener">
+          {t.cloudPartners.ctaPrimary}
+          <span aria-hidden="true">→</span>
+        </a>
+        <a class="btn btn-ghost" href={PROFILES.awsPartner} target="_blank" rel="noopener">
+          {t.cloudPartners.ctaSecondary}
+        </a>
+      </div>
+    </div>
+
+    <div class="collective-side">
+      <div class="badge-wrap">
+        <img
+          src="/images/aws-partner.svg"
+          alt={t.cloudPartners.badgeAlt}
+          width="120"
+          height="120"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+
+      <p class="wordmark" aria-label="Cloud Partners">
+        Cloud<span>Partners</span>
+      </p>
+
+      <dl class="collective-stats">
+        {
+          t.cloudPartners.stats.map((stat) => (
+            <div class="collective-stat">
+              <dt class="collective-stat-value">{stat.value}</dt>
+              <dd class="collective-stat-label">{stat.label}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .collective {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 88px);
+    align-items: start;
+  }
+
+  .collective-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .collective-title {
+    margin: 0;
+    color: var(--color-ivory);
+  }
+
+  /* Heading and overline in AWS orange: this section is about the collective and
+     the partnership, and orange carries that signal. Violet and cyan remain the
+     accents elsewhere on the site. */
+  .eyebrow-aws {
+    color: var(--color-aws);
+  }
+
+  .accent {
+    background: linear-gradient(
+      100deg,
+      var(--color-aws) 0%,
+      var(--color-aws) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .collective-text {
+    margin: 0;
+    max-width: 62ch;
+  }
+
+  .collective-text strong {
+    color: var(--color-aws);
+    font-weight: 600;
+  }
+
+  .collective-text em {
+    color: var(--color-aws);
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .collective-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 12px;
+  }
+
+  /* Side column: AWS badge, wordmark and figures */
+  .collective-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+    padding: 30px;
+    border: 1px solid color-mix(in srgb, var(--color-aws) 30%, transparent);
+    border-radius: 18px;
+    background-color: var(--color-surface);
+  }
+
+  .badge-wrap img {
+    width: 96px;
+    height: auto;
+  }
+
+  /* The collective's logo is a wordmark, not an image: it is recomposed with the
+     site's typography so it stays sharp at any density. */
+  .wordmark {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--color-ivory);
+  }
+
+  /* Matches the official wordmark rendering: "Cloud" in white, "Partners" in
+     orange. */
+  .wordmark span {
+    color: var(--color-aws);
+  }
+
+  .collective-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    margin: 6px 0 0;
+  }
+
+  .collective-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding-top: 14px;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .collective-stat-value {
+    flex-shrink: 0;
+    min-width: 3.5rem;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--color-aws);
+  }
+
+  .collective-stat-label {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 900px) {
+    .collective {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

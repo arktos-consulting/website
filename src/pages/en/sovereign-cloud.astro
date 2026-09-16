@@ -1,0 +1,28 @@
+---
+/**
+ * Sovereign cloud pillar page, English route.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SovereignCloud from '@/components/pillars/SovereignCloud.astro';
+import { getPillars } from '@/data/pillars';
+import { getDictionary } from '@/i18n';
+import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
+
+const locale = 'en' as const;
+const pillar = getPillars(locale).sovereignCloud;
+const t = getDictionary(locale);
+
+const breadcrumbs = buildBreadcrumbs([
+  { name: 'Home', url: `${Astro.site}/en/` },
+  { name: pillar.breadcrumb, url: `${Astro.site}${Astro.url.pathname}` },
+]);
+---
+
+<BaseLayout title={pillar.title} description={pillar.description}>
+  {
+    breadcrumbs && (
+      <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
+    )
+  }
+  <SovereignCloud pillar={pillar} t={t} locale={locale} />
+</BaseLayout>

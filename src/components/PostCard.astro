@@ -1,0 +1,120 @@
+---
+/**
+ * Post card, used in the blog listing.
+ *
+ * The whole card is clickable: the title alone would be too small a target, and
+ * nesting a link inside another link is not valid HTML.
+ */
+import type { Dictionary, Locale } from '@/i18n';
+import type { PostEntry } from '@/utils/blog';
+import { formatDate, readingTime } from '@/utils/blog';
+
+interface Props {
+  /** Post to display. */
+  post: PostEntry;
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to format the date and build the post URL. */
+  locale: Locale;
+}
+
+const { post, t, locale } = Astro.props;
+const { title, description, publishedAt, tags, summary } = post.data;
+const slug = post.id;
+const minutes = readingTime(post.body ?? '');
+const blogBase = locale === 'fr' ? '/blog/' : '/en/blog/';
+---
+
+<li class="post-card">
+  <article class="post">
+    <p class="post-meta">
+      <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt, locale)}</time>
+      <span class="post-sep" aria-hidden="true">·</span>
+      <span>{minutes} {t.common.readingTimeSuffix}</span>
+    </p>
+
+    <h2 class="post-title">
+      <a class="post-link" href={`${blogBase}${slug}/`}>{title}</a>
+    </h2>
+
+    <p class="post-description">{summary ?? description}</p>
+
+    {
+      tags.length > 0 && (
+        <ul class="tag-list">
+          {tags.map((tag) => (
+            <li class="tag">{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+  </article>
+</li>
+
+<style>
+  .post-card {
+    position: relative;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .post {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 28px 0;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
+  .post-sep {
+    color: var(--color-hairline);
+  }
+
+  .post-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* The link covers the whole card: the clickable area is not limited to the
+     title text. */
+  .post-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .post-link {
+    color: var(--color-ivory);
+    transition: color 0.2s;
+  }
+
+  .post-card:hover .post-link {
+    color: var(--color-cyan);
+  }
+
+  .post-description {
+    margin: 0;
+    max-width: 78ch;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  .post-card :global(.tag-list) {
+    margin-top: 2px;
+  }
+</style>

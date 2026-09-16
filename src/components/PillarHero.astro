@@ -1,0 +1,60 @@
+---
+/**
+ * Pillar page hero: overline, main heading, introduction and the two calls to
+ * action.
+ *
+ * Shared by the four pillar pages so a heading or a button cannot look
+ * different from one offering to the next. The secondary link is rendered only
+ * when the content provides one.
+ */
+import type { PillarHeading, PillarCta, PillarBase } from '@/data/pillars';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+interface Props {
+  /** Hero heading, split so the last fragment carries the accent colour. */
+  heading: PillarHeading;
+  /** Calls to action shown under the introduction. */
+  cta: PillarCta;
+  /** Page title, reused by the primary button's accessible label. */
+  title: PillarBase['title'];
+}
+
+const { heading, cta, title } = Astro.props;
+---
+
+<section class="section page-hero">
+  <div class="ambient-glow" aria-hidden="true"></div>
+  <div class="container">
+    <SectionHeading
+      eyebrow={heading.eyebrow}
+      level="h1"
+      title={heading.title}
+      accent={heading.accent}
+      lede={heading.lede}
+    />
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#contact" aria-label={`${cta.primary} — ${title}`}>
+        {cta.primary}
+      </a>
+      <a class="btn btn-ghost" href={cta.secondaryHref}>
+        {cta.secondary}
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(72px, 9vw, 128px) clamp(56px, 7vw, 96px);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 32px;
+  }
+</style>

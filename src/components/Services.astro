@@ -1,0 +1,106 @@
+---
+/**
+ * Services grid: consulting, managed services and the two related offerings.
+ *
+ * Cards link to the dedicated pillar pages, so the home page routes visitors
+ * towards the pages that carry the commercial queries.
+ */
+import { getContent } from '@/data';
+import type { Dictionary, Locale } from '@/i18n';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to resolve editorial content. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+const { SERVICES } = getContent(locale);
+---
+
+<section class="section" id="prestations">
+  <div class="container">
+    <SectionHeading
+      eyebrow={t.services.eyebrow}
+      title={t.services.title}
+      accent={t.services.accent}
+    />
+    <p class="services-lede lede">{t.services.lede}</p>
+
+    <ul class="service-grid">
+      {
+        SERVICES.map((service) => (
+          <li class="card service-card">
+            <h3 class="card-title text-display-sm">{service.title}</h3>
+            <p class="card-text">{service.summary}</p>
+            <ul class="check-list">
+              {service.includes.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+            {service.href && (
+              <a class="service-link" href={service.href}>
+                {t.common.readMore}
+                <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-top: clamp(32px, 4vw, 48px);
+  }
+
+  .services-lede {
+    margin: 4px 0 0;
+    max-width: 62ch;
+  }
+
+  .service-card {
+    /* Progressive vertical offset, the grid's visual signature */
+    transform: translateY(calc(var(--card-offset, 0) * 1px));
+  }
+
+  .service-card:nth-child(2) {
+    --card-offset: 22;
+  }
+
+  .service-card:nth-child(4) {
+    --card-offset: 22;
+  }
+
+  .service-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 8px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-violet);
+    transition: gap 0.2s ease;
+  }
+
+  .service-link:hover {
+    gap: 14px;
+  }
+
+  @media (max-width: 900px) {
+    .service-card {
+      transform: none;
+    }
+  }
+</style>

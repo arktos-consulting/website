@@ -1,0 +1,117 @@
+---
+/**
+ * Blog listing.
+ *
+ * Posts are read from the collection for the current locale: adding a Markdown
+ * file is enough to publish one. The RSS feed is linked for readers who follow
+ * the site without coming back to it.
+ */
+import type { Dictionary, Locale } from '@/i18n';
+import SectionHeading from '@/components/SectionHeading.astro';
+import PostCard from '@/components/PostCard.astro';
+import Contact from '@/components/Contact.astro';
+import { getPublishedPosts } from '@/utils/blog';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to select the post collection. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+const posts = await getPublishedPosts(locale);
+
+const homeHref = locale === 'fr' ? '/#contact' : '/en/#contact';
+const rssHref = locale === 'fr' ? '/blog/rss.xml' : '/en/blog/rss.xml';
+---
+
+<section class="section page-hero">
+  <div class="ambient-glow" aria-hidden="true"></div>
+  <div class="container">
+    <SectionHeading
+      eyebrow={t.blog.eyebrow}
+      level="h1"
+      title={t.blog.headingLead}
+      accent={t.blog.headingAccent}
+      lede={t.blog.lede}
+    />
+
+    <div class="blog-actions">
+      <a class="btn btn-ghost btn-sm" href={rssHref}>
+        {t.blog.rssCta}
+        <span aria-hidden="true">→</span>
+      </a>
+      <span class="blog-count">
+        {posts.length}
+        {posts.length > 1 ? t.blog.countPlural : t.blog.countSingular}
+      </span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {
+      posts.length > 0 ? (
+        <ul class="post-list">
+          {posts.map((post) => (
+            <PostCard post={post} t={t} locale={locale} />
+          ))}
+        </ul>
+      ) : (
+        <p class="empty-state">
+          {t.blog.empty}
+          <a href={homeHref}>{t.blog.emptyContact}</a>{t.blog.emptyTail}
+        </p>
+      )
+    }
+  </div>
+</section>
+
+<Contact t={t} locale={locale} />
+
+<style>
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(72px, 9vw, 128px) clamp(32px, 4vw, 48px);
+  }
+
+  .blog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .blog-count {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post-list :global(.post-card:last-child) {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .empty-state {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+
+  .empty-state a {
+    color: var(--color-cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

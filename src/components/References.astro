@@ -1,0 +1,174 @@
+---
+/**
+ * Reference engagements.
+ *
+ * In compact mode only the client, the period and the title are shown: the
+ * technical detail and the tags live on the references page. A home page does
+ * not reproduce the content of a dedicated page, it makes you want to read it.
+ */
+import { getContent } from '@/data';
+import type { Dictionary, Locale } from '@/i18n';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to resolve editorial content. */
+  locale: Locale;
+  /** Number of engagements to display; all of them when omitted. */
+  limit?: number;
+  /** Reduces each engagement to its client, period and title. */
+  compact?: boolean;
+}
+
+const { t, locale, limit, compact = false } = Astro.props;
+const { MISSIONS } = getContent(locale);
+const displayed = limit ? MISSIONS.slice(0, limit) : MISSIONS;
+
+const referencesHref = locale === 'fr' ? '/references/' : '/en/references/';
+---
+
+<section class="section" id="references">
+  <div class="container">
+    <SectionHeading
+      eyebrow={t.references.eyebrow}
+      title={t.references.title}
+      accent={t.references.accent}
+      lede={compact ? t.references.ledeCompact : t.references.ledeFull}
+    />
+
+    {
+      compact ? (
+        <ul class="mission-compact">
+          {displayed.map((mission) => (
+            <li class="mission-row">
+              <span class="mission-client">{mission.client ?? mission.clientType}</span>
+              <span class="mission-title">{mission.title}</span>
+              <span class="mission-period">{mission.period}</span>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <ul class="mission-grid">
+          {displayed.map((mission) => (
+            <li class="card mission-card">
+              <p class="mission-client">
+                {mission.client ?? mission.clientType}
+                <span class="mission-period">{mission.period}</span>
+              </p>
+              <h3 class="card-title text-display-sm">{mission.title}</h3>
+              <p class="card-text">{mission.description}</p>
+              <ul class="tag-list">
+                {mission.tags.map((tag) => (
+                  <li class="tag">{tag}</li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      limit && limit < MISSIONS.length && (
+        <p class="missions-more">
+          <a class="btn btn-ghost btn-sm" href={referencesHref}>
+            {t.references.seeAll} {MISSIONS.length} {t.references.seeAllSuffix}
+            <span aria-hidden="true">→</span>
+          </a>
+        </p>
+      )
+    }
+
+    {!compact && <p class="missions-note">{t.references.footnote}</p>}
+  </div>
+</section>
+
+<style>
+  /* Compact mode: one row per engagement, client and year on the left, title in
+     the centre. Far denser than a grid of cards. */
+  .mission-compact {
+    display: flex;
+    flex-direction: column;
+    margin: clamp(32px, 4vw, 48px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mission-row {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr) auto;
+    gap: 6px 24px;
+    align-items: baseline;
+    padding: 16px 0;
+    border-top: 1px solid var(--color-hairline);
+    transition: border-color 0.2s;
+  }
+
+  .mission-row:last-child {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .mission-row:hover {
+    border-color: color-mix(in srgb, var(--color-cyan) 35%, transparent);
+  }
+
+  .mission-title {
+    font-family: var(--font-display);
+    font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: var(--color-ivory);
+  }
+
+  .mission-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 22px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mission-client {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-violet);
+  }
+
+  .mission-period {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+
+  .card .mission-client {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .missions-more {
+    margin: 32px 0 0;
+  }
+
+  .missions-note {
+    margin: 20px 0 0;
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 800px) {
+    .mission-row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+  }
+</style>

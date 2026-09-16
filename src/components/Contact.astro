@@ -1,0 +1,146 @@
+---
+/**
+ * Contact section: form, direct contact details and booking link.
+ *
+ * The calendar widget is not embedded when the page loads: Calendly is opened
+ * after a click. That avoids imposing a third-party script and an external
+ * connection on every visit, which costs load time and privacy.
+ */
+import { SITE, PROFILES } from '@/consts';
+import type { Dictionary, Locale } from '@/i18n';
+import ContactForm from '@/components/ContactForm.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, passed through to the form. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+---
+
+<section class="section section-alt" id="contact">
+  <div class="container contact-layout">
+    <div class="contact-intro">
+      <SectionHeading
+        eyebrow={t.contact.eyebrow}
+        title={t.contact.title}
+        accent={t.contact.accent}
+        lede={t.contact.lede}
+      />
+
+      <ul class="contact-channels">
+        <li class="channel">
+          <span class="channel-label">{t.contact.emailLabel}</span>
+          <a class="channel-value" href={SITE.emailHref}>{SITE.email}</a>
+        </li>
+        <li class="channel">
+          <span class="channel-label">{t.contact.locationLabel}</span>
+          <span class="channel-value">{t.contact.location}</span>
+        </li>
+        <li class="channel">
+          <span class="channel-label">{t.contact.linkedinLabel}</span>
+          <a class="channel-value" href={PROFILES.linkedin} target="_blank" rel="noopener">
+            perriea-cloud
+          </a>
+        </li>
+      </ul>
+
+      <div class="calendly-block">
+        <p class="calendly-hint">{t.contact.calendlyHint}</p>
+        <a
+          class="btn btn-ghost"
+          href={SITE.calendly}
+          target="_blank"
+          rel="noopener"
+          data-calendly
+        >
+          {t.contact.calendlyCta}
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-form-wrapper">
+      <ContactForm t={t} locale={locale} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 88px);
+    align-items: start;
+  }
+
+  .contact-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .contact-channels {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .channel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .channel:first-child {
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .channel-label {
+    min-width: 120px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .channel-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-ivory);
+  }
+
+  a.channel-value {
+    color: var(--color-cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .calendly-hint {
+    margin: 0 0 14px;
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+
+  .contact-form-wrapper {
+    padding: 30px;
+    border: 1px solid var(--color-hairline);
+    border-radius: 18px;
+    background-color: var(--color-surface);
+  }
+
+  @media (max-width: 900px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

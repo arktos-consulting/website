@@ -1,0 +1,98 @@
+---
+/**
+ * Article page, English route.
+ *
+ * Reads from the English collection. French articles are not translated by
+ * copying a file: each English article is its own document with its own slug and
+ * its own publication date, paired with its French counterpart in the shared
+ * translation table.
+ */
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ArticlePage from '@/components/ArticlePage.astro';
+import Contact from '@/components/Contact.astro';
+import { SITE, PROFILES } from '@/consts';
+import { getDictionary } from '@/i18n';
+import { formatDateIso, readingTime, postBreadcrumbs } from '@/utils/blog';
+import { serializeJsonLd, buildBreadcrumbs } from '@/utils/seo';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('blogEn', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}) satisfies GetStaticPaths;
+
+const locale = 'en' as const;
+const t = getDictionary(locale);
+
+const { post } = Astro.props;
+const { title, description, publishedAt, updatedAt, tags, summary } = post.data;
+
+const { Content, headings } = await render(post);
+
+const articleUrl = `${SITE.url}/en/blog/${post.id}/`;
+const minutes = readingTime(post.body ?? '');
+
+const breadcrumbs = buildBreadcrumbs(
+  postBreadcrumbs(title, post.id, locale).map((step) => ({
+    name: step.name,
+    url: `${SITE.url}${step.path}`,
+  })),
+);
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  '@id': `${articleUrl}#article`,
+  headline: title,
+  description,
+  url: articleUrl,
+  datePublished: formatDateIso(publishedAt),
+  ...(updatedAt && { dateModified: formatDateIso(updatedAt) }),
+  ...(tags.length > 0 && { keywords: tags.join(', ') }),
+  inLanguage: locale,
+  author: {
+    '@type': 'Person',
+    name: SITE.founder,
+    jobTitle: SITE.founderJobTitle,
+    url: `${SITE.url}/en/`,
+    sameAs: [PROFILES.linkedin, PROFILES.github],
+  },
+  publisher: { '@id': `${SITE.url}/#organization` },
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  mainEntityOfPage: articleUrl,
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogType="article"
+  articleTimes={{ published: publishedAt, updated: updatedAt }}
+>
+  <script type="application/ld+json" set:html={serializeJsonLd(articleSchema)} />
+  {
+    breadcrumbs && (
+      <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
+    )
+  }
+
+  <ArticlePage
+    title={title}
+    summary={summary}
+    tags={tags}
+    publishedAt={publishedAt}
+    updatedAt={updatedAt}
+    headings={headings}
+    minutes={minutes}
+    t={t}
+    locale={locale}
+  >
+    <Content />
+  </ArticlePage>
+
+  <Contact t={t} locale={locale} />
+</BaseLayout>

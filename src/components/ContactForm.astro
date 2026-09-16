@@ -1,0 +1,118 @@
+---
+/**
+ * Contact form.
+ *
+ * Submission is handled by an inline script rather than React: the form holds no
+ * complex state, and pulling in the React runtime for this single use would cost
+ * every visitor around 200 KB of JavaScript. React stays installed for the cases
+ * that will justify it.
+ *
+ * No data is sent to a server: the script composes a draft message in the
+ * visitor's own mail client, which they review before sending.
+ */
+import { SITE } from '@/consts';
+import type { Dictionary, Locale } from '@/i18n';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to label the generated draft. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+---
+
+<form
+  class="contact-form"
+  id="contact-form"
+  data-email={SITE.email}
+  data-locale={locale}
+  data-subject={t.form.subject}
+  data-name={t.form.fieldName}
+  data-company={t.form.fieldCompany}
+>
+  <div class="field-row">
+    <label class="field">
+      <span class="field-label">{t.form.nameLabel}</span>
+      <input
+        class="field-input"
+        type="text"
+        name="name"
+        required
+        autocomplete="name"
+        placeholder={t.form.namePlaceholder}
+      />
+    </label>
+
+    <label class="field">
+      <span class="field-label">
+        {t.form.companyLabel} <span class="field-optional">{t.form.companyOptional}</span>
+      </span>
+      <input
+        class="field-input"
+        type="text"
+        name="company"
+        autocomplete="organization"
+        placeholder={t.form.companyPlaceholder}
+      />
+    </label>
+  </div>
+
+  <label class="field">
+    <span class="field-label">{t.form.needLabel}</span>
+    <textarea
+      class="field-input field-textarea"
+      name="context"
+      rows="5"
+      required
+      placeholder={t.form.needPlaceholder}
+    ></textarea>
+  </label>
+
+  <button class="btn btn-primary" type="submit">{t.form.submit}</button>
+
+  <p class="form-note" id="contact-form-status" role="status" hidden>
+    {t.form.success} {SITE.email}.
+  </p>
+
+  <p class="form-note">{t.form.privacy}</p>
+</form>
+
+<script>
+  /** Labels and field names are read from the form's data attributes, so the
+   * generated draft follows the language of the page without duplicating the
+   * strings in the script. */
+  const contactForm = document.getElementById('contact-form') as HTMLFormElement | null;
+  const statusMessage = document.getElementById('contact-form-status');
+
+  contactForm?.addEventListener('submit', (submitEvent) => {
+    submitEvent.preventDefault();
+
+    const formData = new FormData(contactForm);
+    const senderName = String(formData.get('name') ?? '').trim();
+    const company = String(formData.get('company') ?? '').trim();
+    const context = String(formData.get('context') ?? '').trim();
+    const recipient = contactForm.dataset.email ?? '';
+
+    const subjectBase = contactForm.dataset.subject ?? '';
+    const nameField = contactForm.dataset.name ?? '';
+    const companyField = contactForm.dataset.company ?? '';
+
+    const subject = `${subjectBase}${company ? ` — ${company}` : ''}`;
+    const body = [
+      `${nameField}: ${senderName}`,
+      company ? `${companyField}: ${company}` : '',
+      '',
+      context,
+    ]
+      .filter((line) => line !== '')
+      .join('\n');
+
+    window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    if (statusMessage) {
+      statusMessage.hidden = false;
+    }
+  });
+</script>

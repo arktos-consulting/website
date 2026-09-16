@@ -1,0 +1,19 @@
+---
+/**
+ * 404 page, English variant.
+ *
+ * Rendered to `en/404.html`. GitHub Pages only serves the root `404.html`, so
+ * this variant matters for hosts that resolve an error page per directory; the
+ * root file stays French.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ErrorPage from '@/components/ErrorPage.astro';
+import { getDictionary } from '@/i18n';
+
+const locale = 'en' as const;
+const t = getDictionary(locale);
+---
+
+<BaseLayout title={t.notFound.title} description={t.notFound.description} noindex>
+  <ErrorPage t={t} locale={locale} />
+</BaseLayout>
