@@ -15,11 +15,17 @@ bun run preview  # prévisualisation du build
 ## Vérifications
 
 ```bash
-bunx tsc --noEmit    # typage TypeScript
+bun run typecheck    # astro sync puis tsc --noEmit
 bunx astro check     # vérification des composants Astro
+bun run build        # build de production dans dist/
 ```
 
-Les deux commandes doivent sortir sans erreur avant tout envoi.
+`bun run typecheck` lance `astro sync` avant `tsc` : les types des collections de
+contenu (`astro:content`) sont générés dans `.astro/`, qui n'est pas versionné.
+Sans cette étape, le typage échoue sur une machine neuve et en intégration
+continue.
+
+Les trois commandes doivent sortir sans erreur avant tout envoi.
 
 ## Stack
 
