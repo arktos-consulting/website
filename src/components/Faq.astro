@@ -1,0 +1,138 @@
+---
+/**
+ * Questions fréquentes.
+ *
+ * Les questions portent sur les points qui bloquent réellement une décision
+ * d'achat : délais, périmètre, facturation, fin de mission. C'est le format que
+ * les moteurs de réponse extraient le plus fiablement, et il est déclaré en
+ * `FAQPage` dans le layout : les réponses visibles et le balisage doivent donc
+ * correspondre mot pour mot.
+ */
+import { FAQ } from '@/data/content';
+import SectionHeading from '@/components/SectionHeading.astro';
+---
+
+<section class="section" id="faq">
+  <div class="container faq-layout">
+    <SectionHeading
+      eyebrow="Questions fréquentes"
+      title="Ce qu’on me demande"
+      accent="avant de démarrer."
+      lede="Si votre question n’est pas ici, écrivez-moi : la réponse vous sera utile, et elle rejoindra probablement cette liste."
+    />
+
+    <div class="faq-list">
+      {
+        FAQ.map((entry, index) => (
+          <details class="faq-item" open={index === 0}>
+            <summary class="faq-question">
+              {entry.question}
+              <span class="faq-marker" aria-hidden="true" />
+            </summary>
+            <div class="faq-answer">
+              <p>{entry.answer}</p>
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: clamp(36px, 5vw, 72px);
+    align-items: start;
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .faq-item {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .faq-item:first-child {
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 0;
+    cursor: pointer;
+    list-style: none;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-ivory);
+    transition: color 0.2s;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question:hover {
+    color: var(--color-cyan);
+  }
+
+  /* Marqueur en chevron qui pivote à l'ouverture */
+  .faq-marker {
+    position: relative;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+  }
+
+  .faq-marker::before,
+  .faq-marker::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: var(--color-cyan);
+    border-radius: 1px;
+    transition: transform 0.25s ease;
+  }
+
+  .faq-marker::before {
+    width: 14px;
+    height: 2px;
+    transform: translate(-50%, -50%);
+  }
+
+  .faq-marker::after {
+    width: 2px;
+    height: 14px;
+    transform: translate(-50%, -50%);
+  }
+
+  .faq-item[open] .faq-marker::after {
+    transform: translate(-50%, -50%) rotate(90deg) scaleX(0);
+  }
+
+  .faq-answer {
+    padding-bottom: 22px;
+    padding-right: 36px;
+  }
+
+  .faq-answer p {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+  }
+
+  @media (max-width: 900px) {
+    .faq-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

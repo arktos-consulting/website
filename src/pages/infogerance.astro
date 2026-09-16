@@ -1,0 +1,263 @@
+---
+/**
+ * Page pilier « Infogérance ».
+ *
+ * Elle cible les requêtes d'exploitation : infogérance Kubernetes, exploitation
+ * EKS, supervision et astreinte. Les engagements chiffrés y sont présentés
+ * comme le périmètre réel de l'offre.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Contact from '@/components/Contact.astro';
+import { SITE } from '@/consts';
+import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
+
+const description =
+  "Infogérance AWS et Kubernetes : exploitation de clusters EKS, supervision, mises à jour et maîtrise des coûts. Freelance senior à Lyon, en France et en Europe.";
+
+const breadcrumbs = buildBreadcrumbs([
+  { name: 'Accueil', url: `${SITE.url}/` },
+  { name: 'Infogérance', url: `${SITE.url}/infogerance/` },
+]);
+
+/** Prestations couvertes par l'exploitation déléguée. */
+const scope = [
+  {
+    title: 'Exploitation quotidienne',
+    items: [
+      'Clusters EKS et charges de travail, mises à jour de versions',
+      'Cycle de vie des images, politiques de déploiement, rollbacks',
+      'Gestion des certificates, secrets et accès',
+      'Revue périodique des journaux et des alertes',
+    ],
+  },
+  {
+    title: 'Supervision & incidents',
+    items: [
+      'Métriques, journaux et tableaux de bord exploitables',
+      'Alerting utile, sans fatigue d’alerte',
+      'Diagnostic et résolution des incidents de production',
+      'Retour d’expérience écrit après chaque incident notable',
+    ],
+  },
+  {
+    title: 'Fiabilité & coûts',
+    items: [
+      'Objectifs de niveau de service définis avec vous',
+      'Dimensionnement et politiques d’autoscaling',
+      'Suivi de la facture AWS et détection des dérives',
+      'Durcissement continu de la configuration',
+    ],
+  },
+] as const;
+
+/**
+ * Conditions d'intervention affichées comme engagements.
+ *
+ * Ces valeurs décrivent le fonctionnement réel de l'offre et servent de base au
+ * contrat. Elles doivent être ajustées si les conditions changent.
+ */
+const commitments = [
+  { label: 'Réponse à une demande', value: '1 jour ouvré' },
+  { label: 'Prise en charge d’un incident', value: 'Selon contrat' },
+  { label: 'Fenêtre de maintenance', value: 'Planifiée avec vous' },
+  { label: 'Engagement', value: 'Défini au contrat' },
+] as const;
+---
+
+<BaseLayout
+  title="Infogérance AWS & Kubernetes EKS"
+  description={description}
+  canonical={`${SITE.url}/infogerance/`}
+>
+  {
+    breadcrumbs && (
+      <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
+    )
+  }
+
+  <section class="section page-hero">
+    <div class="ambient-glow" aria-hidden="true"></div>
+    <div class="container">
+      <SectionHeading
+        eyebrow="Infogérance"
+        level="h1"
+        title="J’exploite la plateforme"
+        accent="que vous ne voulez plus porter seul."
+        lede="Vous gardez vos équipes produit, je prends en charge l’exploitation : supervision, mises à jour, incidents et maîtrise des coûts. Le périmètre et les engagements sont écrits avant de commencer."
+      />
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contact">Discuter du périmètre</a>
+        <a class="btn btn-ghost" href="/conseil/">
+          Voir aussi le conseil
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Périmètre"
+        title="Ce que recouvre"
+        accent="l’exploitation déléguée."
+      />
+      <ul class="scope-grid">
+        {
+          scope.map((group) => (
+            <li class="card">
+              <h3 class="card-title text-display-sm">{group.title}</h3>
+              <ul class="check-list">
+                {group.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Engagements"
+        title="Cadre de"
+        accent="l’intervention."
+        lede="Une infogérance sans périmètre écrit se transforme en disponibilité floue. Ces éléments sont donc contractualisés dès le départ et ajustés à la criticité de votre plateforme."
+      />
+      <dl class="commitment-grid">
+        {
+          commitments.map((commitment) => (
+            <div class="commitment">
+              <dt class="commitment-label">{commitment.label}</dt>
+              <dd class="commitment-value">{commitment.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <SectionHeading
+        eyebrow="Pourquoi moi"
+        title="Exploiter, c’est connaître"
+        accent="les décisions d’architecture."
+        lede="Les incidents se résolvent plus vite quand celui qui intervient a conçu la plateforme, ou comprend pourquoi elle est faite ainsi. C’est l’intérêt de confier le conseil et l’exploitation à la même personne."
+      />
+      <ul class="reason-grid">
+        <li class="reason">
+          <h3 class="reason-title">Une seule personne sur le pont</h3>
+          <p class="reason-body">
+            Pas de rotation d’équipe, pas de passation entre un architecte et un
+            exploitant qui ne se sont jamais parlé. Le contexte technique reste
+            dans une seule tête.
+          </p>
+        </li>
+        <li class="reason">
+          <h3 class="reason-title">Le code et l’infrastructure ensemble</h3>
+          <p class="reason-body">
+            Je développe aussi. Quand un incident vient du code ou de
+            l’industrialisation, la frontière ne bloque pas la résolution.
+          </p>
+        </li>
+        <li class="reason">
+          <h3 class="reason-title">Un coût qui reste explicable</h3>
+          <p class="reason-body">
+            La facture AWS est suivie et commentée, pas seulement payée. Une
+            dérive de coût se traite avant de devenir structurelle.
+          </p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <Contact />
+</BaseLayout>
+
+<style>
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(72px, 9vw, 128px) clamp(56px, 7vw, 96px);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 32px;
+  }
+
+  .scope-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 22px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .commitment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 28px 32px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+  }
+
+  .commitment {
+    border-top: 1px solid var(--color-hairline);
+    padding-top: 18px;
+  }
+
+  .commitment-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .commitment-value {
+    margin: 10px 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-cyan);
+  }
+
+  .reason-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 32px 40px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .reason {
+    border-top: 1px solid var(--color-hairline);
+    padding-top: 20px;
+  }
+
+  .reason-title {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--color-ivory);
+  }
+
+  .reason-body {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+</style>

@@ -1,0 +1,80 @@
+---
+/**
+ * Arguments de réassurance, en réponse aux travers habituels des sociétés de
+ * services : intermédiaires, périmètres flous, missions qui s'éternisent.
+ *
+ * Chaque affirmation est vérifiable à l'échelle d'un indépendant, ce qui les
+ * rend citables par un moteur de réponse.
+ */
+import { DIFFERENTIATORS } from '@/data/content';
+import SectionHeading from '@/components/SectionHeading.astro';
+---
+
+<section class="section section-alt" id="pourquoi">
+  <div class="container">
+    <SectionHeading
+      eyebrow="Pourquoi travailler avec moi"
+      title="Un interlocuteur unique,"
+      accent="du cadrage à la production."
+      lede="Les projets cloud échouent rarement pour des raisons techniques. Ils échouent sur un périmètre flou, une décision d’architecture prise loin du terrain, ou une équipe laissée sans documentation à la fin."
+    />
+
+    <ul class="reason-grid">
+      {
+        DIFFERENTIATORS.map((reason, index) => (
+          <li class="reason">
+            <span class="reason-index" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <h3 class="reason-title">{reason.title}</h3>
+            <p class="reason-body">{reason.body}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .reason-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px 48px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .reason {
+    border-top: 1px solid var(--color-hairline);
+    padding-top: 22px;
+  }
+
+  .reason-index {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-violet);
+    margin-bottom: 14px;
+  }
+
+  .reason-title {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    color: var(--color-ivory);
+    text-wrap: balance;
+  }
+
+  .reason-body {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+</style>

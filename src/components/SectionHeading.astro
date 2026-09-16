@@ -1,0 +1,62 @@
+---
+/**
+ * Titre de section avec libellé d'accroche et introduction optionnelle.
+ *
+ * Le titre accepte un fragment mis en évidence, coloré en dégradé : c'est la
+ * signature typographique du site, l'accent portant sur le mot qui porte
+ * l'idée plutôt que sur le titre entier.
+ */
+interface Props {
+  /** Sur-titre en petites capitales. */
+  eyebrow?: string;
+  /** Début du titre, en couleur pleine. */
+  title: string;
+  /** Fin du titre, mise en évidence par le dégradé d'accent. */
+  accent?: string;
+  /** Paragraphe d'introduction sous le titre. */
+  lede?: string;
+  /** Niveau de titre HTML, pour respecter la hiérarchie de la page. */
+  level?: 'h1' | 'h2';
+}
+
+const { eyebrow, title, accent, lede, level = 'h2' } = Astro.props;
+const Heading = level;
+---
+
+<div class="section-head">
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <Heading class:list={['section-title', level === 'h1' ? 'text-display-xl' : 'text-display-lg']}>
+    {title}{accent && <span class="accent"> {accent}</span>}
+  </Heading>
+  {lede && <p class="lede section-lede">{lede}</p>}
+</div>
+
+<style>
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 62ch;
+  }
+
+  .section-title {
+    color: var(--color-ivory);
+    margin: 0;
+  }
+
+  .accent {
+    background: linear-gradient(
+      100deg,
+      var(--color-violet) 0%,
+      var(--color-azure) 45%,
+      var(--color-cyan) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .section-lede {
+    margin: 0;
+  }
+</style>

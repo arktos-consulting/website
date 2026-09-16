@@ -1,0 +1,255 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   Polices auto-hébergées, sous-ensemble latin uniquement.
+   Le site est francophone : charger les jeux cyrillique, grec et vietnamien
+   ajouterait environ 170 Ko de fichiers jamais utilisés. Les fichiers sont
+   servis depuis le domaine et non depuis un CDN tiers, ce qui supprime une
+   résolution DNS et une connexion externes du chemin critique d'affichage.
+   ========================================================================= */
+
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("/fonts/inter-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Sora Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url("/fonts/sora-latin-wght-normal.woff2") format("woff2-variations");
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ============================================================================
+   Design system Arktos Consulting
+   Palette dérivée du logo (dégradé violet #7884fc → cyan #30d8e4).
+   Tous les contrastes de texte respectent au minimum WCAG 2.1 AA sur --color-ink.
+   ========================================================================= */
+
+@theme {
+  /* Fonds */
+  --color-ink: #05031a;
+  --color-ink-deep: #020110;
+  --color-surface: #0e0a2a;
+  --color-surface-raised: #ffffff0a;
+  --color-hairline: #ffffff1f;
+
+  /* Textes */
+  --color-ivory: #eef2ff;
+  --color-muted: #8f97bd;
+
+  /* Accents (issus du logo) */
+  --color-violet: #7884fc;
+  --color-azure: #48b4f0;
+  --color-cyan: #30d8e4;
+  --color-aws: #ff9900;
+
+  /* Typographie */
+  --font-sans: "Inter Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Sora Variable", system-ui, sans-serif;
+
+  /* Mise en page */
+  --spacing-gutter: 48px;
+  --container-content: 1600px;
+}
+
+/* ---------------------------------------------------------------- base ---- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-ink);
+  color: var(--color-ivory);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+#main {
+  flex: 1 0 auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background-color: var(--color-violet);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* ------------------------------------------------------- utilitaires ------ */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+  padding: 12px 20px;
+  background-color: var(--color-violet);
+  color: var(--color-ink);
+  font-weight: 700;
+  border-bottom-right-radius: 8px;
+  transform: translateY(-120%);
+  transition: transform 0.15s ease-in-out;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Conteneur central, aligné sur la grille du site */
+.container {
+  width: 100%;
+  max-width: var(--container-content);
+  margin-inline: auto;
+  padding-inline: var(--spacing-gutter);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --spacing-gutter: 20px;
+  }
+}
+
+/* Filet de séparation discret, signature visuelle du thème */
+.hairline {
+  border-top: 1px solid var(--color-hairline);
+}
+
+/* Lueur d'ambiance en fond de section : deux dégradés radiaux très diffus */
+.ambient-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(at 15% 8%, color-mix(in srgb, var(--color-cyan) 12%, transparent) 0%, transparent 55%),
+    radial-gradient(at 88% 92%, color-mix(in srgb, var(--color-violet) 14%, transparent) 0%, transparent 55%);
+}
+
+/* ------------------------------------------------------------ échelles ---- */
+
+.text-display-xl {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 5.4vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.text-display-lg {
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 3.6vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.text-display-md {
+  font-family: var(--font-display);
+  font-size: clamp(1.375rem, 2.1vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.text-display-sm {
+  font-family: var(--font-display);
+  font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+}
+
+/* Sur-titre de section, en petites capitales espacées */
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-cyan);
+}
+
+.lede {
+  font-size: clamp(1rem, 1.3vw, 1.1875rem);
+  line-height: 1.7;
+  color: var(--color-muted);
+}

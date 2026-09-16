@@ -1,0 +1,99 @@
+---
+/**
+ * Formulaire de prise de contact.
+ *
+ * La soumission est traitée par un script embarqué plutôt qu'en React : le
+ * formulaire ne manipule aucun état complexe, et embarquera le runtime React
+ * pour ce seul usage coûterait environ 200 Ko de JavaScript à chaque visiteur.
+ * React reste installé dans le projet pour les besoins qui le justifieront.
+ *
+ * Aucune donnée n'est transmise à un serveur : le script compose un brouillon
+ * de message dans la messagerie du visiteur, qui le relit avant envoi.
+ */
+import { SITE } from '@/consts';
+---
+
+<form class="contact-form" id="contact-form" data-email={SITE.email}>
+  <div class="field-row">
+    <label class="field">
+      <span class="field-label">Nom</span>
+      <input
+        class="field-input"
+        type="text"
+        name="name"
+        required
+        autocomplete="name"
+        placeholder="Votre nom"
+      />
+    </label>
+
+    <label class="field">
+      <span class="field-label">
+        Société <span class="field-optional">(facultatif)</span>
+      </span>
+      <input
+        class="field-input"
+        type="text"
+        name="company"
+        autocomplete="organization"
+        placeholder="Nom de votre société"
+      />
+    </label>
+  </div>
+
+  <label class="field">
+    <span class="field-label">Votre besoin</span>
+    <textarea
+      class="field-input field-textarea"
+      name="context"
+      rows="5"
+      required
+      placeholder="Décrivez en quelques lignes le contexte et ce que vous cherchez à résoudre."
+    ></textarea>
+  </label>
+
+  <button class="btn btn-primary" type="submit">Préparer le message</button>
+
+  <p class="form-note" id="contact-form-status" role="status" hidden>
+    Votre client de messagerie devrait s’ouvrir avec le message pré-rempli. S’il ne
+    s’ouvre pas, écrivez directement à {SITE.email}.
+  </p>
+
+  <p class="form-note">
+    Aucune donnée n’est envoyée à un serveur : le message est composé dans votre
+    messagerie, que vous relisez avant envoi.
+  </p>
+</form>
+
+<script>
+  const contactForm = document.getElementById(
+    'contact-form',
+  ) as HTMLFormElement | null;
+  const statusMessage = document.getElementById('contact-form-status');
+
+  contactForm?.addEventListener('submit', (submitEvent) => {
+    submitEvent.preventDefault();
+
+    const formData = new FormData(contactForm);
+    const senderName = String(formData.get('name') ?? '').trim();
+    const company = String(formData.get('company') ?? '').trim();
+    const context = String(formData.get('context') ?? '').trim();
+    const recipient = contactForm.dataset.email ?? '';
+
+    const subject = `Demande de contact${company ? ` — ${company}` : ''}`;
+    const body = [
+      `Nom : ${senderName}`,
+      company ? `Société : ${company}` : '',
+      '',
+      context,
+    ]
+      .filter((line) => line !== '')
+      .join('\n');
+
+    window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    if (statusMessage) {
+      statusMessage.hidden = false;
+    }
+  });
+</script>

@@ -1,0 +1,247 @@
+---
+/**
+ * Entête fixe : logo, navigation principale et appel à l'action.
+ *
+ * Le menu mobile repose sur une case à cocher masquée plutôt que sur du
+ * JavaScript : il reste utilisable sans script et n'ajoute pas de coût
+ * d'hydratation sur une page par ailleurs statique.
+ */
+import { SITE } from '@/consts';
+
+interface NavLink {
+  /** Destination du lien. */
+  href: string;
+  /** Libellé affiché. */
+  label: string;
+}
+
+interface Props {
+  /** Liens de navigation principale. */
+  links: readonly NavLink[];
+}
+
+const { links } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label={`${SITE.name}, retour à l'accueil`}>
+      <img
+        src="/images/logo.svg"
+        alt=""
+        width="52"
+        height="39"
+        class="brand-mark"
+        loading="eager"
+        decoding="async"
+      />
+      <span class="brand-text">
+        <span class="brand-name">Arktos</span>
+        <span class="brand-sub">Consulting</span>
+      </span>
+    </a>
+
+    <input
+      type="checkbox"
+      id="nav-toggle"
+      class="nav-toggle visually-hidden"
+      aria-label="Ouvrir le menu de navigation"
+    />
+    <label for="nav-toggle" class="nav-burger" aria-hidden="true">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+
+    <nav class="site-nav" aria-label="Navigation principale">
+      <ul class="nav-list">
+        {
+          links.map((link) => (
+            <li>
+              <a class="nav-link" href={link.href}>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="btn btn-primary nav-cta" href="/#contact">
+        Parlons de votre projet
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    background-color: color-mix(in srgb, var(--color-ink) 82%, transparent);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .brand-mark {
+    width: 52px;
+    height: auto;
+  }
+
+  .brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+  }
+
+  .brand-name {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .brand-sub {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-muted);
+    transition:
+      color 0.2s,
+      background-color 0.2s;
+  }
+
+  .nav-link:hover {
+    color: var(--color-ivory);
+    background-color: var(--color-surface-raised);
+  }
+
+  .nav-cta {
+    margin-left: 12px;
+  }
+
+  /* Menu mobile : ouvert par la case à cocher, sans script */
+  .nav-burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .nav-burger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: var(--color-ivory);
+    border-radius: 1px;
+    transition: transform 0.25s ease;
+  }
+
+  .nav-toggle:checked ~ .nav-burger span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .nav-toggle:checked ~ .nav-burger span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle:checked ~ .nav-burger span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  .nav-toggle:focus-visible ~ .nav-burger {
+    outline: 3px solid var(--color-cyan);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .nav-burger {
+      display: flex;
+    }
+
+    .site-nav {
+      position: fixed;
+      inset: 72px 0 auto 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 4px;
+      padding: 16px var(--spacing-gutter) 28px;
+      background-color: var(--color-ink-deep);
+      border-bottom: 1px solid var(--color-hairline);
+      transform: translateY(-8px);
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .nav-toggle:checked ~ .site-nav {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .nav-list {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 2px;
+    }
+
+    .nav-link {
+      padding: 14px 12px;
+      font-size: 1rem;
+    }
+
+    .nav-cta {
+      margin: 12px 0 0;
+      justify-content: center;
+    }
+  }
+</style>

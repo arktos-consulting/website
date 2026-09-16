@@ -1,0 +1,92 @@
+---
+/**
+ * Aperçu des références : les missions servent de preuve technique, avec le
+ * détail des technologies plutôt que des noms de clients mis en avant.
+ */
+import { MISSIONS } from '@/data/content';
+import SectionHeading from '@/components/SectionHeading.astro';
+
+interface Props {
+  /** Nombre de missions à afficher ; toutes si omis. */
+  limit?: number;
+}
+
+const { limit } = Astro.props;
+const displayed = limit ? MISSIONS.slice(0, limit) : MISSIONS;
+---
+
+<section class="section" id="references">
+  <div class="container">
+    <SectionHeading
+      eyebrow="Références"
+      title="Des missions dont"
+      accent="le détail technique est public."
+      lede="Les missions longues chez Bpifrance, SNCF, Doctolib, Canal+ et Yseop sont nommées. Ce qui compte pour juger un travail d’infrastructure reste toutefois le détail : contexte, contraintes, technologies."
+    />
+
+    <ul class="mission-grid">
+      {
+        displayed.map((mission) => (
+          <li class="card mission-card">
+            <p class="mission-client">
+              {mission.client ?? mission.clientType}
+              <span class="mission-period">{mission.period}</span>
+            </p>
+            <h3 class="card-title text-display-sm">{mission.title}</h3>
+            <p class="card-text">{mission.description}</p>
+            <ul class="tag-list">
+              {mission.tags.map((tag) => (
+                <li class="tag">{tag}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      limit && limit < MISSIONS.length && (
+        <p class="missions-more">
+          <a class="btn btn-ghost" href="/references/">
+            Voir les {MISSIONS.length} missions
+            <span aria-hidden="true">→</span>
+          </a>
+        </p>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .mission-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 22px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mission-client {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-violet);
+  }
+
+  .mission-period {
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    font-weight: 600;
+  }
+
+  .missions-more {
+    margin: 40px 0 0;
+  }
+</style>

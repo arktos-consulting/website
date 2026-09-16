@@ -1,0 +1,107 @@
+---
+/**
+ * Grille des prestations : conseil, infogérance et les deux offres associées.
+ *
+ * Les cartes mènent vers les pages piliers dédiées quand elles existent, de
+ * sorte que la page d'accueil oriente vers les pages qui portent les requêtes
+ * commerciales.
+ */
+import { SERVICES } from '@/data/content';
+import SectionHeading from '@/components/SectionHeading.astro';
+---
+
+<section class="section" id="prestations">
+  <div class="container">
+    <SectionHeading
+      eyebrow="Prestations"
+      title="Deux métiers,"
+      accent="tenus par la même personne."
+      lede="Je conçois votre plateforme puis je l’exploite, sans intermédiaire entre l’architecture décidée et la production opérée. Chaque offre est cadrée avant d’être facturée."
+    />
+
+    <ul class="service-grid">
+      {
+        SERVICES.map((service) => (
+          <li class="card service-card">
+            <h3 class="card-title text-display-sm">{service.title}</h3>
+            <p class="card-text">{service.summary}</p>
+            <p class="service-outcome">
+              <span class="visually-hidden">Résultat attendu : </span>
+              {service.outcome}
+            </p>
+            <ul class="check-list">
+              {service.includes.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+            {service.href && (
+              <a class="service-link" href={service.href}>
+                En savoir plus
+                <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-top: clamp(40px, 5vw, 64px);
+  }
+
+  .service-card {
+    /* Décalage vertical progressif, signature visuelle de la grille */
+    transform: translateY(calc(var(--card-offset, 0) * 1px));
+  }
+
+  .service-card:nth-child(2) {
+    --card-offset: 22;
+  }
+
+  .service-card:nth-child(4) {
+    --card-offset: 22;
+  }
+
+  .service-outcome {
+    margin: 0;
+    padding: 12px 16px;
+    border-left: 2px solid var(--color-cyan);
+    background-color: var(--color-surface-raised);
+    border-radius: 0 8px 8px 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-ivory);
+    line-height: 1.55;
+  }
+
+  .service-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 8px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-violet);
+    transition: gap 0.2s ease;
+  }
+
+  .service-link:hover {
+    gap: 14px;
+  }
+
+  @media (max-width: 900px) {
+    .service-card {
+      transform: none;
+    }
+  }
+</style>

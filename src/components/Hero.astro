@@ -1,0 +1,246 @@
+---
+/**
+ * Section d'accroche de la page d'accueil.
+ *
+ * Présente la proposition de valeur, les preuves chiffrées et les deux appels
+ * à l'action. Le premier paragraphe répond directement à la question
+ * « que faites-vous et pour qui ? », ce que les moteurs de réponse extraient
+ * avant le reste du contenu.
+ */
+import { SITE, PROFILES } from '@/consts';
+import { totalYears, kubernetesYears, freelanceYears } from '@/utils/career';
+import { CLIENT_LOGOS } from '@/data/content';
+
+const years = totalYears();
+const k8sYears = kubernetesYears();
+const independentYears = freelanceYears();
+
+const stats = [
+  { value: `${years}`, label: "années d'expérience", note: `dont ${independentYears} en indépendant` },
+  { value: `${k8sYears}`, label: 'ans sur Kubernetes', note: 'EKS, Azure, cloud privé' },
+  { value: '300+', label: 'clusters opérés', note: 'parc SNCF, en équipe' },
+  { value: '800+', label: 'microservices', note: 'plateformes SaaS et industrielles' },
+] as const;
+---
+
+<section class="hero">
+  <div class="ambient-glow" aria-hidden="true"></div>
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow">Freelance AWS &amp; Kubernetes · Lyon</p>
+      <h1 class="text-display-xl hero-title">
+        J’exploite et je fiabilise{' '}
+        <span class="accent">votre plateforme cloud.</span>
+      </h1>
+      <p class="lede hero-lede">
+        Conseil et infogérance AWS/Kubernetes pour des plateformes qui doivent tenir en
+        production. {years} ans d’expérience, dont {independentYears} en indépendant,
+        auprès de Bpifrance, SNCF, Doctolib, Canal+ et Yseop. Vous travaillez
+        directement avec la personne qui conçoit et exploite votre plateforme.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="/#contact">Parlons de votre projet</a>
+        <a class="btn btn-ghost" href="/conseil/">
+          Voir les prestations
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <p class="hero-note">
+        Basé à {SITE.city}, intervention partout en France et en Europe ·
+        <a href={PROFILES.meetup} target="_blank" rel="noopener">Co-organisateur du Meetup AWS Lyon</a>
+      </p>
+    </div>
+
+    <dl class="hero-stats">
+      {
+        stats.map((stat) => (
+          <div class="stat">
+            <dt class="stat-value">{stat.value}</dt>
+            <dd class="stat-body">
+              <span class="stat-label">{stat.label}</span>
+              <span class="stat-note">{stat.note}</span>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+
+  <div class="container logo-strip">
+    <p class="logo-strip-label">Ils m’ont fait confiance</p>
+    <ul class="logo-list">
+      {
+        CLIENT_LOGOS.map((client) => (
+          <li class="logo-item">
+            <img src={client.src} alt={client.name} loading="lazy" decoding="async" />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding: 72px 0 0;
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .hero-inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+    padding-bottom: 56px;
+  }
+
+  .hero-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .hero-title {
+    margin: 0;
+    color: var(--color-ivory);
+  }
+
+  .accent {
+    background: linear-gradient(
+      100deg,
+      var(--color-violet) 0%,
+      var(--color-azure) 45%,
+      var(--color-cyan) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero-lede {
+    margin: 0;
+    max-width: 60ch;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 8px;
+  }
+
+  .hero-note {
+    margin: 4px 0 0;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  .hero-note a {
+    color: var(--color-cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Preuves chiffrées : filet supérieur, gros chiffre, libellé en dessous */
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 28px;
+    margin: 0;
+    padding-top: 8px;
+  }
+
+  .stat {
+    border-top: 1px solid var(--color-hairline);
+    padding-top: 18px;
+  }
+
+  .stat-value {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--color-cyan);
+  }
+
+  .stat-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 10px 0 0;
+  }
+
+  .stat-label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-ivory);
+  }
+
+  .stat-note {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+  }
+
+  /* Bandeau de logos clients */
+  .logo-strip {
+    position: relative;
+    padding-block: 28px;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .logo-strip-label {
+    margin: 0 0 18px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .logo-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: clamp(24px, 4vw, 56px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .logo-item img {
+    height: 26px;
+    width: auto;
+    opacity: 0.62;
+    filter: grayscale(1) brightness(1.6);
+    transition:
+      opacity 0.25s,
+      filter 0.25s;
+  }
+
+  .logo-item img:hover {
+    opacity: 1;
+    filter: grayscale(0) brightness(1);
+  }
+
+  @media (max-width: 1000px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .hero-stats {
+      grid-template-columns: 1fr;
+      gap: 22px;
+    }
+  }
+</style>

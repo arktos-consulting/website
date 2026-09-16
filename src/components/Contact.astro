@@ -1,0 +1,140 @@
+---
+/**
+ * Section de contact : formulaire, coordonnées directes et widget de prise de
+ * rendez-vous.
+ *
+ * Le calendrier n'est pas embarqué au chargement de la page : le widget Calendly
+ * est chargé à la demande, après un clic. Cela évite d'imposer un script tiers
+ * et une connexion externe à chaque visite, ce qui pénalise le temps de
+ * chargement et la vie privée.
+ */
+import { SITE, PROFILES } from '@/consts';
+import ContactForm from '@/components/ContactForm.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+---
+
+<section class="section section-alt" id="contact">
+  <div class="container contact-layout">
+    <div class="contact-intro">
+      <SectionHeading
+        eyebrow="Contact"
+        title="Parlons de"
+        accent="votre plateforme."
+        lede="Réponse sous un jour ouvré. Nous cadrons votre besoin, puis je vous dis si je suis la bonne personne — y compris quand la réponse est non."
+      />
+
+      <ul class="contact-channels">
+        <li class="channel">
+          <span class="channel-label">E-mail</span>
+          <a class="channel-value" href={SITE.emailHref}>{SITE.email}</a>
+        </li>
+        <li class="channel">
+          <span class="channel-label">Localisation</span>
+          <span class="channel-value">{SITE.city}, France · remote accepté</span>
+        </li>
+        <li class="channel">
+          <span class="channel-label">LinkedIn</span>
+          <a class="channel-value" href={PROFILES.linkedin} target="_blank" rel="noopener">
+            perriea-cloud
+          </a>
+        </li>
+      </ul>
+
+      <div class="calendly-block">
+        <p class="calendly-hint">
+          Vous préférez échanger de vive voix ? Réservez directement trente minutes.
+        </p>
+        <a
+          class="btn btn-ghost"
+          href={SITE.calendly}
+          target="_blank"
+          rel="noopener"
+          data-calendly
+        >
+          Réserver un créneau
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-form-wrapper">
+      <ContactForm />
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 88px);
+    align-items: start;
+  }
+
+  .contact-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .contact-channels {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .channel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .channel:first-child {
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .channel-label {
+    min-width: 120px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .channel-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-ivory);
+  }
+
+  a.channel-value {
+    color: var(--color-cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .calendly-hint {
+    margin: 0 0 14px;
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+  }
+
+  .contact-form-wrapper {
+    padding: 30px;
+    border: 1px solid var(--color-hairline);
+    border-radius: 18px;
+    background-color: var(--color-surface);
+  }
+
+  @media (max-width: 900px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
