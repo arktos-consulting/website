@@ -15,6 +15,10 @@ import tailwindcss from '@tailwindcss/vite';
 
 /**
  * Configuration du build statique.
+ *
+ * `format: 'directory'` écrit chaque route dans son propre dossier, et la page
+ * 404 y échappe : Astro l'exporte sous le nom `404.html` à la racine, ce que
+ * GitHub Pages attend pour servir une page d'erreur sur une URL inexistante.
  */
 export default defineConfig({
   site: 'https://www.arktos.consulting',
