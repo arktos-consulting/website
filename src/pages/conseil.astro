@@ -3,28 +3,27 @@
  * Consulting pillar page, French route.
  *
  * The page body lives in a shared component rendered from content, so the French
- * and English versions share one layout. This file only declares which content
- * to load and which URLs the page answers on, which is what the layout needs to
- * build the canonical URL, the `hreflang` alternates and the language switch.
+ * and English versions share one layout. This file declares only which content to
+ * load: the layout resolves the canonical URL, the `hreflang` alternates and the
+ * language switch from the request path and the shared translation table.
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Consulting from '@/components/pillars/Consulting.astro';
-import { getPillars, pillarPaths } from '@/data/pillars';
+import { getPillars } from '@/data/pillars';
 import { getDictionary } from '@/i18n';
 import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
 
 const locale = 'fr' as const;
 const pillar = getPillars(locale).consulting;
 const t = getDictionary(locale);
-const paths = pillarPaths('consulting');
 
 const breadcrumbs = buildBreadcrumbs([
   { name: 'Accueil', url: `${Astro.site}/` },
-  { name: pillar.breadcrumb, url: `${Astro.site}${paths.fr}` },
+  { name: pillar.breadcrumb, url: `${Astro.site}${Astro.url.pathname}` },
 ]);
 ---
 
-<BaseLayout title={pillar.title} description={pillar.description} paths={paths}>
+<BaseLayout title={pillar.title} description={pillar.description}>
   {
     breadcrumbs && (
       <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />

@@ -167,6 +167,3 @@ export interface PillarBundle {
 
 /** Identifier of a pillar page. */
 export type PillarId = keyof PillarBundle;
-
-/** Route segments of a pillar, per locale. */
-export type PillarRoutes = Record<PillarId, Record<'fr' | 'en', string>>;

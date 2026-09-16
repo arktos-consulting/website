@@ -16,17 +16,16 @@ const locale = 'en' as const;
 const t = getDictionary(locale);
 const { MISSIONS } = getContent(locale);
 
-const paths = { fr: '/references/', en: '/en/references/' } as const;
 
 const description = `${MISSIONS.length} AWS, Kubernetes and DevOps infrastructure engagements: a French public investment bank, the national railway operator, a SaaS vendor, a health platform, a broadcaster. Technical detail for each.`;
 
 const breadcrumbs = buildBreadcrumbs([
   { name: 'Home', url: `${Astro.site}/en/` },
-  { name: 'References', url: `${Astro.site}${paths.en}` },
+  { name: 'References', url: `${Astro.site}${Astro.url.pathname}` },
 ]);
 ---
 
-<BaseLayout title={t.references.pageTitle} description={description} paths={paths}>
+<BaseLayout title={t.references.pageTitle} description={description}>
   {
     breadcrumbs && (
       <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />

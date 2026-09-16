@@ -12,17 +12,16 @@ const locale = 'fr' as const;
 const t = getDictionary(locale);
 const { MISSIONS } = getContent(locale);
 
-const paths = { fr: '/references/', en: '/en/references/' } as const;
 
 const description = `${MISSIONS.length} missions d’infrastructure AWS, Kubernetes et DevOps : Bpifrance, SNCF, Yseop, Seiitra, Doctolib, Canal+. Détail technique de chaque intervention.`;
 
 const breadcrumbs = buildBreadcrumbs([
   { name: 'Accueil', url: `${Astro.site}/` },
-  { name: 'Références', url: `${Astro.site}${paths.fr}` },
+  { name: 'Références', url: `${Astro.site}${Astro.url.pathname}` },
 ]);
 ---
 
-<BaseLayout title={t.references.pageTitle} description={description} paths={paths}>
+<BaseLayout title={t.references.pageTitle} description={description}>
   {
     breadcrumbs && (
       <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />

@@ -4,12 +4,24 @@
  * Pages import their dictionary through `getDictionary` rather than reading the
  * locale directly, so a missing locale fails loudly at build time instead of
  * silently rendering the wrong language.
+ *
+ * Translation pairs are re-exported from `./routes` so that pages, the layout and
+ * the sitemap all import them from one place.
  */
 import type { Dictionary } from './fr';
 import fr from './fr';
 import en from './en';
 
 export type { Dictionary };
+
+export {
+  ROUTE_PAIRS,
+  findRoutePair,
+  pairPaths,
+  alternatePath,
+  alternateUrl,
+  type RoutePair,
+} from './routes';
 
 /** Supported locales, mirroring the `i18n` block of the Astro config. */
 export const LOCALES = ['fr', 'en'] as const;

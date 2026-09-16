@@ -8,22 +8,21 @@
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import AppliedAi from '@/components/pillars/AppliedAi.astro';
-import { getPillars, pillarPaths } from '@/data/pillars';
+import { getPillars } from '@/data/pillars';
 import { getDictionary } from '@/i18n';
 import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
 
 const locale = 'fr' as const;
 const pillar = getPillars(locale).ai;
 const t = getDictionary(locale);
-const paths = pillarPaths('ai');
 
 const breadcrumbs = buildBreadcrumbs([
   { name: 'Accueil', url: `${Astro.site}/` },
-  { name: pillar.breadcrumb, url: `${Astro.site}${paths.fr}` },
+  { name: pillar.breadcrumb, url: `${Astro.site}${Astro.url.pathname}` },
 ]);
 ---
 
-<BaseLayout title={pillar.title} description={pillar.description} paths={paths}>
+<BaseLayout title={pillar.title} description={pillar.description}>
   {
     breadcrumbs && (
       <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />

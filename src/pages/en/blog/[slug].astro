@@ -4,8 +4,8 @@
  *
  * Reads from the English collection. French articles are not translated by
  * copying a file: each English article is its own document with its own slug and
- * its own publication date, which is why `paths` only declares the locale that
- * genuinely has a counterpart.
+ * its own publication date, paired with its French counterpart in the shared
+ * translation table.
  */
 import { getCollection, render } from 'astro:content';
 import type { GetStaticPaths } from 'astro';
@@ -70,7 +70,6 @@ const articleSchema = {
 <BaseLayout
   title={title}
   description={description}
-  paths={{ en: `/en/blog/${post.id}/` }}
   ogType="article"
   articleTimes={{ published: publishedAt, updated: updatedAt }}
 >

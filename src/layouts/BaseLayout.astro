@@ -5,9 +5,10 @@
  * Search tags are produced here from a single source, so a title or description
  * cannot drift between the `<head>` and the structured data.
  *
- * Locale handling lives here too. Each page passes its own translated paths for
- * both locales; the layout derives the canonical URL, the `hreflang` alternates
- * and the dictionary, so no page has to reason about it.
+ * Locale handling lives here too. The layout resolves the pair of URLs the page
+ * answers on from its own request path, which means a page cannot forget to
+ * declare its translation: the mapping is centralised in `@/i18n/routes` and
+ * shared with the sitemap.
  */
 import '@/styles/global.css';
 import '@/styles/components.css';
@@ -20,6 +21,8 @@ import {
   OG_LOCALES,
   toLocale,
   DEFAULT_LOCALE,
+  findRoutePair,
+  alternatePath,
   type Locale,
 } from '@/i18n';
 import Header from '@/components/Header.astro';
@@ -31,16 +34,13 @@ interface Props {
   /** Description shown in search results. */
   description: string;
   /**
-   * Path of this page in each locale, starting with a slash.
+   * Overrides the path the page is considered to live at.
    *
-   * Required rather than derived for indexable pages: URL segments are
-   * translated, so the layout cannot compute the counterpart of
-   * `/cloud-souverain/` on its own. Omit a locale when the page has no
-   * translation, and omit the whole prop on pages that are not translatable
-   * (an error page, for instance) — the layout then falls back to the actual
-   * request path.
+   * Rarely needed: the layout reads the request path and looks it up in the
+   * translation table. Set this only when the rendered path is not the canonical
+   * one — a paginated listing, for instance.
    */
-  paths?: Partial<Record<Locale, string>>;
+  path?: string;
   /** Certifications to declare in structured data. */
   certifications?: readonly string[];
   /** Prevents indexing, for utility pages. */
@@ -56,7 +56,7 @@ interface Props {
 const {
   title,
   description,
-  paths = {},
+  path = Astro.url.pathname,
   certifications = [],
   noindex = false,
   ogType = 'website',
@@ -67,16 +67,24 @@ const {
 const locale = toLocale(Astro.currentLocale) ?? DEFAULT_LOCALE;
 const t = getDictionary(locale);
 
-/**
- * Path of this page in the current locale.
- *
- * Falls back to the request path, which covers pages that declare no
- * translation pair: an error page still needs a canonical URL and a path for its
- * structured data, and the path it was rendered at is the correct answer.
- */
-const path = paths[locale] ?? Astro.url.pathname;
 const pageUrl = new URL(path, Astro.site).href;
-const alternateUrl = paths[locale === 'fr' ? 'en' : 'fr'] ?? null;
+
+/**
+ * The page's translation pair, looked up from the path.
+ *
+ * `null` means the page exists in one language only. It then gets a canonical
+ * URL and no `hreflang` at all, which is safer than pointing an alternate at a
+ * page that does not answer in that language.
+ */
+const pair = findRoutePair(path);
+const otherLocale: Locale = locale === 'fr' ? 'en' : 'fr';
+
+/**
+ * Target of the language switch, as a path rather than an absolute URL, so the
+ * visitor stays on the host they are on: a preview deployment must not send them
+ * to production.
+ */
+const switchHref = alternatePath(path, locale);
 
 /** Home pages carry their own full title; others get the company suffix. */
 const isHome = path === '/' || path === '/en/';
@@ -103,18 +111,16 @@ const structuredData = buildStructuredData({
     <link rel="canonical" href={pageUrl} />
 
     {
-      /* Reciprocal alternates. Each language points at its own translation and
-         at itself; a language that is absent is simply not declared, which is
-         safer than pointing hreflang at the wrong URL. */
-      Object.entries(HREFLANG).map(([code, hreflang]) => {
-        const target = paths[code as Locale];
-        return target ? (
-          <link rel="alternate" hreflang={hreflang} href={new URL(target, Astro.site).href} />
-        ) : null;
-      })
-    }
-    {
-      paths.fr && <link rel="alternate" hreflang="x-default" href={new URL(paths.fr, Astro.site).href} />
+      /* Reciprocal alternates, derived from the shared translation table. Each
+         language points at its own translation and at itself; x-default names
+         the French page, which is the site's primary language. */
+      pair && (
+        <>
+          <link rel="alternate" hreflang={HREFLANG.fr} href={new URL(pair.fr, Astro.site).href} />
+          <link rel="alternate" hreflang={HREFLANG.en} href={new URL(pair.en, Astro.site).href} />
+          <link rel="alternate" hreflang="x-default" href={new URL(pair.fr, Astro.site).href} />
+        </>
+      )
     }
 
     {noindex && <meta name="robots" content="noindex, nofollow" />}
@@ -126,8 +132,8 @@ const structuredData = buildStructuredData({
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:locale" content={OG_LOCALES[locale]} />
     {
-      alternateUrl && (
-        <meta property="og:locale:alternate" content={OG_LOCALES[locale === 'fr' ? 'en' : 'fr']} />
+      switchHref && (
+        <meta property="og:locale:alternate" content={OG_LOCALES[otherLocale]} />
       )
     }
     <meta property="og:title" content={fullTitle} />
@@ -166,7 +172,7 @@ const structuredData = buildStructuredData({
   </head>
   <body>
     <a class="skip-link" href="#main">{t.common.skipToContent}</a>
-    <Header t={t} locale={locale} alternateUrl={alternateUrl} />
+    <Header t={t} locale={locale} alternateUrl={switchHref} />
     <main id="main">
       <slot />
     </main>
