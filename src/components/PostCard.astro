@@ -1,0 +1,117 @@
+---
+/**
+ * Carte d'article, utilisée dans le listing du blog.
+ *
+ * L'article entier est cliquable : le titre seul offrirait une cible trop
+ * petite, et un lien imbriqué dans un autre lien n'est pas valide en HTML.
+ */
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, readingTime } from '@/utils/blog';
+
+interface Props {
+  /** Article à afficher. */
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, publishedAt, tags, summary } = post.data;
+const slug = post.id;
+const minutes = readingTime(post.body ?? '');
+---
+
+<li class="post-card">
+  <article class="post">
+    <p class="post-meta">
+      <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time>
+      <span class="post-sep" aria-hidden="true">·</span>
+      <span>{minutes} min de lecture</span>
+    </p>
+
+    <h2 class="post-title">
+      <a class="post-link" href={`/blog/${slug}/`}>{title}</a>
+    </h2>
+
+    <p class="post-description">{summary ?? description}</p>
+
+    {
+      tags.length > 0 && (
+        <ul class="tag-list">
+          {tags.map((tag) => (
+            <li class="tag">{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+  </article>
+</li>
+
+<style>
+  .post-card {
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .post {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 28px 0;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+  }
+
+  .post-sep {
+    color: var(--color-hairline);
+  }
+
+  .post-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.2vw, 1.625rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* Le lien couvre toute la carte : la zone cliquable n'est pas limitée au
+     texte du titre. */
+  .post-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .post-card {
+    position: relative;
+  }
+
+  .post-link {
+    color: var(--color-ivory);
+    transition: color 0.2s;
+  }
+
+  .post-card:hover .post-link {
+    color: var(--color-cyan);
+  }
+
+  .post-description {
+    margin: 0;
+    max-width: 78ch;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+
+  .post-card :global(.tag-list) {
+    margin-top: 2px;
+  }
+</style>
