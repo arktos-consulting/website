@@ -1,11 +1,11 @@
-# Dépendances
+# Dependencies
 node_modules/
 
-# Build
+# Build output
 dist/
 .astro/
 
-# Environnement
+# Environment
 .env
 .env.production
 

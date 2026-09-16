@@ -1,21 +1,21 @@
 ---
 /**
- * Titre de section avec libellé d'accroche et introduction optionnelle.
+ * Section heading with an overline label and an optional introduction.
  *
- * Le titre accepte un fragment mis en évidence, coloré en dégradé : c'est la
- * signature typographique du site, l'accent portant sur le mot qui porte
- * l'idée plutôt que sur le titre entier.
+ * The heading accepts a highlighted fragment, coloured with a gradient: it is
+ * the site's typographic signature, with the accent carrying the word that holds
+ * the idea rather than the whole heading.
  */
 interface Props {
-  /** Sur-titre en petites capitales. */
+  /** Small-caps overline. */
   eyebrow?: string;
-  /** Début du titre, en couleur pleine. */
+  /** Start of the heading, in full colour. */
   title: string;
-  /** Fin du titre, mise en évidence par le dégradé d'accent. */
+  /** End of the heading, highlighted with the accent gradient. */
   accent?: string;
-  /** Paragraphe d'introduction sous le titre. */
+  /** Introductory paragraph under the heading. */
   lede?: string;
-  /** Niveau de titre HTML, pour respecter la hiérarchie de la page. */
+  /** HTML heading level, to respect the page hierarchy. */
   level?: 'h1' | 'h2';
 }
 

@@ -1,11 +1,10 @@
 name: Deploy to GitHub Pages
 
-# Construit le site Astro et le publie sur GitHub Pages à chaque push sur main.
+# Builds the Astro site and publishes it to GitHub Pages on every push to main.
 #
-# Les contrôles de typage et de composants sont refaits ici, et pas seulement
-# dans le workflow de vérification qui tourne sur les pull requests : un commit
-# poussé directement sur main doit être vérifié avant publication, comme un
-# commit fusionné depuis une branche.
+# Type and component checks are run again here, and not only in the verification
+# workflow that runs on pull requests: a commit pushed directly to main must be
+# verified before publication, like a commit merged from a branch.
 
 on:
   push:

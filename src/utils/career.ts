@@ -1,10 +1,10 @@
 import { CAREER } from '@/consts';
 
 /**
- * Calcule le nombre d'années révolues écoulées depuis une date de carrière.
+ * Computes the number of full years elapsed since a career date.
  *
- * @param start Année et mois (1-12) de début de la période mesurée
- * @returns Le nombre d'années complètes écoulées depuis cette date
+ * @param start Year and month (1-12) when the measured period began
+ * @returns The number of complete years elapsed since that date
  */
 function yearsSince(start: { year: number; month: number }): number {
   const now = new Date();
@@ -18,27 +18,27 @@ function yearsSince(start: { year: number; month: number }): number {
 }
 
 /**
- * Années d'expérience professionnelle totale, calculées à l'exécution du build.
+ * Total years of professional experience, computed at build time.
  *
- * @returns Le nombre d'années d'expérience depuis la première mission
+ * @returns The number of years of experience since the first engagement
  */
 export function totalYears(): number {
   return yearsSince(CAREER.start);
 }
 
 /**
- * Années d'expérience Kubernetes, calculées à l'exécution du build.
+ * Years of Kubernetes experience, computed at build time.
  *
- * @returns Le nombre d'années de pratique Kubernetes
+ * @returns The number of years of Kubernetes practice
  */
 export function kubernetesYears(): number {
   return yearsSince(CAREER.kubernetesStart);
 }
 
 /**
- * Années d'activité en indépendant, calculées à l'exécution du build.
+ * Years of freelance activity, computed at build time.
  *
- * @returns Le nombre d'années depuis la première mission freelance
+ * @returns The number of years since the first freelance engagement
  */
 export function freelanceYears(): number {
   return yearsSince(CAREER.freelanceStart);

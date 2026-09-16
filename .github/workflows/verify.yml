@@ -1,11 +1,11 @@
 name: Verify
 
-# Vérifie le site à chaque pull request et sur chaque branche poussée.
+# Verifies the site on every pull request and on every pushed branch.
 #
-# Ce workflow est distinct de celui de déploiement : une vérification doit
-# tourner sur une PR avant fusion, pas seulement après un push sur main. Le
-# déploiement refait ses propres contrôles de son côté, pour qu'un commit
-# arrivant directement sur main ne puisse jamais être publié sans être vérifié.
+# This workflow is separate from the deployment one: a verification must run on
+# a PR before merge, not only after a push to main. The deployment re-runs its
+# own checks on its side, so that a commit arriving directly on main can never
+# be published without being verified.
 
 on:
   pull_request:
