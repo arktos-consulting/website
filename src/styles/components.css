@@ -51,6 +51,19 @@
   color: var(--color-cyan);
 }
 
+/* Bouton à la couleur du partenaire AWS. Texte en encre sur l'orange : 9,5:1,
+   conforme AAA. Un texte clair sur cet orange tomberait à 1,9:1. */
+.btn-aws {
+  background-color: var(--color-aws);
+  color: var(--color-ink);
+  box-shadow: 0 6px 24px color-mix(in srgb, var(--color-aws) 28%, transparent);
+}
+
+.btn-aws:hover {
+  background-color: color-mix(in srgb, var(--color-aws) 88%, white);
+  box-shadow: 0 12px 36px color-mix(in srgb, var(--color-aws) 40%, transparent);
+}
+
 .btn-sm {
   padding: 10px 18px;
   font-size: 0.875rem;

@@ -50,11 +50,16 @@
   --color-ivory: #eef2ff;
   --color-muted: #8f97bd;
 
-  /* Accents (issus du logo) */
+  /* Accents (issus du logo Arktos) */
   --color-violet: #7884fc;
   --color-azure: #48b4f0;
   --color-cyan: #30d8e4;
+
+  /* Orange AWS : couleur de marque du partenaire, reprise de la palette
+     Cloud Partners. Réservée aux éléments qui parlent du partenariat, pour ne
+     pas la diluer dans le reste des accents. */
   --color-aws: #ff9900;
+  --color-aws-dim: #ff990026;
 
   /* Typographie */
   --font-sans: "Inter Variable", system-ui, -apple-system, "Segoe UI", sans-serif;

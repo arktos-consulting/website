@@ -24,30 +24,15 @@ const breadcrumbs = buildBreadcrumbs([
 const scope = [
   {
     title: 'Exploitation quotidienne',
-    items: [
-      'Clusters EKS et charges de travail, mises à jour de versions',
-      'Cycle de vie des images, politiques de déploiement, rollbacks',
-      'Gestion des certificates, secrets et accès',
-      'Revue périodique des journaux et des alertes',
-    ],
+    items: ['Clusters EKS et mises à jour', 'Cycle de vie des images et rollbacks', 'Secrets, certificats et accès'],
   },
   {
     title: 'Supervision & incidents',
-    items: [
-      'Métriques, journaux et tableaux de bord exploitables',
-      'Alerting utile, sans fatigue d’alerte',
-      'Diagnostic et résolution des incidents de production',
-      'Retour d’expérience écrit après chaque incident notable',
-    ],
+    items: ['Métriques, journaux et tableaux de bord', 'Alerting sans fatigue d’alerte', 'Diagnostic et résolution des incidents'],
   },
   {
     title: 'Fiabilité & coûts',
-    items: [
-      'Objectifs de niveau de service définis avec vous',
-      'Dimensionnement et politiques d’autoscaling',
-      'Suivi de la facture AWS et détection des dérives',
-      'Durcissement continu de la configuration',
-    ],
+    items: ['Objectifs de service définis avec vous', 'Dimensionnement et autoscaling', 'Suivi de la facture AWS'],
   },
 ] as const;
 
@@ -84,7 +69,7 @@ const commitments = [
         level="h1"
         title="J’exploite la plateforme"
         accent="que vous ne voulez plus porter seul."
-        lede="Vous gardez vos équipes produit, je prends en charge l’exploitation : supervision, mises à jour, incidents et maîtrise des coûts. Le périmètre et les engagements sont écrits avant de commencer."
+        lede="Vous gardez vos équipes produit, je prends en charge l’exploitation : supervision, mises à jour, incidents et coûts."
       />
       <div class="hero-actions">
         <a class="btn btn-primary" href="#contact">Discuter du périmètre</a>
@@ -126,7 +111,6 @@ const commitments = [
         eyebrow="Engagements"
         title="Cadre de"
         accent="l’intervention."
-        lede="Une infogérance sans périmètre écrit se transforme en disponibilité floue. Ces éléments sont donc contractualisés dès le départ et ajustés à la criticité de votre plateforme."
       />
       <dl class="commitment-grid">
         {
@@ -147,29 +131,26 @@ const commitments = [
         eyebrow="Pourquoi moi"
         title="Exploiter, c’est connaître"
         accent="les décisions d’architecture."
-        lede="Les incidents se résolvent plus vite quand celui qui intervient a conçu la plateforme, ou comprend pourquoi elle est faite ainsi. C’est l’intérêt de confier le conseil et l’exploitation à la même personne."
       />
       <ul class="reason-grid">
         <li class="reason">
           <h3 class="reason-title">Une seule personne sur le pont</h3>
           <p class="reason-body">
-            Pas de rotation d’équipe, pas de passation entre un architecte et un
-            exploitant qui ne se sont jamais parlé. Le contexte technique reste
-            dans une seule tête.
+            Pas de rotation ni de passation entre un architecte et un exploitant
+            qui ne se sont jamais parlé.
           </p>
         </li>
         <li class="reason">
           <h3 class="reason-title">Le code et l’infrastructure ensemble</h3>
           <p class="reason-body">
-            Je développe aussi. Quand un incident vient du code ou de
-            l’industrialisation, la frontière ne bloque pas la résolution.
+            Je développe aussi : un incident venu du code ne reste pas bloqué à
+            la frontière.
           </p>
         </li>
         <li class="reason">
           <h3 class="reason-title">Un coût qui reste explicable</h3>
           <p class="reason-body">
-            La facture AWS est suivie et commentée, pas seulement payée. Une
-            dérive de coût se traite avant de devenir structurelle.
+            La facture AWS est suivie et commentée, pas seulement payée.
           </p>
         </li>
       </ul>

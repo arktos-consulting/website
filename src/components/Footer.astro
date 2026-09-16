@@ -48,6 +48,9 @@ import { SITE, PROFILES, NAV_LINKS } from '@/consts';
               </li>
             ))
           }
+          <li>
+            <a href="/blog/rss.xml">Flux RSS</a>
+          </li>
         </ul>
       </nav>
 
@@ -79,7 +82,7 @@ import { SITE, PROFILES, NAV_LINKS } from '@/consts';
 
     <div class="footer-legal">
       <p>
-        &copy; {new Date().getFullYear()} {SITE.legalName} — {SITE.legalForm} au capital de
+        &copy; {new Date().getFullYear()} {SITE.name} · {SITE.legalForm} au capital de{' '}
         {SITE.shareCapital} · SIRET {SITE.siret}
       </p>
       <ul class="footer-legal-links">

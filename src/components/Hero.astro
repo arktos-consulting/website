@@ -7,19 +7,16 @@
  * « que faites-vous et pour qui ? », ce que les moteurs de réponse extraient
  * avant le reste du contenu.
  */
-import { SITE, PROFILES } from '@/consts';
-import { totalYears, kubernetesYears, freelanceYears } from '@/utils/career';
+import { totalYears, kubernetesYears } from '@/utils/career';
 import { CLIENT_LOGOS } from '@/data/content';
 
 const years = totalYears();
 const k8sYears = kubernetesYears();
-const independentYears = freelanceYears();
 
 const stats = [
-  { value: `${years}`, label: "années d'expérience", note: `dont ${independentYears} en indépendant` },
-  { value: `${k8sYears}`, label: 'ans sur Kubernetes', note: 'EKS, Azure, cloud privé' },
-  { value: '300+', label: 'clusters opérés', note: 'parc SNCF, en équipe' },
-  { value: '800+', label: 'microservices', note: 'plateformes SaaS et industrielles' },
+  { value: `${years}`, label: "ans d'expérience" },
+  { value: `${k8sYears}`, label: 'ans sur Kubernetes' },
+  { value: '300+', label: 'clusters opérés' },
 ] as const;
 ---
 
@@ -33,10 +30,10 @@ const stats = [
         <span class="accent">votre plateforme cloud.</span>
       </h1>
       <p class="lede hero-lede">
-        Conseil et infogérance AWS/Kubernetes pour des plateformes qui doivent tenir en
-        production. {years} ans d’expérience, dont {independentYears} en indépendant,
-        auprès de Bpifrance, SNCF, Doctolib, Canal+ et Yseop. Vous travaillez
-        directement avec la personne qui conçoit et exploite votre plateforme.
+        Audit d’architecture, gouvernance multi-comptes, plans FinOps. Exploitation de
+        clusters EKS, supervision, incidents, mises à jour. Agents LLM et automatisation
+        sur vos données métier. Conception et construction de services managés pour un
+        cloud souverain.
       </p>
 
       <div class="hero-actions">
@@ -46,11 +43,6 @@ const stats = [
           <span aria-hidden="true">→</span>
         </a>
       </div>
-
-      <p class="hero-note">
-        Basé à {SITE.city}, intervention partout en France et en Europe ·
-        <a href={PROFILES.meetup} target="_blank" rel="noopener">Co-organisateur du Meetup AWS Lyon</a>
-      </p>
     </div>
 
     <dl class="hero-stats">
@@ -58,10 +50,7 @@ const stats = [
         stats.map((stat) => (
           <div class="stat">
             <dt class="stat-value">{stat.value}</dt>
-            <dd class="stat-body">
-              <span class="stat-label">{stat.label}</span>
-              <span class="stat-note">{stat.note}</span>
-            </dd>
+            <dd class="stat-label">{stat.label}</dd>
           </div>
         ))
       }
@@ -135,25 +124,14 @@ const stats = [
     margin-top: 8px;
   }
 
-  .hero-note {
-    margin: 4px 0 0;
-    font-size: 0.875rem;
-    color: var(--color-muted);
-  }
-
-  .hero-note a {
-    color: var(--color-cyan);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  /* Preuves chiffrées : filet supérieur, gros chiffre, libellé en dessous */
+  /* Preuves chiffrées : filet supérieur, gros chiffre, libellé en dessous.
+     Trois chiffres seulement, sur une colonne : la colonne latérale reste
+     étroite et le hero garde la même hauteur que le titre. */
   .hero-stats {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
     margin: 0;
-    padding-top: 8px;
   }
 
   .stat {
@@ -170,23 +148,10 @@ const stats = [
     color: var(--color-cyan);
   }
 
-  .stat-body {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    margin: 10px 0 0;
-  }
-
   .stat-label {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--color-ivory);
-  }
-
-  .stat-note {
-    font-size: 0.8125rem;
+    margin: 8px 0 0;
+    font-size: 0.875rem;
     color: var(--color-muted);
-    line-height: 1.5;
   }
 
   /* Bandeau de logos clients */
@@ -205,29 +170,42 @@ const stats = [
     color: var(--color-muted);
   }
 
+  /* Rangée de logos : les sept marques se répartissent la largeur disponible à
+     parts égales, chacune centrée dans sa colonne. La grille plutôt que le flex
+     garantit que la rangée occupe toute la largeur même quand un logo est plus
+     court que les autres. */
   .logo-list {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     align-items: center;
-    gap: clamp(24px, 4vw, 56px);
+    gap: clamp(16px, 3vw, 40px);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .logo-item img {
-    height: 26px;
-    width: auto;
-    opacity: 0.62;
-    filter: grayscale(1) brightness(1.6);
-    transition:
-      opacity 0.25s,
-      filter 0.25s;
+  .logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
   }
 
-  .logo-item img:hover {
+  /* Les logos sont des silhouettes blanches à des ratios très différents
+     (de 1,9 à 5,9). On plafonne la hauteur et la largeur pour qu'aucune marque
+     n'écrase les autres, en conservant leurs proportions. */
+  .logo-item img {
+    height: auto;
+    width: auto;
+    max-height: 26px;
+    max-width: 100%;
+    object-fit: contain;
+    opacity: 0.72;
+    transition: opacity 0.25s;
+  }
+
+  .logo-item:hover img {
     opacity: 1;
-    filter: grayscale(0) brightness(1);
   }
 
   @media (max-width: 1000px) {
@@ -235,9 +213,31 @@ const stats = [
       grid-template-columns: 1fr;
       gap: 48px;
     }
+
+    /* En dessous de sept colonnes, une grille laisserait la dernière ligne
+       orpheline et alignée à gauche. Un flex centré répartit les logos
+       restants au milieu, ce qui reste équilibré quel que soit leur nombre. */
+    .logo-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 22px 28px;
+    }
+
+    .logo-item {
+      flex: 0 1 auto;
+    }
   }
 
   @media (max-width: 560px) {
+    .logo-list {
+      gap: 18px 24px;
+    }
+
+    .logo-item img {
+      max-height: 21px;
+    }
+
     .hero-stats {
       grid-template-columns: 1fr;
       gap: 22px;

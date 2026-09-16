@@ -1,7 +1,11 @@
 ---
 /**
- * Aperçu des références : les missions servent de preuve technique, avec le
- * détail des technologies plutôt que des noms de clients mis en avant.
+ * Aperçu des références sur la page d'accueil.
+ *
+ * En mode compact, seuls le client, la période et le titre sont affichés : le
+ * détail technique et les étiquettes vivent sur `/references/`. Une page
+ * d'accueil n'a pas à reproduire le contenu d'une page dédiée, elle doit donner
+ * envie d'aller la lire.
  */
 import { MISSIONS } from '@/data/content';
 import SectionHeading from '@/components/SectionHeading.astro';
@@ -9,9 +13,11 @@ import SectionHeading from '@/components/SectionHeading.astro';
 interface Props {
   /** Nombre de missions à afficher ; toutes si omis. */
   limit?: number;
+  /** Réduit chaque mission à son client, sa période et son titre. */
+  compact?: boolean;
 }
 
-const { limit } = Astro.props;
+const { limit, compact = false } = Astro.props;
 const displayed = limit ? MISSIONS.slice(0, limit) : MISSIONS;
 ---
 
@@ -21,34 +27,48 @@ const displayed = limit ? MISSIONS.slice(0, limit) : MISSIONS;
       eyebrow="Références"
       title="Des missions dont"
       accent="le détail technique est public."
-      lede="Les missions longues chez Bpifrance, SNCF, Doctolib, Canal+ et Yseop sont nommées. Ce qui compte pour juger un travail d’infrastructure reste toutefois le détail : contexte, contraintes, technologies."
+      lede={compact
+        ? 'Bpifrance, SNCF, Doctolib, Canal+, Yseop. Le détail de chaque mission est sur la page Références.'
+        : undefined}
     />
 
-    <ul class="mission-grid">
-      {
-        displayed.map((mission) => (
-          <li class="card mission-card">
-            <p class="mission-client">
-              {mission.client ?? mission.clientType}
+    {
+      compact ? (
+        <ul class="mission-compact">
+          {displayed.map((mission) => (
+            <li class="mission-row">
+              <span class="mission-client">{mission.client ?? mission.clientType}</span>
+              <span class="mission-title">{mission.title}</span>
               <span class="mission-period">{mission.period}</span>
-            </p>
-            <h3 class="card-title text-display-sm">{mission.title}</h3>
-            <p class="card-text">{mission.description}</p>
-            <ul class="tag-list">
-              {mission.tags.map((tag) => (
-                <li class="tag">{tag}</li>
-              ))}
-            </ul>
-          </li>
-        ))
-      }
-    </ul>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <ul class="mission-grid">
+          {displayed.map((mission) => (
+            <li class="card mission-card">
+              <p class="mission-client">
+                {mission.client ?? mission.clientType}
+                <span class="mission-period">{mission.period}</span>
+              </p>
+              <h3 class="card-title text-display-sm">{mission.title}</h3>
+              <p class="card-text">{mission.description}</p>
+              <ul class="tag-list">
+                {mission.tags.map((tag) => (
+                  <li class="tag">{tag}</li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      )
+    }
 
     {
       limit && limit < MISSIONS.length && (
         <p class="missions-more">
-          <a class="btn btn-ghost" href="/references/">
-            Voir les {MISSIONS.length} missions
+          <a class="btn btn-ghost btn-sm" href="/references/">
+            Les {MISSIONS.length} missions
             <span aria-hidden="true">→</span>
           </a>
         </p>
@@ -58,6 +78,43 @@ const displayed = limit ? MISSIONS.slice(0, limit) : MISSIONS;
 </section>
 
 <style>
+  /* Mode compact : une ligne par mission, client et annee a gauche, titre au
+     centre. Beaucoup plus dense qu'une grille de cartes. */
+  .mission-compact {
+    display: flex;
+    flex-direction: column;
+    margin: clamp(32px, 4vw, 48px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .mission-row {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr) auto;
+    gap: 6px 24px;
+    align-items: baseline;
+    padding: 16px 0;
+    border-top: 1px solid var(--color-hairline);
+    transition: border-color 0.2s;
+  }
+
+  .mission-row:last-child {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .mission-row:hover {
+    border-color: color-mix(in srgb, var(--color-cyan) 35%, transparent);
+  }
+
+  .mission-title {
+    font-family: var(--font-display);
+    font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: var(--color-ivory);
+  }
+
   .mission-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -68,25 +125,38 @@ const displayed = limit ? MISSIONS.slice(0, limit) : MISSIONS;
   }
 
   .mission-client {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 10px;
-    margin: 0;
     font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-violet);
   }
 
   .mission-period {
+    font-size: 0.75rem;
+    font-weight: 600;
     letter-spacing: 0.06em;
     color: var(--color-muted);
-    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .card .mission-client {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
   }
 
   .missions-more {
-    margin: 40px 0 0;
+    margin: 32px 0 0;
+  }
+
+  @media (max-width: 800px) {
+    .mission-row {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
   }
 </style>
+

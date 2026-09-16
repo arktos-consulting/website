@@ -2,11 +2,12 @@
 /**
  * Questions fréquentes.
  *
- * Les questions portent sur les points qui bloquent réellement une décision
- * d'achat : délais, périmètre, facturation, fin de mission. C'est le format que
- * les moteurs de réponse extraient le plus fiablement, et il est déclaré en
- * `FAQPage` dans le layout : les réponses visibles et le balisage doivent donc
- * correspondre mot pour mot.
+ * Quatre questions seulement, celles qui bloquent réellement une décision
+ * d'achat : démarrage, délais, facturation, fin de mission. Les questions plus
+ * rares sont mieux placées dans une conversation que sur une page d'accueil.
+ *
+ * Ce bloc est déclaré en `FAQPage` dans le layout à partir de la même source :
+ * le balisage et les réponses visibles ne peuvent donc pas diverger.
  */
 import { FAQ } from '@/data/content';
 import SectionHeading from '@/components/SectionHeading.astro';
@@ -16,9 +17,8 @@ import SectionHeading from '@/components/SectionHeading.astro';
   <div class="container faq-layout">
     <SectionHeading
       eyebrow="Questions fréquentes"
-      title="Ce qu’on me demande"
-      accent="avant de démarrer."
-      lede="Si votre question n’est pas ici, écrivez-moi : la réponse vous sera utile, et elle rejoindra probablement cette liste."
+      title="Avant de"
+      accent="démarrer."
     />
 
     <div class="faq-list">

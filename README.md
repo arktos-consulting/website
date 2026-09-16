@@ -45,18 +45,51 @@ le justifiera — l'activer ajouterait environ 200 Ko de JavaScript par page.
 ```
 src/
   consts.ts              identité, coordonnées, repères de carrière, navigation
+  content.config.ts      schéma de la collection d'articles
+  content/blog/          articles en Markdown
   data/content.ts        contenu éditorial (prestations, missions, FAQ)
   utils/career.ts        calcul des années d'expérience
+  utils/blog.ts          dates, temps de lecture, récupération des articles
   utils/seo.ts           graphe JSON-LD et fil d'Ariane
   layouts/BaseLayout.astro
-  components/            entête, sections, pied de page
-  pages/                 accueil, conseil, infogérance, références, mentions légales
+  components/            entête, sections, cartes d'article, pied de page
+  pages/                 accueil, conseil, cloud souverain, IA, infogérance,
+                         blog, références, 404, mentions légales
 public/
-  images/                logos clients (optimisés), logo.svg, image de partage
+  images/                logos clients (silhouettes), logo.svg, image de partage
   fonts/                 sous-ensembles latins d'Inter et Sora
   files/cv.pdf
   robots.txt
 ```
+
+## Publier un article
+
+Créer un fichier Markdown dans `src/content/blog/`. Le nom du fichier devient
+l'URL : `src/content/blog/mon-sujet.md` est publié sur `/blog/mon-sujet/`.
+
+```markdown
+---
+title: "Titre de l'article"
+description: "Résumé d'une phrase, utilisé dans le listing et les métadonnées."
+publishedAt: 2026-09-08
+updatedAt: 2026-10-01        # facultatif
+tags: ["AWS", "FinOps"]
+summary: "Paragraphe d'accroche affiché en tête d'article."
+draft: false                 # true pour garder l'article hors ligne
+---
+
+Le contenu en Markdown. Les titres `##` alimentent la table des matières.
+```
+
+Le schéma de `src/content.config.ts` valide le frontmatter au build : une date
+mal formée ou un `description` manquant fait échouer la construction plutôt que
+de produire une page cassée en production.
+
+Ajouter un article le publie automatiquement dans le listing, le flux RSS, le
+plan du site, les métadonnées Open Graph et le balisage `BlogPosting`. Rien
+d'autre à modifier.
+
+Les brouillons (`draft: true`) sont exclus du listing, du RSS et du sitemap.
 
 ## Conventions de contenu
 

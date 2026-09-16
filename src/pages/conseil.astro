@@ -3,8 +3,8 @@
  * Page pilier « Conseil ».
  *
  * Elle répond aux requêtes commerciales du conseil cloud : audit, architecture,
- * gouvernance, FinOps. La structure est volontairement factuelle et directe,
- * chaque section commençant par la réponse avant de la détailler.
+ * gouvernance, FinOps. Le déroulé tient en une ligne par étape : un process se
+ * survole, il ne se lit pas au mot près.
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
@@ -25,32 +25,24 @@ const breadcrumbs = buildBreadcrumbs([
 /** Déroulé d'une mission de conseil, du premier échange à la passation. */
 const phases = [
   {
-    step: '01',
     title: 'Cadrage',
     duration: '1 à 2 jours',
-    detail:
-      "Un échange sur votre objectif réel, vos contraintes et l'état actuel de la plateforme. À la fin, vous savez si un audit est nécessaire — parfois il ne l'est pas.",
+    detail: 'Un échange sur votre objectif. Vous savez à la fin si un audit est utile.',
   },
   {
-    step: '02',
     title: 'Audit',
     duration: '1 à 3 semaines',
-    detail:
-      "Analyse de l'architecture, de la sécurité, des coûts et des pratiques d'exploitation. Chaque constat est accompagné de son impact et de son ordre de priorité.",
+    detail: 'Architecture, sécurité, coûts et pratiques d’exploitation, par ordre de priorité.',
   },
   {
-    step: '03',
     title: 'Conception',
     duration: 'variable',
-    detail:
-      "Proposition d'architecture argumentée : options envisagées, arbitrages retenus, coût estimé. Vous validez les décisions avant que quoi que ce soit soit construit.",
+    detail: 'Options, arbitrages et coût estimé. Vous validez avant toute construction.',
   },
   {
-    step: '04',
     title: 'Mise en œuvre et passation',
     duration: 'selon périmètre',
-    detail:
-      "Implémentation avec vos équipes, documentation et formation au run. L'objectif est que vous puissiez reprendre la main sans moi.",
+    detail: 'Implémentation, documentation et formation. Vous reprenez la main.',
   },
 ] as const;
 
@@ -60,27 +52,24 @@ const domains = [
     title: 'Architecture & scalabilité',
     items: [
       'Conception ou revue d’architecture AWS',
-      'Découpage en comptes et isolation des environnements',
+      'Découpage en comptes et isolation',
       'Migration et chemins de réversibilité',
-      'Choix entre serverless, conteneurs et instances',
     ],
   },
   {
     title: 'Sécurité & conformité',
     items: [
       'IAM, rôles fédérés et moindre privilège',
-      'Gouvernance multi-comptes : Organizations, SCP, Firewall Manager',
-      'Durcissement Kubernetes : politiques réseau, admission control',
-      'Exigences réglementaires : traçabilité, données sensibles',
+      'Gouvernance multi-comptes : Organizations, SCP',
+      'Durcissement Kubernetes et exigences réglementaires',
     ],
   },
   {
     title: 'FinOps & exploitation',
     items: [
       'Analyse de la facture et postes de dérive',
-      'Dimensionnement et politiques d’autoscaling',
-      'Définition des standards d’exploitation',
-      'Indicateurs de fiabilité et objectifs de service',
+      'Dimensionnement et autoscaling',
+      'Standards d’exploitation et objectifs de service',
     ],
   },
 ] as const;
@@ -105,7 +94,7 @@ const domains = [
         level="h1"
         title="Auditer, concevoir, puis"
         accent="vous rendre autonome."
-        lede={`J'interviens sur des plateformes AWS et Kubernetes quand les décisions d'architecture doivent être tranchées, argumentées et assumées. ${years} ans d'expérience sur des parcs allant de quelques services à plus de 800 microservices.`}
+        lede={`J'interviens quand les décisions d'architecture doivent être tranchées et assumées. ${years} ans d'expérience, de quelques services à plus de 800 microservices.`}
       />
       <div class="hero-actions">
         <a class="btn btn-primary" href="#contact">Discuter de votre besoin</a>
@@ -146,23 +135,17 @@ const domains = [
       <SectionHeading
         eyebrow="Déroulé"
         title="Quatre étapes,"
-        accent="un périmètre écrit à chaque fois."
-        lede="Le déroulé s’adapte à la maturité de votre plateforme. Ce qui ne varie pas : vous savez ce qui est livré et à quel moment."
+        accent="un périmètre écrit."
       />
       <ol class="phase-list">
         {
           phases.map((phase) => (
             <li class="phase">
-              <span class="phase-step" aria-hidden="true">
-                {phase.step}
-              </span>
-              <div class="phase-body">
-                <div class="phase-head">
-                  <h3 class="phase-title">{phase.title}</h3>
-                  <span class="phase-duration">{phase.duration}</span>
-                </div>
-                <p class="phase-detail">{phase.detail}</p>
+              <div class="phase-head">
+                <h3 class="phase-title">{phase.title}</h3>
+                <span class="phase-duration">{phase.duration}</span>
               </div>
+              <p class="phase-detail">{phase.detail}</p>
             </li>
           ))
         }
@@ -180,24 +163,15 @@ const domains = [
       <ul class="proof-list">
         <li class="proof">
           <span class="proof-value">300+</span>
-          <span class="proof-text">
-            clusters Kubernetes dans le parc du groupe SNCF, dont j’ai conçu et
-            dirigé la construction de services managés sur le cloud privé.
-          </span>
+          <span class="proof-text">clusters Kubernetes, parc SNCF, cloud privé</span>
         </li>
         <li class="proof">
           <span class="proof-value">800+</span>
-          <span class="proof-text">
-            microservices sur Azure et Kubernetes chez Seiitra, avec un plan
-            d’action FinOps et des standards d’exploitation réutilisables.
-          </span>
+          <span class="proof-text">microservices Azure/Kubernetes, Seiitra</span>
         </li>
         <li class="proof">
           <span class="proof-value">90+</span>
-          <span class="proof-text">
-            microservices Go que je conçois et exploite sur Hartza Capital, ma
-            propre plateforme d’analyse de marchés financiers.
-          </span>
+          <span class="proof-text">microservices Go, ma plateforme Hartza Capital</span>
         </li>
       </ul>
     </div>
@@ -238,29 +212,12 @@ const domains = [
   }
 
   .phase {
-    display: flex;
-    gap: clamp(20px, 3vw, 40px);
-    padding: 28px 0;
+    padding: 24px 0;
     border-top: 1px solid var(--color-hairline);
   }
 
   .phase:last-child {
     border-bottom: 1px solid var(--color-hairline);
-  }
-
-  .phase-step {
-    flex-shrink: 0;
-    font-family: var(--font-display);
-    font-size: 0.875rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--color-violet);
-    padding-top: 4px;
-  }
-
-  .phase-body {
-    flex: 1;
-    min-width: 0;
   }
 
   .phase-head {
