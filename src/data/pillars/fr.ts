@@ -23,8 +23,8 @@ const fr: PillarBundle = {
     },
     cta: {
       primary: 'Discuter de votre besoin',
-      secondary: 'Voir aussi le cloud souverain',
-      secondaryHref: '/cloud-souverain/',
+      secondary: 'Voir aussi le software sur-mesure',
+      secondaryHref: '/#prestations',
     },
     scope: {
       eyebrow: 'Périmètre',
@@ -100,107 +100,9 @@ const fr: PillarBundle = {
     ],
   },
 
-  sovereignCloud: {
-    slug: 'cloud-souverain',
-    title: 'Cloud souverain — concevoir et exploiter',
-    description:
-      'Cloud souverain : conception et construction de services managés internes, chemins de réversibilité, exploitation d’un cloud privé Kubernetes. Freelance senior basé à Lyon.',
-    breadcrumb: 'Cloud souverain',
-    hero: {
-      eyebrow: 'Cloud souverain',
-      title: 'Concevoir, construire et exploiter',
-      accent: 'votre cloud interne.',
-      lede:
-        'Du service managé interne à la sortie d’un hyperscaler : je conçois les briques, je dirige leur construction, puis je les exploite. Sur un cloud privé Kubernetes, avec les mêmes standards qu’un grand groupe.',
-    },
-    cta: {
-      primary: 'Discuter de votre projet',
-      secondary: 'Voir aussi le conseil',
-      secondaryHref: '/conseil/',
-    },
-    approach: {
-      eyebrow: 'Approche',
-      title: 'Trois temps,',
-      accent: 'un seul interlocuteur.',
-    },
-    phases: [
-      {
-        step: '01',
-        title: 'Concevoir',
-        detail:
-          'Définir les services que votre cloud interne doit offrir, et à quelles équipes. Choix des briques, modèle de responsabilité, isolation des environnements, politique d’accès.',
-        items: [
-          'Cartographie des besoins et des services à exposer',
-          'Modèle de responsabilité entre la plateforme et les équipes',
-          'Isolation réseau, cloisonnement des comptes et des projets',
-          'Dossier d’architecture et décisions documentées',
-        ],
-      },
-      {
-        step: '02',
-        title: 'Construire',
-        detail:
-          'Implémenter les services managés internes et industrialiser leur mise à disposition. C’est le travail réalisé sur le cloud privé d’un opérateur ferroviaire national : des services équivalents à Fargate, RDS ou Secret Manager, utilisables en libre-service.',
-        items: [
-          'Services conteneurisés auto-servis pour les équipes produit',
-          'Bases de données managées et coffre de secrets',
-          'Industrialisation complète en IaC, GitOps et CI/CD',
-          'Montée en compétence des équipes qui reprennent l’exploitation',
-        ],
-      },
-      {
-        step: '03',
-        title: 'Exploiter',
-        detail:
-          'Faire tourner la plateforme dans la durée : supervision, mises à jour, gestion des incidents et maîtrise des coûts. Une plateforme interne se dégrade vite quand personne n’en a la charge explicite.',
-        items: [
-          'Supervision, alerting et tableaux de bord exploitables',
-          'Gestion des versions, des certificats et des accès',
-          'Gestion des incidents et retours d’expérience écrits',
-          'Suivi des coûts et optimisation continue',
-        ],
-      },
-    ],
-    triggersHeading: {
-      eyebrow: 'Quand m’appeler',
-      title: 'Trois situations',
-      accent: 'où j’interviens.',
-    },
-    triggers: [
-      {
-        title: 'Vous construisez un cloud interne',
-        body: 'Plusieurs équipes redéploient les mêmes briques. Il faut des services partagés, avec un modèle de responsabilité clair.',
-      },
-      {
-        title: 'Vous devez réduire une dépendance',
-        body: 'Réversibilité, directives internes ou exigences réglementaires : la sortie d’un hyperscaler se prépare avant d’être subie.',
-      },
-      {
-        title: 'Vous héritez d’une plateforme',
-        body: 'Le cloud privé existe déjà mais personne ne sait qui l’exploite. Reprise en main, documentation, puis transfert de charge.',
-      },
-    ],
-    caseHeading: {
-      eyebrow: 'Référence',
-      title: 'Le cloud privé',
-      accent: 'd’un opérateur ferroviaire national.',
-    },
-    caseParagraphs: [
-      'Au sein de l’équipe responsable d’un parc de plus de 300 clusters Kubernetes, j’ai participé à l’initiative de cloud privé du groupe, avec la responsabilité de concevoir et de diriger la construction des services managés : conteneurs auto-servis, bases de données, coffre de secrets.',
-      'Ces briques ont ensuite alimenté des contributions open source et des usages internes inédits pour le groupe. Le travail comprenait autant la conception technique que la coordination des équipes qui allaient exploiter la plateforme.',
-    ],
-    caseTags: [
-      'Kubernetes',
-      'Cloud privé',
-      'Services managés',
-      'Open source',
-      'Plateforme interne',
-    ],
-  },
-
   ai: {
     slug: 'ia',
-    title: 'IA appliquée — agents LLM et automatisation',
+    title: 'IA appliquée: agents LLM et automatisation',
     description:
       'IA appliquée en entreprise : agents LLM connectés à vos données, extraction documentaire, recherche dans vos archives, industrialisation MLOps et maîtrise des coûts. Freelance à Lyon.',
     breadcrumb: 'IA appliquée',

@@ -89,8 +89,8 @@ const switchHref = alternatePath(path, locale);
 /** Home pages carry their own full title; others get the company suffix. */
 const isHome = path === '/' || path === '/en/';
 const fullTitle = isHome
-  ? `${SITE.name} — ${t.hero.eyebrow}`
-  : `${title} — ${SITE.name}`;
+  ? `${SITE.name}: ${t.hero.eyebrow}`
+  : `${title}: ${SITE.name}`;
 
 const structuredData = buildStructuredData({
   pageUrl,
@@ -177,5 +177,38 @@ const structuredData = buildStructuredData({
       <slot />
     </main>
     <Footer t={t} locale={locale} />
+
+    {/* Scroll reveal: IntersectionObserver toggles `.is-visible` on every
+        element carrying `data-reveal`. Inline so it cannot be tree-shaken
+        away and so there is no extra request. Runs once on load and covers
+        everything on the page, including content that does not exist yet. */}
+    <script is:inline>
+      (() => {
+        const reduceMotion = window.matchMedia(
+          '(prefers-reduced-motion: reduce)',
+        ).matches;
+        const mark = (el) => el.classList.add('is-visible');
+        const targets = document.querySelectorAll('[data-reveal]');
+
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+          targets.forEach(mark);
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                mark(entry.target);
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
+        );
+
+        targets.forEach((el) => observer.observe(el));
+      })();
+    </script>
   </body>
 </html>

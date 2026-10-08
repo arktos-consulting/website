@@ -33,7 +33,6 @@ const en: Dictionary = {
     languageSwitch: 'Switch language',
     links: [
       { href: '/en/consulting/', label: 'Consulting' },
-      { href: '/en/sovereign-cloud/', label: 'Sovereign cloud' },
       { href: '/en/ai/', label: 'AI' },
       { href: '/en/managed-services/', label: 'Managed services' },
       { href: '/en/blog/', label: 'Blog' },
@@ -42,21 +41,19 @@ const en: Dictionary = {
   },
 
   hero: {
-    metaTitle: 'AWS, Kubernetes & Platform Engineering Consultant in Lyon',
+    metaTitle: 'Independent AWS consultant, Kubernetes & Platform Engineering in Lyon',
     metaDescription:
-      'Independent AWS and Kubernetes consultant in Lyon: architecture reviews, sovereign cloud, LLM agents and automation, EKS operations and cost control.',
-    eyebrow: 'AWS & Kubernetes consultant · Lyon, France',
-    titleLead: 'I run and harden',
-    titleAccent: 'your cloud platform.',
+      'Independent AWS expert in Lyon: architecture reviews, sovereign cloud, LLM agents and automation, EKS operations and cost control.',
+    eyebrow: 'Independent AWS expert · Lyon, France',
+    titleLead: 'An AWS expert dedicated',
+    titleAccent: 'to your platform.',
     lede:
-      'Architecture reviews, multi-account governance, FinOps programmes. EKS operations, monitoring, incidents, upgrades. LLM agents and automation over your business data. Designing and building the managed services behind an internal cloud.',
-    ctaPrimary: 'Let’s talk about your project',
+      'You ship your product. I make sure the AWS architecture holds, costs right, and stays simple to run.\nOne-off engagement or ongoing support, reply within 24h.',
+    ctaPrimary: 'Let’s discuss your needs',
     ctaSecondary: 'See what I do',
-    clientsLabel: 'Selected clients',
-    statYears: 'years of experience',
-    statKubernetes: 'years on Kubernetes',
-    statClusters: 'clusters operated',
-    statClustersValue: '300+',
+    statYearsLabel: 'years of experience',
+    statClientsLabel: 'clients served',
+    portraitAlt: 'Portrait of Aurelien Perrier',
   },
 
   services: {
@@ -64,13 +61,7 @@ const en: Dictionary = {
     title: 'What I take',
     accent: 'off your plate.',
     lede:
-      'Four areas, handled by the same person — from audit through to operations. Every engagement is scoped before it is billed.',
-  },
-
-  whyUs: {
-    eyebrow: 'Why work with me',
-    title: 'One person to talk to,',
-    accent: 'from scoping to production.',
+      'Four areas, handled by the same person. Generic, reusable modules where relevant, custom work where required. Every engagement is scoped before it is billed.',
   },
 
   references: {
@@ -84,10 +75,34 @@ const en: Dictionary = {
     seeAll: 'All',
     seeAllSuffix: 'engagements',
     footnote: 'Named engagements are listed with the client’s agreement.',
-    pageTitle: 'References — AWS & Kubernetes engagements',
+    pageTitle: 'References: AWS & Kubernetes engagements',
     heroTitle: 'The technical detail',
     heroAccent: 'rather than the logos.',
     heroLedeLead: 'engagements: context, constraint and outcome.',
+  },
+
+  hartza: {
+    eyebrow: 'In production at my own company',
+    title: 'As if it were mine,',
+    accent: 'because I have one.',
+    body:
+      'Hartza Capital, my investment fintech, has been running algorithmic trading on AWS in production for 4 years. HPC, data, APIs, event-driven workflows. I treat your product with the same care.',
+    articlesHeading: 'How it is built',
+    articles: [
+      {
+        title: 'Building an algorithmic trading platform on AWS',
+        href: '#',
+      },
+      {
+        title: 'Cutting the cost of an AI stack in production',
+        href: '#',
+      },
+      {
+        title: 'Real-time data pipelines for decision-making',
+        href: '#',
+      },
+    ],
+    link: 'hartza.capital',
   },
 
   cloudPartners: {
@@ -110,43 +125,17 @@ const en: Dictionary = {
     ],
   },
 
-  faq: {
-    eyebrow: 'Frequently asked',
-    title: 'Before we',
-    accent: 'start.',
-  },
-
   contact: {
     eyebrow: 'Contact',
     title: 'Let’s talk about',
     accent: 'your platform.',
     lede:
-      'Reply within one business day. I will tell you whether I am the right person — including when the answer is no.',
+      'Reply within one business day. I will tell you whether I am the right person, including when the answer is no.',
     emailLabel: 'Email',
     locationLabel: 'Based in',
     location: 'Lyon, France · remote across Europe',
     linkedinLabel: 'LinkedIn',
-    calendlyHint: 'Or book thirty minutes directly.',
-    calendlyCta: 'Book a slot',
-  },
-
-  form: {
-    nameLabel: 'Name',
-    namePlaceholder: 'Your name',
-    companyLabel: 'Company',
-    companyOptional: '(optional)',
-    companyPlaceholder: 'Your company name',
-    needLabel: 'What you need',
-    needPlaceholder:
-      'Describe the context in a few lines, and what you are trying to solve.',
-    submit: 'Draft the message',
-    success:
-      'Your email client should open with the message pre-filled. If it does not, write directly to',
-    privacy:
-      'No data is sent to a server: the message is composed in your own mail client, which you review before sending.',
-    subject: 'Contact request',
-    fieldName: 'Name',
-    fieldCompany: 'Company',
+    calendlyTitle: 'Book a thirty-minute slot',
   },
 
   footer: {
@@ -162,7 +151,7 @@ const en: Dictionary = {
   },
 
   notFound: {
-    title: '404 — Resource not found',
+    title: '404: Resource not found',
     description:
       'The requested page does not exist on this domain. Links to the site sections.',
     eyebrow: 'Error 404',
@@ -184,7 +173,7 @@ const en: Dictionary = {
   },
 
   blog: {
-    title: 'Blog — AWS architecture notes',
+    title: 'Blog: AWS architecture notes',
     eyebrow: 'Blog',
     headingLead: 'What the field',
     headingAccent: 'teaches.',
@@ -193,13 +182,13 @@ const en: Dictionary = {
     rssCta: 'RSS feed',
     countSingular: 'article',
     countPlural: 'articles',
-    empty: 'No articles published yet. The first one is on its way —',
+    empty: 'No articles published yet. The first one is on its way:',
     emptyContact: 'get in touch',
     emptyTail: 'if a topic interests you.',
     breadcrumb: 'Blog',
     articleFootLead: 'A topic you want to dig into, or a platform in this state?',
     articleFootCta: 'Let’s talk.',
-    feedTitle: 'Arktos Consulting — technical notes',
+    feedTitle: 'Arktos Consulting: technical notes',
     feedDescription:
       'Notes on AWS architecture, Kubernetes and running platforms.',
   },

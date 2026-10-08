@@ -31,7 +31,6 @@ export interface RoutePair {
 export const ROUTE_PAIRS: readonly RoutePair[] = [
   { fr: '/', en: '/en/' },
   { fr: '/conseil/', en: '/en/consulting/' },
-  { fr: '/cloud-souverain/', en: '/en/sovereign-cloud/' },
   { fr: '/ia/', en: '/en/ai/' },
   { fr: '/infogerance/', en: '/en/managed-services/' },
   { fr: '/references/', en: '/en/references/' },

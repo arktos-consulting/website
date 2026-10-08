@@ -32,7 +32,6 @@ export type {
   PillarProof,
   PillarCta,
   ConsultingPillar,
-  SovereignCloudPillar,
   AiPillar,
   ManagedServicesPillar,
 } from './types';

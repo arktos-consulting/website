@@ -22,27 +22,30 @@ export const SERVICES: readonly Service[] = [
     includes: [
       'Architecture, security and cost review',
       'Multi-account governance and IAM',
-      'FinOps strategy',
+      'Architecture and service selection',
     ],
     href: '/en/consulting/',
   },
   {
     slug: 'sovereign-cloud',
-    title: 'Sovereign cloud',
+    title: 'Custom software on AWS',
     summary:
-      'Design, build and run an internal cloud, or step away from hyperscaler dependency.',
+      'Applications built for AWS: the right database, the right caching, a simple run afterwards.',
     includes: [
-      'Designing internal managed services',
-      'Reversibility and hyperscaler exit',
-      'Running a private cloud',
+      'Picking and integrating AWS services (RDS, ElastiCache, S3, DynamoDB…)',
+      'Architecture built for a simple, observable run',
+      'Adapted to how your team actually works',
     ],
-    href: '/en/sovereign-cloud/',
   },
   {
     slug: 'managed-services',
-    title: 'Kubernetes managed services',
-    summary: 'I run your EKS platform: monitoring, incidents, cost.',
-    includes: ['EKS operations and upgrades', 'Monitoring and incidents', 'Cost control'],
+    title: 'Managed services',
+    summary: 'Monitoring, incidents, upgrades. Your platform runs, you sleep.',
+    includes: [
+      'Day-to-day platform operations',
+      'Monitoring and incident management',
+      'Upgrades and cost control',
+    ],
     href: '/en/managed-services/',
   },
   {
@@ -84,7 +87,7 @@ export const MISSIONS: readonly Mission[] = [
   {
     clientType: 'French public investment bank',
     client: 'Bpifrance',
-    period: '2024 — 2025',
+    period: '2024-2025',
     title: 'Regulatory change traceability on Kubernetes',
     description:
       'Cluster change audit tooling with reporting, covering a sector requirement. R&D on Knative and a reversibility workshop away from AWS.',
@@ -93,7 +96,7 @@ export const MISSIONS: readonly Mission[] = [
   {
     clientType: 'Software vendor, LLM platform',
     client: 'Yseop',
-    period: '2023 — 2024',
+    period: '2023-2024',
     title: 'MLOps industrialisation on AWS and on-premise',
     description:
       'Hardening of environments and removal of friction from the MLOps chain. SRE practices handed over to the teams.',
@@ -102,16 +105,16 @@ export const MISSIONS: readonly Mission[] = [
   {
     clientType: 'French national railway operator',
     client: 'SNCF',
-    period: '2022 — 2023',
+    period: '2022-2023',
     title: 'Building the managed services of a private cloud',
     description:
-      'Design and direction of the managed services of the group private cloud — self-service containers, databases, secrets vault — for a fleet of more than 300 Kubernetes clusters.',
+      'Design and direction of the managed services of the group private cloud: self-service containers, databases, secrets vault, for a fleet of more than 300 Kubernetes clusters.',
     tags: ['Private cloud', 'Kubernetes', 'Managed services', 'Open source'],
   },
   {
     clientType: 'SaaS vendor, 800+ microservices',
     client: 'Seiitra',
-    period: '2021 — 2022',
+    period: '2021-2022',
     title: 'Securing an Azure/Kubernetes platform and a FinOps plan',
     description:
       'Fixing security and scalability gaps across more than 800 microservices, and defining reusable operational standards.',
@@ -120,7 +123,7 @@ export const MISSIONS: readonly Mission[] = [
   {
     clientType: 'Industrial distributor, B2B commerce',
     client: 'Descours & Cabaud',
-    period: '2020 — 2021',
+    period: '2020-2021',
     title: 'Moving physical retail to online sales',
     description:
       'Defining the project standards, then introducing developers to DevOps practice and the run teams to SRE.',
@@ -160,7 +163,7 @@ export const FAQ: readonly FaqEntry[] = [
   {
     question: 'How do we start?',
     answer:
-      'You book a thirty-minute slot. We scope the problem, then I tell you whether I am the right person — including when the answer is no.',
+      'You book a thirty-minute slot. We scope the problem, then I tell you whether I am the right person, including when the answer is no.',
   },
   {
     question: 'What are the timelines?',

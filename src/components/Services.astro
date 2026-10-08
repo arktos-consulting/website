@@ -31,8 +31,8 @@ const { SERVICES } = getContent(locale);
 
     <ul class="service-grid">
       {
-        SERVICES.map((service) => (
-          <li class="card service-card">
+        SERVICES.map((service, index) => (
+          <li class="card service-card" data-reveal data-reveal-delay={String(index % 4)}>
             <h3 class="card-title text-display-sm">{service.title}</h3>
             <p class="card-text">{service.summary}</p>
             <ul class="check-list">

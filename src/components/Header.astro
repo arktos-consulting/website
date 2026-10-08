@@ -8,7 +8,7 @@
  *
  * The language switch links to the equivalent page in the other locale. That URL
  * is passed in from the page, because URL segments are translated rather than
- * prefixed (`/cloud-souverain/` in French, `/en/sovereign-cloud/` in English):
+ * prefixed (`/ia/` in French, `/en/ai/` in English):
  * only the page itself knows its counterpart.
  */
 import { SITE } from '@/consts';
@@ -85,10 +85,6 @@ const homeHref = locale === 'fr' ? '/' : '/en/';
           </a>
         )
       }
-
-      <a class="btn btn-primary nav-cta" href={`${homeHref}#contact`}>
-        {t.nav.cta}
-      </a>
     </nav>
   </div>
 </header>
@@ -203,10 +199,6 @@ const homeHref = locale === 'fr' ? '/' : '/en/';
     border-color: var(--color-cyan);
   }
 
-  .nav-cta {
-    margin-left: 12px;
-  }
-
   /* Mobile menu: opened by the checkbox, no script involved */
   .nav-burger {
     display: none;
@@ -288,11 +280,6 @@ const homeHref = locale === 'fr' ? '/' : '/en/';
     .lang-switch {
       align-self: flex-start;
       margin: 12px 0 0;
-    }
-
-    .nav-cta {
-      margin: 12px 0 0;
-      justify-content: center;
     }
   }
 </style>

@@ -64,27 +64,30 @@ export const SERVICES: readonly Service[] = [
     includes: [
       'Audit architecture, sécurité et coûts',
       'Gouvernance multi-comptes et IAM',
-      'Stratégie FinOps',
+      'Choix d’architecture et de services',
     ],
     href: '/conseil/',
   },
   {
     slug: 'cloud-souverain',
-    title: 'Cloud souverain',
+    title: 'Software sur-mesure',
     summary:
-      'Concevoir, construire et exploiter un cloud interne, ou sortir d’une dépendance à un hyperscaler.',
+      'Applications adaptées à AWS : la bonne base de données, le bon caching, un run simple ensuite.',
     includes: [
-      'Conception de services managés internes',
-      'Réversibilité et sortie d’hyperscaler',
-      'Exploitation d’un cloud privé',
+      'Choix et intégration des services AWS (RDS, ElastiCache, S3, DynamoDB…)',
+      'Architecture pensée pour un run simple et observable',
+      'Adaptation au plus près de vos usages',
     ],
-    href: '/cloud-souverain/',
   },
   {
     slug: 'infogerance',
-    title: 'Infogérance Kubernetes',
-    summary: "J'exploite votre plateforme EKS : supervision, incidents, coûts.",
-    includes: ['Exploitation EKS et mises à jour', 'Supervision et incidents', 'Maîtrise des coûts'],
+    title: 'Infogérance',
+    summary: 'Supervision, incidents, mises à jour. Votre plateforme tourne, vous dormez.',
+    includes: [
+      'Exploitation de la plateforme au quotidien',
+      'Supervision et gestion des incidents',
+      'Mises à jour et maîtrise des coûts',
+    ],
     href: '/infogerance/',
   },
   {
@@ -126,7 +129,7 @@ export const MISSIONS: readonly Mission[] = [
   {
     clientType: 'Organisme financier public',
     client: 'Bpifrance',
-    period: '2024 — 2025',
+    period: '2024-2025',
     title: 'Traçabilité réglementaire des changements Kubernetes',
     description:
       'Outil de traçabilité des modifications de cluster, avec reporting. R&D sur Knative et atelier de réversibilité AWS.',
@@ -135,7 +138,7 @@ export const MISSIONS: readonly Mission[] = [
   {
     clientType: 'Éditeur logiciel, plateforme LLM',
     client: 'Yseop',
-    period: '2023 — 2024',
+    period: '2023-2024',
     title: 'Industrialisation MLOps sur AWS et on-premise',
     description:
       'Durcissement des environnements et suppression des frictions de la chaîne MLOps. Transfert des pratiques SRE aux équipes.',
@@ -144,16 +147,16 @@ export const MISSIONS: readonly Mission[] = [
   {
     clientType: 'Opérateur ferroviaire national',
     client: 'SNCF',
-    period: '2022 — 2023',
+    period: '2022-2023',
     title: 'Construction des services managés d’un cloud privé',
     description:
-      'Conception et direction de la construction des services managés du cloud privé du groupe — conteneurs auto-servis, bases de données, coffre de secrets — pour un parc de plus de 300 clusters Kubernetes.',
+      'Conception et direction de la construction des services managés du cloud privé du groupe: conteneurs auto-servis, bases de données, coffre de secrets, pour un parc de plus de 300 clusters Kubernetes.',
     tags: ['Cloud privé', 'Kubernetes', 'Services managés', 'Open source'],
   },
   {
     clientType: 'Éditeur SaaS, 800+ microservices',
     client: 'Seiitra',
-    period: '2021 — 2022',
+    period: '2021-2022',
     title: 'Sécurisation Azure/Kubernetes et plan FinOps',
     description:
       'Correction des lacunes de sécurité et de scalabilité sur plus de 800 microservices, et définition des standards d’exploitation.',
@@ -162,7 +165,7 @@ export const MISSIONS: readonly Mission[] = [
   {
     clientType: 'Négociant industriel, distribution B2B',
     client: 'Descours & Cabaud',
-    period: '2020 — 2021',
+    period: '2020-2021',
     title: 'Bascule du commerce physique vers la vente en ligne',
     description:
       'Définition des normes du projet, puis sensibilisation des développeurs aux pratiques DevOps et au SRE.',
@@ -202,7 +205,7 @@ export const FAQ: readonly FaqEntry[] = [
   {
     question: 'Comment démarrer ?',
     answer:
-      'Vous réservez un créneau de trente minutes. On cadre le problème, puis je vous dis si je suis la bonne personne — y compris quand la réponse est non.',
+      'Vous réservez un créneau de trente minutes. On cadre le problème, puis je vous dis si je suis la bonne personne, y compris quand la réponse est non.',
   },
   {
     question: 'Quels sont les délais ?',

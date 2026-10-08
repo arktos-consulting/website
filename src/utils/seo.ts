@@ -174,22 +174,6 @@ export function buildStructuredData(options: {
 
   const graph: Record<string, unknown>[] = [organization, founder, website, webpage];
 
-  // The FAQ is declared as a WebPage on the home page, which carries the full
-  // section: the visible answers and the markup must match.
-  if (pageUrl === `${SITE.url}/` || pageUrl === `${SITE.url}/en/`) {
-    const { FAQ } = getContent(locale);
-    graph.push({
-      '@type': 'FAQPage',
-      '@id': `${pageUrl}#faq`,
-      isPartOf: { '@id': pageUrl },
-      mainEntity: FAQ.map((entry) => ({
-        '@type': 'Question',
-        name: entry.question,
-        acceptedAnswer: { '@type': 'Answer', text: entry.answer },
-      })),
-    });
-  }
-
   return { '@context': 'https://schema.org', '@graph': graph };
 }
 

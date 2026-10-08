@@ -2,15 +2,18 @@
 /**
  * Home page hero section.
  *
- * Presents the value proposition, the figures backing it and the two calls to
- * action. The opening paragraph answers "what do you do, and for whom" directly,
+ * Presents the value proposition, a portrait of the founder and the figures
+ * backing the pitch, the two calls to action, and the client logo strip.
+ * The opening paragraph answers "what do you do, and for whom" directly,
  * which is what answer engines extract before the rest of the page.
  *
- * The figures are computed from `CAREER` rather than typed in, so they cannot go
- * stale: a hand-written "9 years" becomes wrong the following year.
+ * The figures are computed from `CAREER` rather than typed in, so they cannot
+ * go stale: a hand-written "9 years" becomes wrong the following year.
+ *
+ * Motion: elements carry `data-reveal` handled by the global reveal observer
+ * wired in BaseLayout. Everything collapses to static under
+ * `prefers-reduced-motion`.
  */
-import { totalYears, kubernetesYears } from '@/utils/career';
-import { getContent } from '@/data';
 import type { Dictionary, Locale } from '@/i18n';
 
 interface Props {
@@ -21,77 +24,83 @@ interface Props {
 }
 
 const { t, locale } = Astro.props;
-const { CLIENT_LOGOS } = getContent(locale);
-
-const stats = [
-  { value: `${totalYears()}`, label: t.hero.statYears },
-  { value: `${kubernetesYears()}`, label: t.hero.statKubernetes },
-  { value: t.hero.statClustersValue, label: t.hero.statClusters },
-] as const;
 
 const homeHref = locale === 'fr' ? '/' : '/en/';
 ---
 
 <section class="hero">
+  <div class="circuit-grid" aria-hidden="true"></div>
   <div class="ambient-glow" aria-hidden="true"></div>
+
   <div class="container hero-inner">
     <div class="hero-copy">
-      <p class="eyebrow">{t.hero.eyebrow}</p>
-      <h1 class="text-display-xl hero-title">
+      <p class="eyebrow" data-reveal>{t.hero.eyebrow}</p>
+      <h1 class="text-display-xl hero-title" data-reveal data-reveal-delay="1">
         {t.hero.titleLead}{' '}
         <span class="accent">{t.hero.titleAccent}</span>
       </h1>
-      <p class="lede hero-lede">{t.hero.lede}</p>
+      <p class="lede hero-lede" data-reveal data-reveal-delay="2">{t.hero.lede}</p>
 
-      <div class="hero-actions">
+      <div class="hero-actions" data-reveal data-reveal-delay="3">
         <a class="btn btn-primary" href={`${homeHref}#contact`}>{t.hero.ctaPrimary}</a>
-        <a class="btn btn-ghost" href={t.nav.links[0]?.href ?? homeHref}>
-          {t.hero.ctaSecondary}
-          <span aria-hidden="true">→</span>
-        </a>
       </div>
     </div>
 
-    <dl class="hero-stats">
-      {
-        stats.map((stat) => (
-          <div class="stat">
-            <dt class="stat-value">{stat.value}</dt>
-            <dd class="stat-label">{stat.label}</dd>
-          </div>
-        ))
-      }
-    </dl>
-  </div>
+    <div class="hero-person" data-reveal data-reveal-delay="2">
+      <figure class="portrait">
+        <img
+          src="/images/portrait.jpg"
+          alt={t.hero.portraitAlt}
+          width="800"
+          height="800"
+          loading="eager"
+          decoding="async"
+          fetchpriority="high"
+        />
+      </figure>
 
-  <div class="container logo-strip">
-    <p class="logo-strip-label">{t.hero.clientsLabel}</p>
-    <ul class="logo-list">
-      {
-        CLIENT_LOGOS.map((client) => (
-          <li class="logo-item">
-            <img src={client.src} alt={client.name} loading="lazy" decoding="async" />
-          </li>
-        ))
-      }
-    </ul>
+      <dl class="hero-stats" data-reveal data-reveal-delay="3">
+        <div class="stat">
+          <dt class="stat-value">+10</dt>
+          <dd class="stat-label">{t.hero.statYearsLabel}</dd>
+        </div>
+        <div class="stat">
+          <dt class="stat-value">+15</dt>
+          <dd class="stat-label">{t.hero.statClientsLabel}</dd>
+        </div>
+      </dl>
+    </div>
   </div>
 </section>
 
 <style>
   .hero {
     position: relative;
-    padding: 72px 0 0;
+    padding: 64px 0 0;
     overflow: hidden;
     border-bottom: 1px solid var(--color-hairline);
+  }
+
+  /* Very subtle circuit grid over the hero. Sits behind the ambient glow so
+     the gradient still reads first; the pattern adds an engineering texture
+     without competing with the type. Masks out toward the bottom of the hero
+     so the logo strip stays clean. */
+  .circuit-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url('/images/circuit-grid.svg');
+    background-size: 120px 120px;
+    mask-image: linear-gradient(to bottom, #000 40%, transparent 90%);
+    -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 90%);
   }
 
   .hero-inner {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-    gap: clamp(40px, 6vw, 96px);
-    align-items: start;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: clamp(40px, 6vw, 80px);
+    align-items: center;
     padding-bottom: 56px;
   }
 
@@ -121,97 +130,85 @@ const homeHref = locale === 'fr' ? '/' : '/en/';
 
   .hero-lede {
     margin: 0;
-    max-width: 60ch;
+    max-width: 56ch;
+    white-space: pre-line;
   }
 
   .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 8px;
+    margin-top: 12px;
   }
 
-  /* Evidence figures: top hairline, large number, label underneath. Three
-     figures only, in a single column: the side column stays narrow and the hero
-     keeps the same height as the heading. */
+  /* Evidence figures under the portrait: two columns, big display number on
+     top of its label, hairline between. Reads as two cards sharing the width
+     of the portrait. */
   .hero-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     margin: 0;
+    width: 100%;
+    border-top: 1px solid var(--color-hairline);
   }
 
   .stat {
-    border-top: 1px solid var(--color-hairline);
-    padding-top: 18px;
+    padding: 22px 0 8px;
+  }
+
+  .stat + .stat {
+    border-left: 1px solid var(--color-hairline);
+    padding-left: 22px;
   }
 
   .stat-value {
     font-family: var(--font-display);
-    font-size: clamp(2.25rem, 4vw, 3.25rem);
+    font-size: clamp(2rem, 2.6vw, 2.5rem);
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.04em;
-    color: var(--color-cyan);
+    color: var(--color-ivory);
   }
 
   .stat-label {
     margin: 8px 0 0;
     font-size: 0.875rem;
+    line-height: 1.4;
     color: var(--color-muted);
   }
 
-  /* Client logo strip */
-  .logo-strip {
-    position: relative;
-    padding-block: 28px;
-    border-top: 1px solid var(--color-hairline);
-  }
-
-  .logo-strip-label {
-    margin: 0 0 18px;
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--color-muted);
-  }
-
-  /* Logo row: the seven brands share the available width equally, each centred
-     in its column. A grid rather than flex guarantees the row spans the full
-     width even when one logo is shorter than the others. */
-  .logo-list {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    align-items: center;
-    gap: clamp(16px, 3vw, 40px);
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .logo-item {
+  .hero-person {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
+    flex-direction: column;
+    gap: 32px;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 340px;
+    justify-self: end;
   }
 
-  /* Logos are white silhouettes at very different ratios (from 1.9 to 5.9).
-     Height and width are capped so no brand crushes the others, while keeping
-     their proportions. */
-  .logo-item img {
-    height: auto;
-    width: auto;
-    max-height: 26px;
-    max-width: 100%;
-    object-fit: contain;
-    opacity: 0.72;
-    transition: opacity 0.25s;
+  .portrait {
+    margin: 0;
+    width: 100%;
   }
 
-  .logo-item:hover img {
-    opacity: 1;
+  .portrait img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 18px;
+    border: 1px solid var(--color-hairline);
+    background-color: var(--color-surface);
+  }
+
+  .portrait-caption {
+    display: flex;
+    margin: 0;
+  }
+
+  .portrait-name {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-ivory);
   }
 
   @media (max-width: 1000px) {
@@ -220,33 +217,10 @@ const homeHref = locale === 'fr' ? '/' : '/en/';
       gap: 48px;
     }
 
-    /* Below seven columns, a grid would leave the last row orphaned and
-       left-aligned. A centred flex distributes the remaining logos in the
-       middle, which stays balanced whatever their number. */
-    .logo-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 22px 28px;
-    }
-
-    .logo-item {
-      flex: 0 1 auto;
-    }
-  }
-
-  @media (max-width: 560px) {
-    .logo-list {
-      gap: 18px 24px;
-    }
-
-    .logo-item img {
-      max-height: 21px;
-    }
-
-    .hero-stats {
-      grid-template-columns: 1fr;
-      gap: 22px;
+    .hero-person {
+      max-width: 340px;
+      margin-inline: auto;
+      justify-self: center;
     }
   }
 </style>

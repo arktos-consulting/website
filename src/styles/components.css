@@ -10,15 +10,15 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 14px 26px;
+  padding: 16px 32px;
   border-radius: 12px;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 600;
   line-height: 1.2;
   white-space: nowrap;
   border: 1.5px solid transparent;
   transition:
-    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
     background-color 0.25s,
     border-color 0.25s,
@@ -29,15 +29,21 @@
   transform: translateY(-2px);
 }
 
+/* Tactile press: the button sinks slightly, like a physical switch. */
+.btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
 .btn-primary {
-  background: linear-gradient(100deg, var(--color-violet) 0%, var(--color-azure) 100%);
-  /* Ink text on the gradient: 6.3:1 minimum, AA compliant */
+  background-color: var(--color-azure);
+  /* Ink text on the azure: very high contrast, readable at a glance. */
   color: var(--color-ink);
-  box-shadow: 0 6px 24px color-mix(in srgb, var(--color-violet) 32%, transparent);
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--color-azure) 32%, transparent);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 12px 36px color-mix(in srgb, var(--color-violet) 45%, transparent);
+  background-color: color-mix(in srgb, var(--color-azure) 88%, white);
+  box-shadow: 0 14px 40px color-mix(in srgb, var(--color-azure) 45%, transparent);
 }
 
 .btn-ghost {

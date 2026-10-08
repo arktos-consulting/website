@@ -33,7 +33,7 @@ const { heading, cta, title } = Astro.props;
       lede={heading.lede}
     />
     <div class="hero-actions">
-      <a class="btn btn-primary" href="#contact" aria-label={`${cta.primary} — ${title}`}>
+      <a class="btn btn-primary" href="#contact" aria-label={`${cta.primary}: ${title}`}>
         {cta.primary}
       </a>
       <a class="btn btn-ghost" href={cta.secondaryHref}>

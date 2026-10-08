@@ -40,8 +40,8 @@ const referencesHref = locale === 'fr' ? '/references/' : '/en/references/';
     {
       compact ? (
         <ul class="mission-compact">
-          {displayed.map((mission) => (
-            <li class="mission-row">
+          {displayed.map((mission, index) => (
+            <li class="mission-row" data-reveal data-reveal-delay={String(index % 4)}>
               <span class="mission-client">{mission.client ?? mission.clientType}</span>
               <span class="mission-title">{mission.title}</span>
               <span class="mission-period">{mission.period}</span>

@@ -23,7 +23,7 @@ const { t } = Astro.props;
 
 <section class="section section-alt" id="cloud-partners">
   <div class="container collective">
-    <div class="collective-copy">
+    <div class="collective-copy" data-reveal>
       <p class="eyebrow eyebrow-aws">{t.cloudPartners.eyebrow}</p>
       <h2 class="text-display-lg collective-title">
         {t.cloudPartners.title}{' '}
@@ -49,7 +49,7 @@ const { t } = Astro.props;
       </div>
     </div>
 
-    <div class="collective-side">
+    <div class="collective-side" data-reveal data-reveal-delay="1">
       <div class="badge-wrap">
         <img
           src="/images/aws-partner.svg"

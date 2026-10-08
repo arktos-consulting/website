@@ -93,24 +93,7 @@ export interface ConsultingPillar extends PillarBase {
   proofs: readonly PillarProof[];
 }
 
-/** The sovereign cloud pillar: design, build, operate. */
-export interface SovereignCloudPillar extends PillarBase {
-  /** Approach section. */
-  approach: PillarHeading;
-  /** The three stages of the offer. */
-  phases: readonly PillarPhase[];
-  /** Situations that trigger the engagement. */
-  triggersHeading: PillarHeading;
-  /** Typical triggers. */
-  triggers: readonly PillarCard[];
-  /** Reference case section. */
-  caseHeading: PillarHeading;
-  /** Reference case paragraphs. */
-  caseParagraphs: readonly string[];
-  /** Technologies attached to the reference case. */
-  caseTags: readonly string[];
-}
-
+/** The sovereign cloud pillar: design, build, operate. Remnant kept in history. */
 /** The applied AI pillar: LLM agents and automation. */
 export interface AiPillar extends PillarBase {
   /** Use case section. */
@@ -157,8 +140,6 @@ export interface ManagedServicesPillar extends PillarBase {
 export interface PillarBundle {
   /** Audit and architecture consulting. */
   consulting: ConsultingPillar;
-  /** Sovereign cloud design, build and operations. */
-  sovereignCloud: SovereignCloudPillar;
   /** Applied AI and LLM agents. */
   ai: AiPillar;
   /** Kubernetes managed services. */

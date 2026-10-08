@@ -28,8 +28,8 @@ const en: PillarBundle = {
     },
     cta: {
       primary: 'Talk through your needs',
-      secondary: 'See sovereign cloud',
-      secondaryHref: '/en/sovereign-cloud/',
+      secondary: 'See custom software',
+      secondaryHref: '/en/#prestations',
     },
     scope: {
       eyebrow: 'Scope',
@@ -105,101 +105,9 @@ const en: PillarBundle = {
     ],
   },
 
-  sovereignCloud: {
-    slug: 'sovereign-cloud',
-    title: 'Sovereign cloud — design, build and operate',
-    description:
-      'Sovereign cloud: designing and building internal managed services, reversibility paths, and running a private Kubernetes cloud. Senior independent consultant based in Lyon.',
-    breadcrumb: 'Sovereign cloud',
-    hero: {
-      eyebrow: 'Sovereign cloud',
-      title: 'Design, build and operate',
-      accent: 'your internal cloud.',
-      lede:
-        'From an internal managed service to leaving a hyperscaler: I design the building blocks, direct their construction, then run them. On a private Kubernetes cloud, to the same standards as a large enterprise.',
-    },
-    cta: {
-      primary: 'Talk about your project',
-      secondary: 'See consulting',
-      secondaryHref: '/en/consulting/',
-    },
-    approach: {
-      eyebrow: 'Approach',
-      title: 'Three stages,',
-      accent: 'one person throughout.',
-    },
-    phases: [
-      {
-        step: '01',
-        title: 'Design',
-        detail:
-          'Defining which services your internal cloud must offer, and to which teams. Choosing the building blocks, the responsibility model, environment isolation and the access policy.',
-        items: [
-          'Mapping needs and the services to expose',
-          'Responsibility model between the platform and the teams',
-          'Network isolation, account and project separation',
-          'Architecture dossier and documented decisions',
-        ],
-      },
-      {
-        step: '02',
-        title: 'Build',
-        detail:
-          'Implementing the internal managed services and industrialising how they are delivered. This is the work delivered on the private cloud of a national railway operator: services equivalent to Fargate, RDS or Secret Manager, usable self-service.',
-        items: [
-          'Self-service container services for product teams',
-          'Managed databases and a secrets vault',
-          'Full industrialisation in IaC, GitOps and CI/CD',
-          'Upskilling the teams taking over operations',
-        ],
-      },
-      {
-        step: '03',
-        title: 'Operate',
-        detail:
-          'Running the platform over time: monitoring, upgrades, incident handling and cost control. An internal platform degrades quickly when nobody explicitly owns it.',
-        items: [
-          'Monitoring, alerting and dashboards people actually use',
-          'Managing versions, certificates and access',
-          'Incident handling and written post-mortems',
-          'Cost tracking and continuous optimisation',
-        ],
-      },
-    ],
-    triggersHeading: {
-      eyebrow: 'When to call',
-      title: 'Three situations',
-      accent: 'where I step in.',
-    },
-    triggers: [
-      {
-        title: 'You are building an internal cloud',
-        body: 'Several teams are rebuilding the same blocks. You need shared services with a clear responsibility model.',
-      },
-      {
-        title: 'You need to reduce a dependency',
-        body: 'Reversibility, internal policy or regulatory requirements: leaving a hyperscaler is something you prepare for rather than suffer.',
-      },
-      {
-        title: 'You have inherited a platform',
-        body: 'The private cloud exists, but nobody knows who runs it. Taking it over, documenting it, then transferring the load.',
-      },
-    ],
-    caseHeading: {
-      eyebrow: 'Reference',
-      title: 'The private cloud of',
-      accent: 'a national railway operator.',
-    },
-    caseParagraphs: [
-      'Within the team responsible for an estate of more than 300 Kubernetes clusters, I took part in the group’s private cloud initiative, with responsibility for designing and directing the construction of its managed services: self-service containers, databases and a secrets vault.',
-      'Those building blocks went on to feed open source contributions and internal uses that were new to the group. The work covered technical design as much as coordinating the teams who would run the platform.',
-    ],
-    caseTags: ['Kubernetes', 'Private cloud', 'Managed services', 'Open source', 'Internal platform'],
-  },
-
   ai: {
     slug: 'ai',
-    title: 'Applied AI — LLM agents and automation',
+    title: 'Applied AI: LLM agents and automation',
     description:
       'Applied AI in the enterprise: LLM agents connected to your data, document extraction, search across your archives, MLOps industrialisation and cost control. Independent consultant in Lyon.',
     breadcrumb: 'Applied AI',

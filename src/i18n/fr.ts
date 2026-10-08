@@ -34,11 +34,10 @@ const fr = {
     openMenu: 'Ouvrir le menu de navigation',
     mainNavigation: 'Navigation principale',
     home: "retour à l'accueil",
-    cta: 'Parlons de votre projet',
+    cta: 'Parlons de votre plateforme',
     languageSwitch: 'Changer de langue',
     links: [
       { href: '/conseil/', label: 'Conseil' },
-      { href: '/cloud-souverain/', label: 'Cloud souverain' },
       { href: '/ia/', label: 'IA' },
       { href: '/infogerance/', label: 'Infogérance' },
       { href: '/blog/', label: 'Blog' },
@@ -49,23 +48,21 @@ const fr = {
   /** Home page — hero section. */
   hero: {
     /** Full home page title, used when the page overrides the layout default. */
-    metaTitle: 'Freelance AWS, Kubernetes & Ingénierie à Lyon',
+    metaTitle: 'Expert AWS indépendant, Kubernetes & Ingénierie à Lyon',
     /** Home page meta description. */
     metaDescription:
-      "Freelance AWS et Kubernetes à Lyon : audit d'architecture, cloud souverain, agents LLM et automatisation, exploitation de clusters EKS, maîtrise des coûts.",
-    eyebrow: 'Freelance AWS & Kubernetes · Lyon',
-    titleLead: 'J’exploite et je fiabilise',
-    titleAccent: 'votre plateforme cloud.',
+      "Expert AWS indépendant à Lyon : audit d'architecture, cloud souverain, agents LLM et automatisation, exploitation de clusters EKS, maîtrise des coûts.",
+    eyebrow: 'Expert AWS indépendant · Lyon',
+    titleLead: 'Un expert AWS dédié',
+    titleAccent: 'à votre plateforme.',
     lede:
-      'Audit d’architecture, gouvernance multi-comptes, plans FinOps. Exploitation de clusters EKS, supervision, incidents, mises à jour. Agents LLM et automatisation sur vos données métier. Conception et construction de services managés pour un cloud souverain.',
-    ctaPrimary: 'Parlons de votre projet',
+      'Vous livrez votre produit. Je fais en sorte que l’architecture AWS tienne, coûte juste, et s’exploite simplement.\nMission ponctuelle ou accompagnement continu, réponse sous 24 h.',
+    ctaPrimary: 'Discutons de votre besoin',
     ctaSecondary: 'Voir les prestations',
-    clientsLabel: 'Ils m’ont fait confiance',
-    /** Stat labels. Values are computed or fixed, never translated. */
-    statYears: "ans d'expérience",
-    statKubernetes: 'ans sur Kubernetes',
-    statClusters: 'clusters opérés',
-    statClustersValue: '300+',
+    /** Stat values and labels: short and displayable in two columns. */
+    statYearsLabel: "ans d'expérience",
+    statClientsLabel: 'clients servis',
+    portraitAlt: 'Portrait d’Aurelien Perrier',
   },
 
   /** Home page — services. */
@@ -74,14 +71,7 @@ const fr = {
     title: 'Ce que je prends',
     accent: 'en charge.',
     lede:
-      'Quatre domaines, tenus par la même personne — de l’audit à l’exploitation. Chaque mission est cadrée avant d’être facturée.',
-  },
-
-  /** Home page — differentiators. */
-  whyUs: {
-    eyebrow: 'Pourquoi travailler avec moi',
-    title: 'Un interlocuteur unique,',
-    accent: 'du cadrage à la production.',
+      'Quatre domaines, tenus par la même personne. Modules génériques et réutilisables quand c’est pertinent, du sur-mesure quand ça l’exige. Chaque mission est cadrée avant d’être facturée.',
   },
 
   /** Home page and references page. */
@@ -97,10 +87,35 @@ const fr = {
     seeAllSuffix: 'missions',
     footnote: 'Les missions nommées le sont avec l’accord des clients concernés.',
     /** References page hero. */
-    pageTitle: 'Références — missions AWS & Kubernetes',
+    pageTitle: 'Références: missions AWS & Kubernetes',
     heroTitle: 'Le détail technique',
     heroAccent: 'plutôt que les logos.',
     heroLedeLead: 'missions : contexte, contrainte et résultat.',
+  },
+
+  /** Hartza Capital proof section. */
+  hartza: {
+    eyebrow: 'En production chez moi',
+    title: 'Comme si c’était le mien,',
+    accent: 'parce que j’en ai un.',
+    body:
+      'Hartza Capital, ma fintech d’investissement, fait tourner du trading algorithmique en production sur AWS depuis 4 ans. HPC, data, API, workflows event-driven. Je traite votre produit avec le même soin.',
+    articlesHeading: 'Comment c’est construit',
+    articles: [
+      {
+        title: 'Construire une plateforme de trading algorithmique sur AWS',
+        href: '#',
+      },
+      {
+        title: 'Réduire les coûts d’une stack IA en production',
+        href: '#',
+      },
+      {
+        title: 'Pipelines data en temps réel pour la prise de décision',
+        href: '#',
+      },
+    ],
+    link: 'hartza.capital',
   },
 
   /** Cloud Partners section. */
@@ -124,46 +139,18 @@ const fr = {
     ],
   },
 
-  /** FAQ section. */
-  faq: {
-    eyebrow: 'Questions fréquentes',
-    title: 'Avant de',
-    accent: 'démarrer.',
-  },
-
   /** Contact section. */
   contact: {
     eyebrow: 'Contact',
     title: 'Parlons de',
     accent: 'votre plateforme.',
     lede:
-      'Réponse sous un jour ouvré. Je vous dis si je suis la bonne personne — y compris quand la réponse est non.',
+      'Réponse sous un jour ouvré. Je vous dis si je suis la bonne personne, y compris quand la réponse est non.',
     emailLabel: 'E-mail',
     locationLabel: 'Localisation',
     location: 'Lyon, France · remote accepté',
     linkedinLabel: 'LinkedIn',
-    calendlyHint: 'Ou réservez directement trente minutes.',
-    calendlyCta: 'Réserver un créneau',
-  },
-
-  /** Contact form. */
-  form: {
-    nameLabel: 'Nom',
-    namePlaceholder: 'Votre nom',
-    companyLabel: 'Société',
-    companyOptional: '(facultatif)',
-    companyPlaceholder: 'Nom de votre société',
-    needLabel: 'Votre besoin',
-    needPlaceholder:
-      'Décrivez en quelques lignes le contexte et ce que vous cherchez à résoudre.',
-    submit: 'Préparer le message',
-    success:
-      'Votre client de messagerie devrait s’ouvrir avec le message pré-prérempli. S’il ne s’ouvre pas, écrivez directement à',
-    privacy:
-      'Aucune donnée n’est envoyée à un serveur : le message est composé dans votre messagerie, que vous relisez avant envoi.',
-    subject: 'Demande de contact',
-    fieldName: 'Nom',
-    fieldCompany: 'Société',
+    calendlyTitle: 'Réservez un créneau de trente minutes',
   },
 
   /** Footer. */
@@ -181,7 +168,7 @@ const fr = {
 
   /** 404 page. */
   notFound: {
-    title: '404 — Ressource introuvable',
+    title: '404: Ressource introuvable',
     description:
       "La page demandée n'existe pas sur ce domaine. Liens vers les sections du site.",
     eyebrow: 'Erreur 404',
@@ -204,7 +191,7 @@ const fr = {
 
   /** Blog. */
   blog: {
-    title: 'Blog — notes d’architecture AWS',
+    title: 'Blog: notes d’architecture AWS',
     eyebrow: 'Blog',
     headingLead: 'Ce que le terrain',
     headingAccent: 'apprend.',
@@ -213,13 +200,13 @@ const fr = {
     rssCta: 'Flux RSS',
     countSingular: 'article',
     countPlural: 'articles',
-    empty: 'Aucun article publié pour le moment. Le premier arrive bientôt —',
+    empty: 'Aucun article publié pour le moment. Le premier arrive bientôt:',
     emptyContact: 'écrivez-moi',
     emptyTail: 'si un sujet vous intéresse.',
     breadcrumb: 'Blog',
     articleFootLead: 'Un sujet à creuser, ou une plateforme dans cet état ?',
     articleFootCta: 'Parlons-en.',
-    feedTitle: 'Arktos Consulting — notes techniques',
+    feedTitle: 'Arktos Consulting: notes techniques',
     feedDescription:
       "Notes sur l'architecture AWS, Kubernetes et l'exploitation de plateformes.",
   },
