@@ -58,7 +58,7 @@ le justifiera — l'activer ajouterait environ 200 Ko de JavaScript par page.
 
 ```
 src/
-  consts.ts              identité, coordonnées, repères de carrière
+  consts.ts              identité, coordonnées, hébergeur, Matomo, carrière
   content.config.ts      schéma des collections d'articles (fr et en)
   content/blog/          articles en français, en Markdown
   content/blog-en/       articles en anglais, en Markdown
@@ -76,6 +76,7 @@ src/
       fr.ts              cas clients français
       en.ts              cas clients anglais
       types.ts           contrats des pages cas clients
+      ownership.ts       identification du cas mené pour la société mère
       index.ts           getCaseStudies(locale), chemins des cas
     index.ts             getContent(locale)
     pillars/             contenu des quatre pages piliers, par langue et typé
@@ -252,21 +253,42 @@ demandent quasiment jamais. Le fichier ne produit pas de citations.
 
 ## Performance
 
-Le site ne livre aucun JavaScript : le HTML est complet sans exécution de script,
-ce qui le rend directement lisible par les robots d'indexation et par les moteurs
-de réponse.
+Le HTML est complet sans exécution de script : il se lit entièrement avant qu'un
+seul octet de JavaScript ne soit téléchargé, ce qui le rend directement lisible
+par les robots d'indexation et par les moteurs de réponse.
 
 | Élément | Poids |
 | --- | --- |
 | Page d'accueil (HTML) | ~42 Ko |
 | CSS | ~28 Ko |
-| JavaScript | 0 |
+| JavaScript applicatif | 0 |
 | Polices (2 fichiers, latin) | 80 Ko |
+| Matomo (matomo.js + appels) | externe, après chargement de la page |
 
 Les polices sont limitées au sous-ensemble latin : les jeux cyrillique, grec et
 vietnamien représenteraient environ 170 Ko supplémentaires jamais utilisés. Elles
 sont servies depuis le domaine plutôt que par un CDN tiers, ce qui retire une
 connexion externe du chemin d'affichage.
+
+## Mesure d'audience
+
+L'audience est mesurée avec Matomo, en mode sans cookie : c'est ce qui place la
+mesure dans l'exemption de consentement de la CNIL, et pourquoi le site n'affiche
+aucun bandeau. Le script est absent tant que `MATOMO.url` et `MATOMO.siteId`
+(dans `src/consts.ts`) restent les placeholders.
+
+L'exemption ne tient qu'à une configuration de l'instance, à vérifier côté Matomo
+Cloud : anonymisation des IP avant traitement, aucun cookie tiers, aucun
+cross-domain, pas de User ID, pas d'e-commerce, pas de heatmaps ni
+d'enregistrements de session, exports désactivés, et hébergement dans l'Union
+européenne. La case « Visits log & Visitor profile » doit rester désactivée dans
+les réglages de vie privée.
+
+Le droit d'opposition est la contrepartie de l'exemption, et il est obligatoire :
+le bouton vit dans les mentions légales (ancre `#mesure-audience`), lié depuis le
+pied de page. Il pousse `optUserOut` dans la file Matomo et mémorise le choix en
+`localStorage` ; le rechargement applique l'opposition avant que le tracker ne
+soit chargé.
 
 ## Déploiement
 

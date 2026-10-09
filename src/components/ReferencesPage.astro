@@ -12,6 +12,7 @@
  */
 import type { Dictionary, Locale } from '@/i18n';
 import { getCaseStudies, casePath } from '@/data/case-studies';
+import { isParentCompanyStudy } from '@/data/case-studies/ownership';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Contact from '@/components/Contact.astro';
 
@@ -46,7 +47,12 @@ const { cases } = getCaseStudies(locale);
         cases.map((study) => (
           <li class="mission">
             <div class="mission-meta">
-              <p class="mission-client">{study.client}</p>
+              <p class="mission-client">
+                {study.client}
+                {isParentCompanyStudy(study.id) && (
+                  <span class="mission-own">{t.parentStudy.badge}</span>
+                )}
+              </p>
               <p class="mission-period">{study.period}</p>
             </div>
             <div class="mission-body">
@@ -111,6 +117,18 @@ const { cases } = getCaseStudies(locale);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-violet);
+  }
+
+  .mission-own {
+    display: inline-block;
+    margin-left: 8px;
+    padding: 2px 7px;
+    border: 1px solid color-mix(in srgb, var(--color-cyan) 45%, transparent);
+    border-radius: 4px;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--color-cyan);
   }
 
   .mission-period {

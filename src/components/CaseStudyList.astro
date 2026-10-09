@@ -7,6 +7,7 @@
  */
 import type { Dictionary, Locale } from '@/i18n';
 import { getCaseStudies, casePath } from '@/data/case-studies';
+import { isParentCompanyStudy } from '@/data/case-studies/ownership';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Contact from '@/components/Contact.astro';
 
@@ -42,6 +43,9 @@ const hub = getCaseStudies(locale);
           <li class="card case-card">
             <p class="case-meta">
               <span class="case-client">{entry.client}</span>
+              {isParentCompanyStudy(entry.id) && (
+                <span class="case-own">{t.parentStudy.badge}</span>
+              )}
               <span class="case-period">{entry.period}</span>
             </p>
             <h2 class="card-title text-display-sm">
@@ -96,6 +100,17 @@ const hub = getCaseStudies(locale);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--color-violet);
+  }
+
+  .case-own {
+    padding: 2px 8px;
+    border: 1px solid color-mix(in srgb, var(--color-cyan) 45%, transparent);
+    border-radius: 4px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-cyan);
   }
 
   .case-period {

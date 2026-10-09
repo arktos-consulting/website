@@ -2,9 +2,9 @@
 /**
  * Contact section: direct channels and an embedded Calendly widget.
  *
- * The visitor books a 30-minute slot directly, without leaving the page.
- * The Calendly iframe is lazy-loaded so its third-party script does not
- * block the initial paint.
+ * The visitor books a 30-minute slot without leaving the page. The frame loads
+ * with the page rather than on scroll, so the calendar is already interactive
+ * when the section reaches the viewport.
  */
 import { SITE, PROFILES } from '@/consts';
 import type { Dictionary, Locale } from '@/i18n';
@@ -52,7 +52,6 @@ const { t, locale } = Astro.props;
       <iframe
         src={`${SITE.calendly}?hide_gdpr_banner=1&background_color=05031a&text_color=eef2ff&primary_color=48b4f0`}
         title={t.contact.calendlyTitle}
-        loading="lazy"
         class="calendly-iframe"
       ></iframe>
     </div>

@@ -19,6 +19,13 @@ interface Props {
 const { t, locale } = Astro.props;
 const legalHref = locale === 'fr' ? '/mentions-legales/' : '/en/legal-notices/';
 const rssHref = locale === 'fr' ? '/blog/rss.xml' : '/en/blog/rss.xml';
+
+/** Copyright years: the first publication year, then the current one. */
+const currentYear = new Date().getFullYear();
+const copyrightYears =
+  SITE.copyrightFrom === currentYear
+    ? `${currentYear}`
+    : `${SITE.copyrightFrom}-${currentYear}`;
 ---
 
 <footer class="site-footer">
@@ -91,11 +98,12 @@ const rssHref = locale === 'fr' ? '/blog/rss.xml' : '/en/blog/rss.xml';
 
     <div class="footer-legal">
       <p>
-        &copy; {new Date().getFullYear()} {SITE.name} · {SITE.legalForm} {t.legal.shareCapital}{' '}
-        {SITE.shareCapital} · SIRET {SITE.siret}
+        &copy; {copyrightYears} {SITE.name} · {SITE.legalForm} {t.legal.shareCapital}{' '}
+        {SITE.shareCapital} · SIREN {SITE.siren}
       </p>
       <ul class="footer-legal-links">
         <li><a href={legalHref}>{t.footer.legalNotices}</a></li>
+        <li><a href={`${legalHref}#mesure-audience`}>{t.footer.audienceMeasurement}</a></li>
         <li><a href={SITE.registryUrl} target="_blank" rel="noopener">{t.footer.companyRecord}</a></li>
       </ul>
     </div>

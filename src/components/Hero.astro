@@ -39,7 +39,11 @@ const homeHref = locale === 'fr' ? '/' : '/en/';
         {t.hero.titleLead}{' '}
         <span class="accent">{t.hero.titleAccent}</span>
       </h1>
-      <p class="lede hero-lede" data-reveal data-reveal-delay="2">{t.hero.lede}</p>
+      <p class="lede hero-lede" data-reveal data-reveal-delay="2">
+        {t.hero.ledeLead}
+        <br />
+        <strong class="hero-modes">{t.hero.ledeModes}</strong>{', '}{t.hero.ledeReply}
+      </p>
 
       <div class="hero-actions" data-reveal data-reveal-delay="3">
         <a class="btn btn-primary" href={`${homeHref}#contact`}>{t.hero.ctaPrimary}</a>
@@ -131,7 +135,12 @@ const homeHref = locale === 'fr' ? '/' : '/en/';
   .hero-lede {
     margin: 0;
     max-width: 56ch;
-    white-space: pre-line;
+  }
+
+  /* The two engagement modes, pulled out of the muted lede colour: this is the
+     line a buyer scanning the hero needs to catch. */
+  .hero-modes {
+    color: var(--color-ivory);
   }
 
   .hero-actions {

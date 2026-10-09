@@ -97,11 +97,11 @@ export function buildStructuredData(options: {
     email: `mailto:${SITE.email}`,
     foundingDate: `${CAREER.companyStart.year}-${String(CAREER.companyStart.month).padStart(2, '0')}`,
     vatID: SITE.vatId,
-    taxID: SITE.siret,
+    taxID: SITE.siren,
     address: {
       '@type': 'PostalAddress',
-      addressLocality: SITE.city,
-      addressRegion: SITE.region,
+      addressLocality: SITE.headOffice.city,
+      addressRegion: SITE.headOffice.region,
       addressCountry: SITE.country,
     },
     geo: {

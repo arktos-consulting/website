@@ -47,8 +47,10 @@ const en: Dictionary = {
     eyebrow: 'Independent AWS expert · Lyon, France',
     titleLead: 'An AWS expert dedicated',
     titleAccent: 'to your platform.',
-    lede:
-      'You ship your product. I make sure the AWS architecture holds, costs right, and stays simple to run.\nOne-off engagement or ongoing support, reply within 24h.',
+    ledeLead:
+      'You ship your product. I make sure the AWS architecture holds, costs right, and stays simple to run.',
+    ledeModes: 'One-off engagement or ongoing support',
+    ledeReply: 'reply within 24h.',
     ctaPrimary: 'Let’s discuss your needs',
     ctaSecondary: 'See what I do',
     statYearsLabel: 'years of experience',
@@ -73,7 +75,7 @@ const en: Dictionary = {
       'Long engagements with a French public investment bank, the national railway operator, a health booking platform, a broadcaster and an AI software vendor are named. What actually matters when judging infrastructure work is the detail: context, constraints, technologies.',
     seeAll: 'All',
     seeAllSuffix: 'engagements',
-    footnote: 'Named engagements are listed with the client’s agreement.',
+    footnote: 'Named engagements are listed with the client’s agreement, unless stated otherwise.',
     pageTitle: 'References: AWS & Kubernetes engagements',
     heroTitle: 'The technical detail of the engagements.',
     heroAccent: '',
@@ -88,6 +90,13 @@ const en: Dictionary = {
     miscHeading: 'Recurring work',
     otherCasesHeading: 'Other case studies',
     allCases: 'All case studies',
+  },
+
+  /** Notice on the case carried out for the parent company. */
+  parentStudy: {
+    badge: 'My own company',
+    notice:
+      'Hartza Capital owns Arktos Consulting: this platform is mine, not a client’s.',
   },
 
   hartza: {
@@ -154,6 +163,7 @@ const en: Dictionary = {
     contactHeading: 'Contact',
     rss: 'RSS feed',
     legalNotices: 'Legal notices',
+    audienceMeasurement: 'Audience measurement',
     companyRecord: 'Company record',
     rights: 'Arktos Consulting',
   },
@@ -216,16 +226,31 @@ const en: Dictionary = {
     contactLabel: 'Contact',
     registryText: 'Details verifiable on the French business registry:',
     registryLink: 'Arktos Consulting record',
+    rcsLabel: 'Trade register (RCS)',
+    vatLabel: 'VAT number',
+    parentLabel: 'Parent company',
+    parentName: 'SASU Hartza Capital',
     hostingHeading: 'Hosting',
-    hostingText:
-      'This site is hosted on Amazon Web Services (Amazon Web Services EMEA SARL, 38 avenue John F. Kennedy, L-1855 Luxembourg) and distributed through Amazon CloudFront.',
+    hostLabel: 'Host',
+    addressLabel: 'Address',
+    phoneLabel: 'Phone',
     dataHeading: 'Personal data',
     dataTextOne:
-      'This site sets no analytics or advertising cookies, and uses no third-party tracking tool.',
+      'This site sets no analytics or advertising cookies, and uses no third-party tracking tool for its own purposes.',
     dataTextTwo:
       'The contact form sends no data to a server: it composes a draft message in your own mail client, which you review and send yourself. Anything you choose to send by email or LinkedIn is used solely to answer your request, and kept only for the time that exchange requires.',
     dataTextThree:
       'Under the General Data Protection Regulation, you have the right to access, rectify and erase data concerning you. To exercise it, write to',
+    analyticsHeading: 'Audience measurement',
+    analyticsTextOne:
+      'Audience is measured with Matomo, hosted in the European Union. No data is passed to a third party: the measurements only serve to know which pages are read and how the site is used.',
+    analyticsTextTwo:
+      'This measurement is exempt from consent under the CNIL framework: Matomo runs here without cookies, the IP address is anonymised before any processing, and no data is cross-referenced with another processing activity or followed from one site to another. You can object to it at any time.',
+    analyticsOptOutLead: 'You are currently being measured.',
+    analyticsOptOutButton: 'Opt out of audience measurement',
+    analyticsOptOutDone:
+      'You are no longer measured: no data is collected about your visit on this browser.',
+    analyticsOptInButton: 'Re-enable audience measurement',
     ipHeading: 'Intellectual property',
     ipTextLead:
       'The content of this site, both text and graphic elements, is the property of ',

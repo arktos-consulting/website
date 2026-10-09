@@ -55,8 +55,10 @@ const fr = {
     eyebrow: 'Expert AWS indépendant · Lyon',
     titleLead: 'Un expert AWS dédié',
     titleAccent: 'à votre plateforme.',
-    lede:
-      'Vous livrez votre produit. Je fais en sorte que l’architecture AWS tienne, coûte juste, et s’exploite simplement.\nMission ponctuelle ou accompagnement continu, réponse sous 24 h.',
+    ledeLead:
+      'Vous livrez votre produit. Je fais en sorte que l’architecture AWS tienne, coûte juste, et s’exploite simplement.',
+    ledeModes: 'Mission ponctuelle ou accompagnement continu',
+    ledeReply: 'réponse sous 24 h.',
     ctaPrimary: 'Discutons de votre besoin',
     ctaSecondary: 'Voir les prestations',
     /** Stat values and labels: short and displayable in two columns. */
@@ -84,7 +86,8 @@ const fr = {
       'Les missions longues chez Bpifrance, SNCF, Doctolib, Canal+ et Yseop sont nommées. Ce qui compte pour juger un travail d’infrastructure reste toutefois le détail : contexte, contraintes, technologies.',
     seeAll: 'Les',
     seeAllSuffix: 'missions',
-    footnote: 'Les missions nommées le sont avec l’accord des clients concernés.',
+    footnote:
+      'Les missions nommées le sont avec l’accord des clients concernés, sauf mention contraire.',
     /** References page hero. */
     pageTitle: 'Références: missions AWS & Kubernetes',
     heroTitle: 'Le détail technique des missions.',
@@ -101,6 +104,13 @@ const fr = {
     miscHeading: 'Travaux récurrents',
     otherCasesHeading: 'Autres cas clients',
     allCases: 'Tous les cas clients',
+  },
+
+  /** Notice on the case carried out for the parent company. */
+  parentStudy: {
+    badge: 'Ma propre société',
+    notice:
+      'Hartza Capital détient Arktos Consulting : cette plateforme est la mienne, pas celle d’un client.',
   },
 
   /** Hartza Capital proof section. */
@@ -171,6 +181,7 @@ const fr = {
     contactHeading: 'Contact',
     rss: 'Flux RSS',
     legalNotices: 'Mentions légales',
+    audienceMeasurement: 'Mesure d’audience',
     companyRecord: 'Fiche entreprise',
     rights: 'Arktos Consulting',
   },
@@ -231,21 +242,36 @@ const fr = {
     publisherHeading: 'Éditeur du site',
     denomination: 'Dénomination',
     legalForm: 'Forme juridique',
-    siretLabel: 'SIRET',
+    siretLabel: 'SIREN',
     registeredOffice: 'Siège',
     contactLabel: 'Contact',
     registryText: 'Informations vérifiables sur l’annuaire des entreprises :',
     registryLink: 'fiche Arktos Consulting',
+    rcsLabel: 'RCS',
+    vatLabel: 'TVA intracommunautaire',
+    parentLabel: 'Société mère',
+    parentName: 'SASU Hartza Capital',
     hostingHeading: 'Hébergement',
-    hostingText:
-      'Le site est hébergé sur Amazon Web Services (Amazon Web Services EMEA SARL, 38 avenue John F. Kennedy, L-1855 Luxembourg) et distribué via Amazon CloudFront.',
+    hostLabel: 'Hébergeur',
+    addressLabel: 'Adresse',
+    phoneLabel: 'Téléphone',
     dataHeading: 'Données personnelles',
     dataTextOne:
-      'Ce site ne dépose aucun cookie de mesure d’audience ni de suivi publicitaire, et n’utilise aucun outil d’analyse tiers.',
+      'Ce site ne dépose aucun cookie de mesure d’audience ni de suivi publicitaire, et n’utilise aucun outil d’analyse tiers pour son propre compte.',
     dataTextTwo:
       'Le formulaire de contact ne transmet aucune donnée à un serveur : il compose un brouillon de message dans votre propre logiciel de messagerie, que vous relisez et envoyez vous-même. Les informations que vous choisissez d’envoyer par e-mail ou par LinkedIn sont traitées dans le seul but de répondre à votre demande, et conservées le temps nécessaire à cet échange.',
     dataTextThree:
       'Conformément au Règlement général sur la protection des données, vous disposez d’un droit d’accès, de rectification et d’effacement des données vous concernant. Pour l’exercer, écrivez à',
+    analyticsHeading: 'Mesure d’audience',
+    analyticsTextOne:
+      'L’audience du site est mesurée avec Matomo, hébergé dans l’Union européenne. Aucune donnée n’est transmise à un tiers : les mesures servent uniquement à savoir quelles pages sont lues et comment le site est utilisé.',
+    analyticsTextTwo:
+      'Cette mesure est exemptée de consentement par la CNIL : Matomo fonctionne ici sans cookie, l’adresse IP est anonymisée avant tout traitement, et aucune donnée n’est recoupée avec un autre traitement ni suivie d’un site à l’autre. Vous pouvez à tout moment vous opposer à cette mesure.',
+    analyticsOptOutLead: 'Vous êtes actuellement mesuré.',
+    analyticsOptOutButton: 'M’opposer à la mesure d’audience',
+    analyticsOptOutDone:
+      'Vous n’êtes plus mesuré : aucune donnée n’est collectée sur votre visite sur ce navigateur.',
+    analyticsOptInButton: 'Réactiver la mesure d’audience',
     ipHeading: 'Propriété intellectuelle',
     ipTextLead:
       'Les contenus de ce site, textes et éléments graphiques, sont la propriété d’',

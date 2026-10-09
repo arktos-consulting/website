@@ -5,7 +5,7 @@
  * A utility page: kept out of the sitemap and out of search results, while
  * staying reachable from the footer.
  */
-import { SITE } from '@/consts';
+import { SITE, HOSTING, MATOMO_CONFIGURED } from '@/consts';
 import type { Dictionary } from '@/i18n';
 
 interface Props {
@@ -38,11 +38,23 @@ const { t } = Astro.props;
         </div>
         <div>
           <dt>{t.legal.siretLabel}</dt>
-          <dd>{SITE.siret}</dd>
+          <dd>{SITE.siren}</dd>
+        </div>
+        <div>
+          <dt>{t.legal.rcsLabel}</dt>
+          <dd>{SITE.siren} RCS {SITE.rcsCity}</dd>
+        </div>
+        <div>
+          <dt>{t.legal.vatLabel}</dt>
+          <dd>{SITE.vatId}</dd>
         </div>
         <div>
           <dt>{t.legal.registeredOffice}</dt>
-          <dd>{SITE.city}, {SITE.region}, France</dd>
+          <dd>{SITE.headOffice.full}</dd>
+        </div>
+        <div>
+          <dt>{t.legal.parentLabel}</dt>
+          <dd>{t.legal.parentName}</dd>
         </div>
         <div>
           <dt>{t.legal.contactLabel}</dt>
@@ -50,14 +62,27 @@ const { t } = Astro.props;
         </div>
       </dl>
       <p class="legal-text">
-        {t.legal.registryText}
+        {t.legal.registryText}{' '}
         <a href={SITE.registryUrl} target="_blank" rel="noopener">{t.legal.registryLink}</a>.
       </p>
     </article>
 
     <article>
       <h2 class="legal-title">{t.legal.hostingHeading}</h2>
-      <p class="legal-text">{t.legal.hostingText}</p>
+      <dl class="legal-list">
+        <div>
+          <dt>{t.legal.hostLabel}</dt>
+          <dd>{HOSTING.entity}</dd>
+        </div>
+        <div>
+          <dt>{t.legal.addressLabel}</dt>
+          <dd>{HOSTING.address}</dd>
+        </div>
+        <div>
+          <dt>{t.legal.phoneLabel}</dt>
+          <dd><a href={HOSTING.phoneHref}>{HOSTING.phone}</a></dd>
+        </div>
+      </dl>
     </article>
 
     <article>
@@ -65,9 +90,33 @@ const { t } = Astro.props;
       <p class="legal-text">{t.legal.dataTextOne}</p>
       <p class="legal-text">{t.legal.dataTextTwo}</p>
       <p class="legal-text">
-        {t.legal.dataTextThree}
+        {t.legal.dataTextThree}{' '}
         <a href={SITE.emailHref}>{SITE.email}</a>.
       </p>
+    </article>
+
+    <article id="mesure-audience">
+      <h2 class="legal-title">{t.legal.analyticsHeading}</h2>
+      <p class="legal-text">{t.legal.analyticsTextOne}</p>
+      <p class="legal-text">{t.legal.analyticsTextTwo}</p>
+      {
+        MATOMO_CONFIGURED ? (
+          <div class="legal-optout">
+            <p class="legal-text" data-matomo-outcome="out" hidden>
+              {t.legal.analyticsOptOutDone}
+            </p>
+            <p class="legal-text" data-matomo-outcome="in">
+              {t.legal.analyticsOptOutLead}
+            </p>
+            <button class="legal-button" type="button" data-matomo-opt-out>
+              {t.legal.analyticsOptOutButton}
+            </button>
+            <button class="legal-button" type="button" data-matomo-opt-in hidden>
+              {t.legal.analyticsOptInButton}
+            </button>
+          </div>
+        ) : null
+      }
     </article>
 
     <article>
@@ -154,6 +203,30 @@ const { t } = Astro.props;
     color: var(--color-cyan);
     text-decoration: underline;
     text-underline-offset: 3px;
+  }
+
+  .legal-optout {
+    margin: 4px 0 0;
+  }
+
+  .legal-button {
+    margin: 4px 0 0;
+    padding: 10px 20px;
+    border: 1px solid var(--color-hairline);
+    border-radius: 6px;
+    background-color: transparent;
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: var(--color-ivory);
+    cursor: pointer;
+    transition:
+      border-color 0.2s,
+      color 0.2s;
+  }
+
+  .legal-button:hover {
+    border-color: var(--color-cyan);
+    color: var(--color-cyan);
   }
 
   @media (max-width: 600px) {
