@@ -63,7 +63,7 @@ export const SERVICES: readonly Service[] = [
   {
     slug: 'infogerance',
     title: 'Infogérance',
-    summary: 'Supervision, incidents, mises à jour. Votre plateforme tourne, vous dormez.',
+    summary: 'Supervision, incidents, mises à jour : la plateforme est suivie au quotidien.',
     includes: [
       'Exploitation de la plateforme au quotidien',
       'Supervision et gestion des incidents',
@@ -90,8 +90,8 @@ export const DIFFERENTIATORS: readonly Differentiator[] = [
     body: 'Pas d’avant-vente ni de sous-traitance. Le même interlocuteur du cadrage à la production.',
   },
   {
-    title: 'Je conteste la demande quand elle dessert l’objectif',
-    body: 'Si une approche moins coûteuse obtient le même résultat, je le dis.',
+    title: 'Une demande se discute',
+    body: 'Quand une approche moins coûteuse obtient le même résultat, je le dis avant de commencer.',
   },
   {
     title: 'Des équipes autonomes à la fin',

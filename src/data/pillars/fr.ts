@@ -215,7 +215,7 @@ const fr: PillarBundle = {
     hero: {
       eyebrow: 'Infogérance',
       title: 'J’exploite la plateforme',
-      accent: 'que vous ne voulez plus porter seul.',
+      accent: 'quand vous préférez vous concentrer sur le produit.',
       lede:
         'Vous gardez vos équipes produit, je prends en charge l’exploitation : supervision, mises à jour, incidents et coûts.',
     },

@@ -77,8 +77,7 @@ const fr = {
   /** Home page and references page. */
   references: {
     eyebrow: 'Références',
-    title: 'Des missions dont',
-    accent: 'le détail technique est public.',
+    title: 'Des missions dont le détail technique est public.',
     ledeCompact:
       'Bpifrance, SNCF, Doctolib, Canal+, Yseop. Le détail de chaque mission est sur la page Références.',
     ledeFull:
@@ -88,8 +87,8 @@ const fr = {
     footnote: 'Les missions nommées le sont avec l’accord des clients concernés.',
     /** References page hero. */
     pageTitle: 'Références: missions AWS & Kubernetes',
-    heroTitle: 'Le détail technique',
-    heroAccent: 'plutôt que les logos.',
+    heroTitle: 'Le détail technique des missions.',
+    heroAccent: '',
     heroLedeLead: 'missions : contexte, contrainte et résultat.',
   },
 
@@ -132,14 +131,14 @@ const fr = {
   /** Cloud Partners section. */
   cloudPartners: {
     eyebrow: 'Le collectif',
-    title: 'Pas une ESN.',
-    accent: 'Un collectif d’experts AWS.',
+    title: 'Je ne travaille pas seul.',
+    accent: 'Un collectif d’experts AWS certifiés.',
     bodyOneLead: 'Arktos Consulting est membre de',
     bodyOne:
-      ', un collectif d’architectes et d’ingénieurs AWS certifiés. Ce n’est pas un réseau commercial : chaque membre s’engage directement sur les projets qu’il porte.',
+      ', un collectif d’architectes et d’ingénieurs AWS certifiés. Chaque membre s’engage directement sur ses projets.',
     bodyTwoLead:
-      'Concrètement, vous gardez un interlocuteur unique sur votre projet, mais vous accédez à dix spécialistes quand le sujet l’exige : sécurité, données, machine learning, FinOps, IoT. Le partenariat AWS',
-    bodyTwoTail: 'est porté par le collectif et ses 50+ certifications.',
+      'Vous parlez toujours à moi. Quand un sujet sort de mon périmètre, c’est l’un d’eux qui intervient. Le partenariat AWS',
+    bodyTwoTail: 'est porté par le collectif.',
     ctaPrimary: 'Découvrir le collectif',
     ctaSecondary: 'Fiche partenaire AWS',
     badgeAlt: 'AWS Select Consulting Partner',

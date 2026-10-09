@@ -220,7 +220,7 @@ const en: PillarBundle = {
     hero: {
       eyebrow: 'Managed services',
       title: 'I run the platform',
-      accent: 'you no longer want to carry alone.',
+      accent: 'when you would rather focus on the product.',
       lede:
         'You keep your product teams; I take on operations: monitoring, upgrades, incidents and cost.',
     },

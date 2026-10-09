@@ -39,7 +39,7 @@ export const SERVICES: readonly Service[] = [
   {
     slug: 'managed-services',
     title: 'Managed services',
-    summary: 'Monitoring, incidents, upgrades. Your platform runs, you sleep.',
+    summary: 'Monitoring, incidents, upgrades: the platform is looked after day to day.',
     includes: [
       'Day-to-day platform operations',
       'Monitoring and incident management',
@@ -66,8 +66,8 @@ export const DIFFERENTIATORS: readonly Differentiator[] = [
     body: 'No pre-sales, no subcontracting. The same person from scoping through to production.',
   },
   {
-    title: 'I push back when a request works against your goal',
-    body: 'If a cheaper approach gets the same result, I say so.',
+    title: 'A request is open to discussion',
+    body: 'When a cheaper approach gets the same result, I say so before we start.',
   },
   {
     title: 'Teams that stand on their own afterwards',
