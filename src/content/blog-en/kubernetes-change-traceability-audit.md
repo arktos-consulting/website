@@ -1,6 +1,7 @@
 ---
 title: "Kubernetes change traceability for a regulatory audit"
-description: "How to answer the 'who changed what, when' requirement on a Kubernetes cluster, without deploying a heavy machinery."
+metaTitle: "Kubernetes change traceability for audits"
+description: "How to answer the 'who changed what, when' requirement on a Kubernetes cluster: what traceability really demands, and how to tool it."
 publishedAt: 2026-07-22
 tags: ["Kubernetes", "Compliance", "Audit"]
 summary: "Regulated industries require traceability of cluster changes. The Kubernetes audit log answers part of the question, but rarely in the form an auditor expects."

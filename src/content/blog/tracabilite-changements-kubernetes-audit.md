@@ -1,6 +1,7 @@
 ---
 title: "Traçabilité Kubernetes pour un audit réglementaire"
-description: "Comment répondre à l'exigence « qui a modifié quoi, quand » sur un cluster Kubernetes, sans déployer une usine à gaz."
+metaTitle: "Traçabilité Kubernetes pour un audit"
+description: "Comment répondre à l'exigence « qui a modifié quoi, quand » sur un cluster Kubernetes : ce que la traçabilité exige, et comment l'outiller sans usine à gaz."
 publishedAt: 2026-07-22
 tags: ["Kubernetes", "Conformité", "Audit"]
 summary: "Les secteurs régulés demandent une traçabilité des changements de cluster. L'audit log de Kubernetes répond en partie à la question, mais rarement dans la forme attendue par un auditeur."
