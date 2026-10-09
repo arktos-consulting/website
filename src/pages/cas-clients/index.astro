@@ -6,27 +6,28 @@
  * request path and the shared translation table, so this file declares only which
  * content to load.
  */
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import CaseStudyList from '@/components/CaseStudyList.astro';
-import { getDictionary } from '@/i18n';
-import { getCaseStudies } from '@/data/case-studies';
-import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import CaseStudyList from "@/components/CaseStudyList.astro"
+import { getDictionary } from "@/i18n"
+import { getCaseStudies } from "@/data/case-studies"
+import { buildBreadcrumbs, serializeJsonLd } from "@/utils/seo"
 
-const locale = 'fr' as const;
-const t = getDictionary(locale);
-const hub = getCaseStudies(locale);
+const locale = "fr" as const
+const t = getDictionary(locale)
+const hub = getCaseStudies(locale)
 
 const breadcrumbs = buildBreadcrumbs([
-  { name: 'Accueil', url: `${Astro.site}/` },
+  { name: "Accueil", url: `${Astro.site}/` },
   { name: hub.breadcrumb, url: `${Astro.site}${Astro.url.pathname}` },
-]);
+])
 ---
 
 <BaseLayout title={hub.title} description={hub.description}>
-  {
-    breadcrumbs && (
-      <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
-    )
-  }
+  {breadcrumbs && (
+    <script
+      type="application/ld+json"
+      set:html={serializeJsonLd(breadcrumbs)}
+    />
+  )}
   <CaseStudyList t={t} locale={locale} />
 </BaseLayout>

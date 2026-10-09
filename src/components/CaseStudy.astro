@@ -7,33 +7,33 @@
  * their answer in a heading. The layout is shared by both languages, so the French
  * and English pages cannot drift apart.
  */
-import type { Dictionary, Locale } from '@/i18n';
-import type { CaseStudy } from '@/data/case-studies';
-import { getCaseStudies, casePath, caseHubPath } from '@/data/case-studies';
-import { isParentCompanyStudy } from '@/data/case-studies/ownership';
-import Contact from '@/components/Contact.astro';
+import type { Dictionary, Locale } from "@/i18n"
+import type { CaseStudy } from "@/data/case-studies"
+import { getCaseStudies, casePath, caseHubPath } from "@/data/case-studies"
+import { isParentCompanyStudy } from "@/data/case-studies/ownership"
+import Contact from "@/components/Contact.astro"
 
 interface Props {
   /** The engagement this page tells. */
-  study: CaseStudy;
+  study: CaseStudy
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, used to resolve the other case studies and their links. */
-  locale: Locale;
+  locale: Locale
 }
 
-const { study, t, locale } = Astro.props;
-const hub = getCaseStudies(locale);
-const hubHref = caseHubPath(locale);
+const { study, t, locale } = Astro.props
+const hub = getCaseStudies(locale)
+const hubHref = caseHubPath(locale)
 
 /** The other engagements, kept in the list so a reader lands on another case. */
-const otherCases = hub.cases.filter((entry) => entry.id !== study.id);
+const otherCases = hub.cases.filter((entry) => entry.id !== study.id)
 
 const sections = [
   { heading: t.caseStudy.contextHeading, paragraphs: study.context },
   { heading: t.caseStudy.deliveredHeading, paragraphs: study.delivered },
   { heading: t.caseStudy.outcomeHeading, paragraphs: study.outcome },
-];
+]
 ---
 
 <section class="section page-hero">
@@ -46,26 +46,22 @@ const sections = [
     </p>
     <h1 class="case-title text-display-xl">{study.title}</h1>
     <p class="lede case-lede">{study.summary}</p>
-    {
-      isParentCompanyStudy(study.id) && (
-        <p class="case-notice">{t.parentStudy.notice}</p>
-      )
-    }
+    {isParentCompanyStudy(study.id) && (
+      <p class="case-notice">{t.parentStudy.notice}</p>
+    )}
   </div>
 </section>
 
 <section class="section section-alt">
   <div class="container case-body">
-    {
-      sections.map((section) => (
-        <article class="case-section">
-          <h2 class="case-heading text-display-md">{section.heading}</h2>
-          {section.paragraphs.map((paragraph) => (
-            <p class="case-text">{paragraph}</p>
-          ))}
-        </article>
-      ))
-    }
+    {sections.map((section) => (
+      <article class="case-section">
+        <h2 class="case-heading text-display-md">{section.heading}</h2>
+        {section.paragraphs.map((paragraph) => (
+          <p class="case-text">{paragraph}</p>
+        ))}
+      </article>
+    ))}
 
     {study.misc && (
       <article class="case-section">
@@ -91,19 +87,19 @@ const sections = [
 
 <section class="section">
   <div class="container">
-    <h2 class="case-heading text-display-md">{t.caseStudy.otherCasesHeading}</h2>
+    <h2 class="case-heading text-display-md">
+      {t.caseStudy.otherCasesHeading}
+    </h2>
     <ul class="other-case-list">
-      {
-        otherCases.map((entry) => (
-          <li class="other-case">
-            <a class="other-case-link" href={casePath(entry.id, locale)}>
-              <span class="other-case-client">{entry.client}</span>
-              <span class="other-case-title">{entry.title}</span>
-              <span class="other-case-period">{entry.period}</span>
-            </a>
-          </li>
-        ))
-      }
+      {otherCases.map((entry) => (
+        <li class="other-case">
+          <a class="other-case-link" href={casePath(entry.id, locale)}>
+            <span class="other-case-client">{entry.client}</span>
+            <span class="other-case-title">{entry.title}</span>
+            <span class="other-case-period">{entry.period}</span>
+          </a>
+        </li>
+      ))}
     </ul>
     <p class="case-back">
       <a class="btn btn-ghost btn-sm" href={hubHref}>
@@ -149,7 +145,8 @@ const sections = [
   .case-notice {
     margin: 18px 0 0;
     padding: 12px 16px;
-    border-left: 2px solid color-mix(in srgb, var(--color-cyan) 55%, transparent);
+    border-left: 2px solid
+      color-mix(in srgb, var(--color-cyan) 55%, transparent);
     font-size: 0.875rem;
     line-height: 1.6;
     color: var(--color-muted);

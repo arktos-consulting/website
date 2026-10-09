@@ -2,31 +2,31 @@
 /**
  * References page, French route.
  */
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import ReferencesPage from '@/components/ReferencesPage.astro';
-import { getDictionary } from '@/i18n';
-import { getCaseStudies } from '@/data/case-studies';
-import { missionClientNames } from '@/data';
-import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import ReferencesPage from "@/components/ReferencesPage.astro"
+import { getDictionary } from "@/i18n"
+import { getCaseStudies } from "@/data/case-studies"
+import { missionClientNames } from "@/data"
+import { buildBreadcrumbs, serializeJsonLd } from "@/utils/seo"
 
-const locale = 'fr' as const;
-const t = getDictionary(locale);
-const { cases } = getCaseStudies(locale);
+const locale = "fr" as const
+const t = getDictionary(locale)
+const { cases } = getCaseStudies(locale)
 
-
-const description = `${cases.length} missions d’infrastructure AWS, Kubernetes et DevOps : ${missionClientNames(locale).join(', ')}. Détail technique de chaque intervention.`;
+const description = `${cases.length} missions d’infrastructure AWS, Kubernetes et DevOps : ${missionClientNames(locale).join(", ")}. Détail technique de chaque intervention.`
 
 const breadcrumbs = buildBreadcrumbs([
-  { name: 'Accueil', url: `${Astro.site}/` },
-  { name: 'Références', url: `${Astro.site}${Astro.url.pathname}` },
-]);
+  { name: "Accueil", url: `${Astro.site}/` },
+  { name: "Références", url: `${Astro.site}${Astro.url.pathname}` },
+])
 ---
 
 <BaseLayout title={t.references.pageTitle} description={description}>
-  {
-    breadcrumbs && (
-      <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
-    )
-  }
+  {breadcrumbs && (
+    <script
+      type="application/ld+json"
+      set:html={serializeJsonLd(breadcrumbs)}
+    />
+  )}
   <ReferencesPage t={t} locale={locale} />
 </BaseLayout>

@@ -6,24 +6,24 @@
  * file is enough to publish one. The RSS feed is linked for readers who follow
  * the site without coming back to it.
  */
-import type { Dictionary, Locale } from '@/i18n';
-import SectionHeading from '@/components/SectionHeading.astro';
-import PostCard from '@/components/PostCard.astro';
-import Contact from '@/components/Contact.astro';
-import { getPublishedPosts } from '@/utils/blog';
+import type { Dictionary, Locale } from "@/i18n"
+import SectionHeading from "@/components/SectionHeading.astro"
+import PostCard from "@/components/PostCard.astro"
+import Contact from "@/components/Contact.astro"
+import { getPublishedPosts } from "@/utils/blog"
 
 interface Props {
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, used to select the post collection. */
-  locale: Locale;
+  locale: Locale
 }
 
-const { t, locale } = Astro.props;
-const posts = await getPublishedPosts(locale);
+const { t, locale } = Astro.props
+const posts = await getPublishedPosts(locale)
 
-const homeHref = locale === 'fr' ? '/#contact' : '/en/#contact';
-const rssHref = locale === 'fr' ? '/blog/rss.xml' : '/en/blog/rss.xml';
+const homeHref = locale === "fr" ? "/#contact" : "/en/#contact"
+const rssHref = locale === "fr" ? "/blog/rss.xml" : "/en/blog/rss.xml"
 ---
 
 <section class="section page-hero">
@@ -52,20 +52,19 @@ const rssHref = locale === 'fr' ? '/blog/rss.xml' : '/en/blog/rss.xml';
 
 <section class="section">
   <div class="container">
-    {
-      posts.length > 0 ? (
-        <ul class="post-list">
-          {posts.map((post) => (
-            <PostCard post={post} t={t} locale={locale} />
-          ))}
-        </ul>
-      ) : (
-        <p class="empty-state">
-          {t.blog.empty}
-          <a href={homeHref}>{t.blog.emptyContact}</a>{t.blog.emptyTail}
-        </p>
-      )
-    }
+    {posts.length > 0 ? (
+      <ul class="post-list">
+        {posts.map((post) => (
+          <PostCard post={post} t={t} locale={locale} />
+        ))}
+      </ul>
+    ) : (
+      <p class="empty-state">
+        {t.blog.empty}
+        <a href={homeHref}>{t.blog.emptyContact}</a>
+        {t.blog.emptyTail}
+      </p>
+    )}
   </div>
 </section>
 

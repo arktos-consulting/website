@@ -1,4 +1,4 @@
-import { CAREER } from '@/consts';
+import { CAREER } from "@/consts"
 
 /**
  * Computes the number of full years elapsed since a career date.
@@ -7,14 +7,13 @@ import { CAREER } from '@/consts';
  * @returns The number of complete years elapsed since that date
  */
 function yearsSince(start: { year: number; month: number }): number {
-  const now = new Date();
-  let years = now.getFullYear() - start.year;
-  const hasReachedAnniversary =
-    now.getMonth() + 1 >= start.month;
+  const now = new Date()
+  let years = now.getFullYear() - start.year
+  const hasReachedAnniversary = now.getMonth() + 1 >= start.month
   if (!hasReachedAnniversary) {
-    years -= 1;
+    years -= 1
   }
-  return years;
+  return years
 }
 
 /**
@@ -23,7 +22,7 @@ function yearsSince(start: { year: number; month: number }): number {
  * @returns The number of years of experience since the first engagement
  */
 export function totalYears(): number {
-  return yearsSince(CAREER.start);
+  return yearsSince(CAREER.start)
 }
 
 /**
@@ -32,7 +31,7 @@ export function totalYears(): number {
  * @returns The number of years of Kubernetes practice
  */
 export function kubernetesYears(): number {
-  return yearsSince(CAREER.kubernetesStart);
+  return yearsSince(CAREER.kubernetesStart)
 }
 
 /**
@@ -41,5 +40,5 @@ export function kubernetesYears(): number {
  * @returns The number of years since the first freelance engagement
  */
 export function freelanceYears(): number {
-  return yearsSince(CAREER.freelanceStart);
+  return yearsSince(CAREER.freelanceStart)
 }

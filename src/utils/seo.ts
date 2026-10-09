@@ -1,7 +1,7 @@
-import { SITE, PROFILES, CAREER } from '@/consts';
-import type { Locale } from '@/i18n';
-import { OG_LOCALES, getDictionary } from '@/i18n';
-import { getContent } from '@/data';
+import { SITE, PROFILES, CAREER } from "@/consts"
+import type { Locale } from "@/i18n"
+import { OG_LOCALES, getDictionary } from "@/i18n"
+import { getContent } from "@/data"
 
 /**
  * Topics declared per locale in `knowsAbout`.
@@ -11,34 +11,34 @@ import { getContent } from '@/data';
  */
 const KNOWS_ABOUT: Record<Locale, readonly string[]> = {
   fr: [
-    'Amazon Web Services',
-    'Kubernetes',
-    'Cloud souverain',
-    'Cloud privé',
-    'Intelligence artificielle',
-    'Agents LLM',
-    'Terraform',
-    'GitOps',
-    'Go',
-    'Python',
-    'FinOps',
-    'Site Reliability Engineering',
+    "Amazon Web Services",
+    "Kubernetes",
+    "Cloud souverain",
+    "Cloud privé",
+    "Intelligence artificielle",
+    "Agents LLM",
+    "Terraform",
+    "GitOps",
+    "Go",
+    "Python",
+    "FinOps",
+    "Site Reliability Engineering",
   ],
   en: [
-    'Amazon Web Services',
-    'Kubernetes',
-    'Sovereign cloud',
-    'Private cloud',
-    'Artificial intelligence',
-    'LLM agents',
-    'Terraform',
-    'GitOps',
-    'Go',
-    'Python',
-    'FinOps',
-    'Site Reliability Engineering',
+    "Amazon Web Services",
+    "Kubernetes",
+    "Sovereign cloud",
+    "Private cloud",
+    "Artificial intelligence",
+    "LLM agents",
+    "Terraform",
+    "GitOps",
+    "Go",
+    "Python",
+    "FinOps",
+    "Site Reliability Engineering",
   ],
-};
+}
 
 /**
  * Builds the site's JSON-LD structured data graph.
@@ -57,124 +57,135 @@ const KNOWS_ABOUT: Record<Locale, readonly string[]> = {
  * @returns The serialisable object to place in an `application/ld+json` tag
  */
 export function buildStructuredData(options: {
-  pageUrl: string;
-  pageTitle: string;
-  pageDescription: string;
-  locale: Locale;
-  certifications?: readonly string[];
+  pageUrl: string
+  pageTitle: string
+  pageDescription: string
+  locale: Locale
+  certifications?: readonly string[]
 }): Record<string, unknown> {
-  const { pageUrl, pageTitle, pageDescription, locale, certifications = [] } = options;
-  const { SERVICES } = getContent(locale);
+  const {
+    pageUrl,
+    pageTitle,
+    pageDescription,
+    locale,
+    certifications = [],
+  } = options
+  const { SERVICES } = getContent(locale)
 
-  const organizationId = `${SITE.url}/#organization`;
-  const founderId = `${SITE.url}/#${SITE.founder.toLowerCase().replace(/[^a-z]+/g, '-')}`;
-  const websiteId = `${SITE.url}/#website`;
+  const organizationId = `${SITE.url}/#organization`
+  const founderId = `${SITE.url}/#${SITE.founder.toLowerCase().replace(/[^a-z]+/g, "-")}`
+  const websiteId = `${SITE.url}/#website`
 
   const founder = {
-    '@type': 'Person',
-    '@id': founderId,
+    "@type": "Person",
+    "@id": founderId,
     name: SITE.founder,
     jobTitle: SITE.founderJobTitle,
     url: `${SITE.url}/`,
     email: `mailto:${SITE.email}`,
     knowsAbout: KNOWS_ABOUT[locale],
     address: {
-      '@type': 'PostalAddress',
+      "@type": "PostalAddress",
       addressLocality: SITE.city,
       addressRegion: SITE.region,
       addressCountry: SITE.country,
     },
-    worksFor: { '@id': organizationId },
+    worksFor: { "@id": organizationId },
     sameAs: [PROFILES.linkedin, PROFILES.github],
-  };
+  }
 
   const organization = {
-    '@type': ['ProfessionalService', 'Organization'],
-    '@id': organizationId,
+    "@type": ["ProfessionalService", "Organization"],
+    "@id": organizationId,
     name: SITE.name,
     legalName: SITE.legalName,
     url: `${SITE.url}/`,
     email: `mailto:${SITE.email}`,
-    foundingDate: `${CAREER.companyStart.year}-${String(CAREER.companyStart.month).padStart(2, '0')}`,
+    foundingDate: `${CAREER.companyStart.year}-${String(CAREER.companyStart.month).padStart(2, "0")}`,
     vatID: SITE.vatId,
     taxID: SITE.siren,
     address: {
-      '@type': 'PostalAddress',
+      "@type": "PostalAddress",
       addressLocality: SITE.headOffice.city,
       addressRegion: SITE.headOffice.region,
       addressCountry: SITE.country,
     },
     geo: {
-      '@type': 'GeoCoordinates',
+      "@type": "GeoCoordinates",
       latitude: SITE.geo.latitude,
       longitude: SITE.geo.longitude,
     },
     areaServed: [
-      { '@type': 'Country', name: 'France' },
-      { '@type': 'Place', name: 'Europe' },
+      { "@type": "Country", name: "France" },
+      { "@type": "Place", name: "Europe" },
     ],
     availableLanguage: [
-      { '@type': 'Language', name: 'French', alternateName: 'fr' },
-      { '@type': 'Language', name: 'English', alternateName: 'en' },
+      { "@type": "Language", name: "French", alternateName: "fr" },
+      { "@type": "Language", name: "English", alternateName: "en" },
     ],
-    founder: { '@id': founderId },
-    employee: { '@id': founderId },
+    founder: { "@id": founderId },
+    employee: { "@id": founderId },
     knowsAbout: KNOWS_ABOUT[locale],
     memberOf: {
-      '@type': 'Organization',
-      name: 'Cloud Partners',
+      "@type": "Organization",
+      name: "Cloud Partners",
       url: PROFILES.cloudPartners,
       description: describeCloudPartners(locale),
     },
     sameAs: [PROFILES.linkedin, PROFILES.github, SITE.registryUrl],
     ...(certifications.length > 0 && {
       hasCredential: certifications.map((name) => ({
-        '@type': 'EducationalOccupationalCredential',
+        "@type": "EducationalOccupationalCredential",
         name,
-        credentialCategory: 'certification',
-        recognizedBy: { '@type': 'Organization', name: 'Amazon Web Services' },
+        credentialCategory: "certification",
+        recognizedBy: { "@type": "Organization", name: "Amazon Web Services" },
       })),
     }),
     hasOfferCatalog: {
-      '@type': 'OfferCatalog',
+      "@type": "OfferCatalog",
       name: offerCatalogName(locale),
       itemListElement: SERVICES.map((service) => ({
-        '@type': 'Offer',
+        "@type": "Offer",
         itemOffered: {
-          '@type': 'Service',
+          "@type": "Service",
           name: service.title,
           description: service.summary,
           serviceType: service.title,
-          provider: { '@id': organizationId },
-          areaServed: { '@type': 'Country', name: 'France' },
+          provider: { "@id": organizationId },
+          areaServed: { "@type": "Country", name: "France" },
         },
       })),
     },
-  };
+  }
 
   const website = {
-    '@type': 'WebSite',
-    '@id': websiteId,
+    "@type": "WebSite",
+    "@id": websiteId,
     url: `${SITE.url}/`,
     name: SITE.name,
     inLanguage: locale,
-    publisher: { '@id': organizationId },
-  };
+    publisher: { "@id": organizationId },
+  }
 
   const webpage = {
-    '@type': 'WebPage',
-    '@id': pageUrl,
+    "@type": "WebPage",
+    "@id": pageUrl,
     url: pageUrl,
     name: pageTitle,
     description: pageDescription,
-    isPartOf: { '@id': websiteId },
-    about: { '@id': organizationId },
+    isPartOf: { "@id": websiteId },
+    about: { "@id": organizationId },
     inLanguage: locale,
-  };
+  }
 
-  const graph: Record<string, unknown>[] = [organization, founder, website, webpage];
+  const graph: Record<string, unknown>[] = [
+    organization,
+    founder,
+    website,
+    webpage,
+  ]
 
-  return { '@context': 'https://schema.org', '@graph': graph };
+  return { "@context": "https://schema.org", "@graph": graph }
 }
 
 /**
@@ -184,9 +195,9 @@ export function buildStructuredData(options: {
  * @returns The collective's description
  */
 function describeCloudPartners(locale: Locale): string {
-  return locale === 'fr'
-    ? 'Collectif de dix architectes et ingénieurs AWS certifiés, partenariat AWS Select Consulting.'
-    : 'A collective of ten certified AWS architects and engineers, an AWS Select Consulting partner.';
+  return locale === "fr"
+    ? "Collectif de dix architectes et ingénieurs AWS certifiés, partenariat AWS Select Consulting."
+    : "A collective of ten certified AWS architects and engineers, an AWS Select Consulting partner."
 }
 
 /**
@@ -196,9 +207,9 @@ function describeCloudPartners(locale: Locale): string {
  * @returns The catalogue name
  */
 function offerCatalogName(locale: Locale): string {
-  return locale === 'fr'
-    ? 'Prestations de conseil et d’infogérance'
-    : 'Consulting and managed services';
+  return locale === "fr"
+    ? "Prestations de conseil et d’infogérance"
+    : "Consulting and managed services"
 }
 
 /**
@@ -208,22 +219,22 @@ function offerCatalogName(locale: Locale): string {
  * @returns The serialisable `BreadcrumbList` object, or `null` when the trail is empty
  */
 export function buildBreadcrumbs(
-  trail: readonly { name: string; url: string }[],
+  trail: readonly { name: string; url: string }[]
 ): Record<string, unknown> | null {
   if (trail.length === 0) {
-    return null;
+    return null
   }
 
   return {
-    '@context': 'https://schema.org',
-    '@type': 'BreadcrumbList',
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
     itemListElement: trail.map((step, index) => ({
-      '@type': 'ListItem',
+      "@type": "ListItem",
       position: index + 1,
       name: step.name,
       item: step.url,
     })),
-  };
+  }
 }
 
 /**
@@ -236,7 +247,7 @@ export function buildBreadcrumbs(
  * @returns The JSON string, ready to be inserted
  */
 export function serializeJsonLd(data: Record<string, unknown>): string {
-  return JSON.stringify(data).replace(/</g, '\\u003c');
+  return JSON.stringify(data).replace(/</g, "\\u003c")
 }
 
 /**
@@ -246,7 +257,7 @@ export function serializeJsonLd(data: Record<string, unknown>): string {
  * @returns The Open Graph locale tag, such as `fr_FR`
  */
 export function ogLocale(locale: Locale): string {
-  return OG_LOCALES[locale];
+  return OG_LOCALES[locale]
 }
 
 /**
@@ -256,6 +267,6 @@ export function ogLocale(locale: Locale): string {
  * @returns The other locale and its dictionary, ready to be linked
  */
 export function alternateDictionary(locale: Locale) {
-  const target: Locale = locale === 'fr' ? 'en' : 'fr';
-  return { target, dictionary: getDictionary(target) };
+  const target: Locale = locale === "fr" ? "en" : "fr"
+  return { target, dictionary: getDictionary(target) }
 }

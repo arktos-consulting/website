@@ -10,11 +10,11 @@
  * declare its translation: the mapping is centralised in `@/i18n/routes` and
  * shared with the sitemap.
  */
-import '@/styles/global.css';
-import '@/styles/components.css';
+import "@/styles/global.css"
+import "@/styles/components.css"
 
-import { SITE, MATOMO, MATOMO_CONFIGURED } from '@/consts';
-import { buildStructuredData, serializeJsonLd } from '@/utils/seo';
+import { SITE, MATOMO, MATOMO_CONFIGURED } from "@/consts"
+import { buildStructuredData, serializeJsonLd } from "@/utils/seo"
 import {
   getDictionary,
   HREFLANG,
@@ -24,15 +24,15 @@ import {
   findRoutePair,
   alternatePath,
   type Locale,
-} from '@/i18n';
-import Header from '@/components/Header.astro';
-import Footer from '@/components/Footer.astro';
+} from "@/i18n"
+import Header from "@/components/Header.astro"
+import Footer from "@/components/Footer.astro"
 
 interface Props {
   /** Page title, without the company name. */
-  title: string;
+  title: string
   /** Description shown in search results. */
-  description: string;
+  description: string
   /**
    * Overrides the path the page is considered to live at.
    *
@@ -40,17 +40,17 @@ interface Props {
    * translation table. Set this only when the rendered path is not the canonical
    * one — a paginated listing, for instance.
    */
-  path?: string;
+  path?: string
   /** Certifications to declare in structured data. */
-  certifications?: readonly string[];
+  certifications?: readonly string[]
   /** Prevents indexing, for utility pages. */
-  noindex?: boolean;
+  noindex?: boolean
   /** Open Graph type; `article` on blog posts, `website` elsewhere. */
-  ogType?: 'website' | 'article';
+  ogType?: "website" | "article"
   /** Publication and revision dates, required by `og:type=article`. */
-  articleTimes?: { published: Date; updated?: Date };
+  articleTimes?: { published: Date; updated?: Date }
   /** Specific share image, otherwise the site image is used. */
-  ogImage?: string;
+  ogImage?: string
 }
 
 const {
@@ -59,15 +59,15 @@ const {
   path = Astro.url.pathname,
   certifications = [],
   noindex = false,
-  ogType = 'website',
+  ogType = "website",
   articleTimes,
   ogImage = `${SITE.url}/images/og-cover.jpg`,
-} = Astro.props;
+} = Astro.props
 
-const locale = toLocale(Astro.currentLocale) ?? DEFAULT_LOCALE;
-const t = getDictionary(locale);
+const locale = toLocale(Astro.currentLocale) ?? DEFAULT_LOCALE
+const t = getDictionary(locale)
 
-const pageUrl = new URL(path, Astro.site).href;
+const pageUrl = new URL(path, Astro.site).href
 
 /**
  * The page's translation pair, looked up from the path.
@@ -76,21 +76,21 @@ const pageUrl = new URL(path, Astro.site).href;
  * URL and no `hreflang` at all, which is safer than pointing an alternate at a
  * page that does not answer in that language.
  */
-const pair = findRoutePair(path);
-const otherLocale: Locale = locale === 'fr' ? 'en' : 'fr';
+const pair = findRoutePair(path)
+const otherLocale: Locale = locale === "fr" ? "en" : "fr"
 
 /**
  * Target of the language switch, as a path rather than an absolute URL, so the
  * visitor stays on the host they are on: a preview deployment must not send them
  * to production.
  */
-const switchHref = alternatePath(path, locale);
+const switchHref = alternatePath(path, locale)
 
 /** Home pages carry their own full title; others get the company suffix. */
-const isHome = path === '/' || path === '/en/';
+const isHome = path === "/" || path === "/en/"
 const fullTitle = isHome
   ? `${SITE.name}: ${t.hero.eyebrow}`
-  : `${title}: ${SITE.name}`;
+  : `${title}: ${SITE.name}`
 
 const structuredData = buildStructuredData({
   pageUrl,
@@ -98,7 +98,7 @@ const structuredData = buildStructuredData({
   pageDescription: description,
   locale,
   certifications,
-});
+})
 ---
 
 <!doctype html>
@@ -116,9 +116,21 @@ const structuredData = buildStructuredData({
          the French page, which is the site's primary language. */
       pair && (
         <>
-          <link rel="alternate" hreflang={HREFLANG.fr} href={new URL(pair.fr, Astro.site).href} />
-          <link rel="alternate" hreflang={HREFLANG.en} href={new URL(pair.en, Astro.site).href} />
-          <link rel="alternate" hreflang="x-default" href={new URL(pair.fr, Astro.site).href} />
+          <link
+            rel="alternate"
+            hreflang={HREFLANG.fr}
+            href={new URL(pair.fr, Astro.site).href}
+          />
+          <link
+            rel="alternate"
+            hreflang={HREFLANG.en}
+            href={new URL(pair.en, Astro.site).href}
+          />
+          <link
+            rel="alternate"
+            hreflang="x-default"
+            href={new URL(pair.fr, Astro.site).href}
+          />
         </>
       )
     }
@@ -131,11 +143,9 @@ const structuredData = buildStructuredData({
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:locale" content={OG_LOCALES[locale]} />
-    {
-      switchHref && (
-        <meta property="og:locale:alternate" content={OG_LOCALES[otherLocale]} />
-      )
-    }
+    {switchHref && (
+      <meta property="og:locale:alternate" content={OG_LOCALES[otherLocale]} />
+    )}
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={pageUrl} />
@@ -144,20 +154,21 @@ const structuredData = buildStructuredData({
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={t.footer.tagline} />
 
-    {
-      articleTimes && (
-        <>
+    {articleTimes && (
+      <>
+        <meta
+          property="article:published_time"
+          content={articleTimes.published.toISOString()}
+        />
+        {articleTimes.updated && (
           <meta
-            property="article:published_time"
-            content={articleTimes.published.toISOString()}
+            property="article:modified_time"
+            content={articleTimes.updated.toISOString()}
           />
-          {articleTimes.updated && (
-            <meta property="article:modified_time" content={articleTimes.updated.toISOString()} />
-          )}
-          <meta property="article:author" content={SITE.founder} />
-        </>
-      )
-    }
+        )}
+        <meta property="article:author" content={SITE.founder} />
+      </>
+    )}
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
@@ -168,10 +179,15 @@ const structuredData = buildStructuredData({
 
     <meta name="theme-color" content="#05031a" />
 
-    <script type="application/ld+json" set:html={serializeJsonLd(structuredData)} />
+    <script
+      type="application/ld+json"
+      set:html={serializeJsonLd(structuredData)}
+    />
   </head>
   <body>
-    <a class="skip-link" href="#main">{t.common.skipToContent}</a>
+    <a class="skip-link" href="#main">
+      {t.common.skipToContent}
+    </a>
     <Header t={t} locale={locale} alternateUrl={switchHref} />
     <main id="main">
       <slot />
@@ -183,124 +199,124 @@ const structuredData = buildStructuredData({
         away and so there is no extra request. Runs once on load and covers
         everything on the page, including content that does not exist yet. */}
     <script is:inline>
-      (() => {
+      ;(() => {
         const reduceMotion = window.matchMedia(
-          '(prefers-reduced-motion: reduce)',
-        ).matches;
-        const mark = (el) => el.classList.add('is-visible');
-        const targets = document.querySelectorAll('[data-reveal]');
+          "(prefers-reduced-motion: reduce)"
+        ).matches
+        const mark = (el) => el.classList.add("is-visible")
+        const targets = document.querySelectorAll("[data-reveal]")
 
-        if (reduceMotion || !('IntersectionObserver' in window)) {
-          targets.forEach(mark);
-          return;
+        if (reduceMotion || !("IntersectionObserver" in window)) {
+          targets.forEach(mark)
+          return
         }
 
         const observer = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
               if (entry.isIntersecting) {
-                mark(entry.target);
-                observer.unobserve(entry.target);
+                mark(entry.target)
+                observer.unobserve(entry.target)
               }
             }
           },
-          { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
-        );
+          { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+        )
 
-        targets.forEach((el) => observer.observe(el));
-      })();
+        targets.forEach((el) => observer.observe(el))
+      })()
     </script>
-
     {/* Audience measurement, Matomo in cookieless mode: no cookie is written,
         so the CNIL consent exemption applies and no banner is shown. The
         opt-out is applied before the tracker loads, and the code is not emitted
         while the Matomo constants are placeholders. */}
-    {
-      MATOMO_CONFIGURED && (
-        <>
-          <script
-            is:inline
-            define:vars={{ matomoUrl: MATOMO.url, matomoSiteId: MATOMO.siteId }}
-          >
-            var _paq = (window._paq = window._paq || []);
-            var optOutKey = 'matomo-opt-out';
-            var hasOptedOut = false;
-            try {
-              hasOptedOut = window.localStorage.getItem(optOutKey) === 'true';
-            } catch (storageError) {
-              hasOptedOut = false;
-            }
-            if (hasOptedOut) {
-              _paq.push(['optUserOut']);
-            }
-            _paq.push(['disableCookies']);
-            _paq.push(['setTrackerUrl', matomoUrl + 'matomo.php']);
-            _paq.push(['setSiteId', matomoSiteId]);
-            _paq.push(['trackPageView']);
-            _paq.push(['enableLinkTracking']);
-            (function () {
-              var tracker = document.createElement('script');
-              tracker.async = true;
-              tracker.src = matomoUrl + 'matomo.js';
-              document.head.appendChild(tracker);
-            })();
-          </script>
+    {MATOMO_CONFIGURED && (
+      <>
+        <script
+          is:inline
+          define:vars={{ matomoUrl: MATOMO.url, matomoSiteId: MATOMO.siteId }}
+        >
+          var _paq = (window._paq = window._paq || [])
+          var optOutKey = "matomo-opt-out"
+          var hasOptedOut = false
+          try {
+            hasOptedOut = window.localStorage.getItem(optOutKey) === "true"
+          } catch (storageError) {
+            hasOptedOut = false
+          }
+          if (hasOptedOut) {
+            _paq.push(["optUserOut"])
+          }
+          _paq.push(["disableCookies"])
+          _paq.push(["setTrackerUrl", matomoUrl + "matomo.php"])
+          _paq.push(["setSiteId", matomoSiteId])
+          _paq.push(["trackPageView"])
+          _paq.push(["enableLinkTracking"])
+          ;(function () {
+            var tracker = document.createElement("script")
+            tracker.async = true
+            tracker.src = matomoUrl + "matomo.js"
+            document.head.appendChild(tracker)
+          })()
+        </script>
+        <script is:inline>
+          ;(() => {
+            const optOutButton = document.querySelector("[data-matomo-opt-out]")
+            const optInButton = document.querySelector("[data-matomo-opt-in]")
+            const trackedNotice = document.querySelector(
+              '[data-matomo-outcome="in"]'
+            )
+            const excludedNotice = document.querySelector(
+              '[data-matomo-outcome="out"]'
+            )
+            const storageKey = "matomo-opt-out"
 
-          <script is:inline>
-            (() => {
-              const optOutButton = document.querySelector('[data-matomo-opt-out]');
-              const optInButton = document.querySelector('[data-matomo-opt-in]');
-              const trackedNotice = document.querySelector('[data-matomo-outcome="in"]');
-              const excludedNotice = document.querySelector('[data-matomo-outcome="out"]');
-              const storageKey = 'matomo-opt-out';
+            const readOptOut = () => {
+              try {
+                return window.localStorage.getItem(storageKey) === "true"
+              } catch (storageError) {
+                return false
+              }
+            }
 
-              const readOptOut = () => {
+            const render = () => {
+              const hasOptedOut = readOptOut()
+              if (optOutButton) optOutButton.hidden = hasOptedOut
+              if (optInButton) optInButton.hidden = !hasOptedOut
+              if (trackedNotice) trackedNotice.hidden = hasOptedOut
+              if (excludedNotice) excludedNotice.hidden = !hasOptedOut
+            }
+
+            if (optOutButton) {
+              optOutButton.addEventListener("click", () => {
+                const queue = (window._paq = window._paq || [])
+                queue.push(["optUserOut"])
                 try {
-                  return window.localStorage.getItem(storageKey) === 'true';
+                  window.localStorage.setItem(storageKey, "true")
                 } catch (storageError) {
-                  return false;
+                  /* Storage unavailable: the Matomo opt-out cookie still applies. */
                 }
-              };
+                render()
+              })
+            }
 
-              const render = () => {
-                const hasOptedOut = readOptOut();
-                if (optOutButton) optOutButton.hidden = hasOptedOut;
-                if (optInButton) optInButton.hidden = !hasOptedOut;
-                if (trackedNotice) trackedNotice.hidden = hasOptedOut;
-                if (excludedNotice) excludedNotice.hidden = !hasOptedOut;
-              };
+            if (optInButton) {
+              optInButton.addEventListener("click", () => {
+                const queue = (window._paq = window._paq || [])
+                queue.push(["forgetUserOptOut"])
+                try {
+                  window.localStorage.removeItem(storageKey)
+                } catch (storageError) {
+                  /* Storage unavailable: the Matomo opt-out cookie still applies. */
+                }
+                render()
+              })
+            }
 
-              if (optOutButton) {
-                optOutButton.addEventListener('click', () => {
-                  const queue = (window._paq = window._paq || []);
-                  queue.push(['optUserOut']);
-                  try {
-                    window.localStorage.setItem(storageKey, 'true');
-                  } catch (storageError) {
-                    /* Storage unavailable: the Matomo opt-out cookie still applies. */
-                  }
-                  render();
-                });
-              }
-
-              if (optInButton) {
-                optInButton.addEventListener('click', () => {
-                  const queue = (window._paq = window._paq || []);
-                  queue.push(['forgetUserOptOut']);
-                  try {
-                    window.localStorage.removeItem(storageKey);
-                  } catch (storageError) {
-                    /* Storage unavailable: the Matomo opt-out cookie still applies. */
-                  }
-                  render();
-                });
-              }
-
-              render();
-            })();
-          </script>
-        </>
-      )
-    }
+            render()
+          })()
+        </script>
+      </>
+    )}
   </body>
 </html>

@@ -30,6 +30,11 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      # First because it is the cheapest: a formatting drift is caught before
+      # anything is compiled.
+      - name: Check formatting
+        run: bun run format:check
+
       # Covers both TypeScript and the Astro components. `tsc` alone does not
       # read .astro files, so a missing type export in a component passes it and
       # only fails here.

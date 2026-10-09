@@ -14,18 +14,18 @@
  * wired in BaseLayout. Everything collapses to static under
  * `prefers-reduced-motion`.
  */
-import type { Dictionary, Locale } from '@/i18n';
+import type { Dictionary, Locale } from "@/i18n"
 
 interface Props {
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, used to resolve editorial content. */
-  locale: Locale;
+  locale: Locale
 }
 
-const { t, locale } = Astro.props;
+const { t, locale } = Astro.props
 
-const homeHref = locale === 'fr' ? '/' : '/en/';
+const homeHref = locale === "fr" ? "/" : "/en/"
 ---
 
 <section class="hero">
@@ -34,19 +34,24 @@ const homeHref = locale === 'fr' ? '/' : '/en/';
 
   <div class="container hero-inner">
     <div class="hero-copy">
-      <p class="eyebrow" data-reveal>{t.hero.eyebrow}</p>
+      <p class="eyebrow" data-reveal>
+        {t.hero.eyebrow}
+      </p>
       <h1 class="text-display-xl hero-title" data-reveal data-reveal-delay="1">
-        {t.hero.titleLead}{' '}
-        <span class="accent">{t.hero.titleAccent}</span>
+        {t.hero.titleLead} <span class="accent">{t.hero.titleAccent}</span>
       </h1>
       <p class="lede hero-lede" data-reveal data-reveal-delay="2">
         {t.hero.ledeLead}
         <br />
-        <strong class="hero-modes">{t.hero.ledeModes}</strong>{', '}{t.hero.ledeReply}
+        <strong class="hero-modes">{t.hero.ledeModes}</strong>
+        {", "}
+        {t.hero.ledeReply}
       </p>
 
       <div class="hero-actions" data-reveal data-reveal-delay="3">
-        <a class="btn btn-primary" href={`${homeHref}#contact`}>{t.hero.ctaPrimary}</a>
+        <a class="btn btn-primary" href={`${homeHref}#contact`}>
+          {t.hero.ctaPrimary}
+        </a>
       </div>
     </div>
 
@@ -93,7 +98,7 @@ const homeHref = locale === 'fr' ? '/' : '/en/';
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background-image: url('/images/circuit-grid.svg');
+    background-image: url("/images/circuit-grid.svg");
     background-size: 120px 120px;
     mask-image: linear-gradient(to bottom, #000 40%, transparent 90%);
     -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent 90%);

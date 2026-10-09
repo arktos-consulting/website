@@ -6,34 +6,34 @@
  * an answer engine without running a script. The page title and description come
  * from the same content object as the visible text, so the two cannot disagree.
  */
-import type { GetStaticPaths } from 'astro';
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import CaseStudy from '@/components/CaseStudy.astro';
-import { SITE } from '@/consts';
-import { getDictionary } from '@/i18n';
-import { getCaseStudies, casePath } from '@/data/case-studies';
-import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
+import type { GetStaticPaths } from "astro"
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import CaseStudy from "@/components/CaseStudy.astro"
+import { SITE } from "@/consts"
+import { getDictionary } from "@/i18n"
+import { getCaseStudies, casePath } from "@/data/case-studies"
+import { buildBreadcrumbs, serializeJsonLd } from "@/utils/seo"
 
 export const getStaticPaths = (() => {
-  const hub = getCaseStudies('fr');
+  const hub = getCaseStudies("fr")
   return hub.cases.map((study) => ({
     params: { slug: study.slug },
     props: { study },
-  }));
-}) satisfies GetStaticPaths;
+  }))
+}) satisfies GetStaticPaths
 
-const locale = 'fr' as const;
-const t = getDictionary(locale);
-const hub = getCaseStudies(locale);
-const { study } = Astro.props;
+const locale = "fr" as const
+const t = getDictionary(locale)
+const hub = getCaseStudies(locale)
+const { study } = Astro.props
 
-const pageUrl = `${SITE.url}${casePath(study.id, locale)}`;
+const pageUrl = `${SITE.url}${casePath(study.id, locale)}`
 
 const breadcrumbs = buildBreadcrumbs([
-  { name: 'Accueil', url: `${SITE.url}/` },
+  { name: "Accueil", url: `${SITE.url}/` },
   { name: hub.breadcrumb, url: `${SITE.url}/cas-clients/` },
   { name: study.client, url: pageUrl },
-]);
+])
 
 /**
  * Case study structured data.
@@ -43,33 +43,34 @@ const breadcrumbs = buildBreadcrumbs([
  * the stack, rather than reusing the text without attribution.
  */
 const caseSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'CreativeWork',
-  '@id': `${pageUrl}#case-study`,
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "@id": `${pageUrl}#case-study`,
   name: study.title,
   description: study.summary,
   url: pageUrl,
   inLanguage: locale,
-  about: { '@type': 'Organization', name: study.client },
-  ...(study.stack.length > 0 && { keywords: study.stack.join(', ') }),
+  about: { "@type": "Organization", name: study.client },
+  ...(study.stack.length > 0 && { keywords: study.stack.join(", ") }),
   author: {
-    '@type': 'Person',
+    "@type": "Person",
     name: SITE.founder,
     jobTitle: SITE.founderJobTitle,
     url: `${SITE.url}/`,
   },
-  publisher: { '@id': `${SITE.url}/#organization` },
-  isPartOf: { '@id': `${SITE.url}/#website` },
+  publisher: { "@id": `${SITE.url}/#organization` },
+  isPartOf: { "@id": `${SITE.url}/#website` },
   mainEntityOfPage: pageUrl,
-};
+}
 ---
 
 <BaseLayout title={study.title} description={study.summary}>
   <script type="application/ld+json" set:html={serializeJsonLd(caseSchema)} />
-  {
-    breadcrumbs && (
-      <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
-    )
-  }
+  {breadcrumbs && (
+    <script
+      type="application/ld+json"
+      set:html={serializeJsonLd(breadcrumbs)}
+    />
+  )}
   <CaseStudy study={study} t={t} locale={locale} />
 </BaseLayout>

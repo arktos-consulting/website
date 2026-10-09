@@ -5,22 +5,22 @@
  * Rendered from content rather than written inline, so the French and English
  * pages share one layout and cannot drift apart.
  */
-import type { AiPillar } from '@/data/pillars';
-import type { Dictionary, Locale } from '@/i18n';
-import SectionHeading from '@/components/SectionHeading.astro';
-import PillarHero from '@/components/PillarHero.astro';
-import Contact from '@/components/Contact.astro';
+import type { AiPillar } from "@/data/pillars"
+import type { Dictionary, Locale } from "@/i18n"
+import SectionHeading from "@/components/SectionHeading.astro"
+import PillarHero from "@/components/PillarHero.astro"
+import Contact from "@/components/Contact.astro"
 
 interface Props {
   /** Page content for the current locale. */
-  pillar: AiPillar;
+  pillar: AiPillar
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, passed down to the contact section. */
-  locale: Locale;
+  locale: Locale
 }
 
-const { pillar, t, locale } = Astro.props;
+const { pillar, t, locale } = Astro.props
 ---
 
 <PillarHero heading={pillar.hero} cta={pillar.cta} title={pillar.title} />
@@ -34,22 +34,22 @@ const { pillar, t, locale } = Astro.props;
       lede={pillar.useCasesHeading.lede}
     />
     <ol class="use-case-list">
-      {
-        pillar.useCases.map((useCase) => (
-          <li class="use-case">
-            <div class="use-case-head">
-              <span class="use-case-step" aria-hidden="true">{useCase.step}</span>
-              <h2 class="use-case-title">{useCase.title}</h2>
-            </div>
-            <p class="use-case-detail">{useCase.detail}</p>
-            <ul class="check-list use-case-items">
-              {useCase.items.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          </li>
-        ))
-      }
+      {pillar.useCases.map((useCase) => (
+        <li class="use-case">
+          <div class="use-case-head">
+            <span class="use-case-step" aria-hidden="true">
+              {useCase.step}
+            </span>
+            <h2 class="use-case-title">{useCase.title}</h2>
+          </div>
+          <p class="use-case-detail">{useCase.detail}</p>
+          <ul class="check-list use-case-items">
+            {useCase.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </li>
+      ))}
     </ol>
   </div>
 </section>
@@ -62,14 +62,12 @@ const { pillar, t, locale } = Astro.props;
       accent={pillar.cautionsHeading.accent}
     />
     <ul class="caution-grid">
-      {
-        pillar.cautions.map((caution) => (
-          <li class="card">
-            <h3 class="card-title text-display-sm">{caution.title}</h3>
-            <p class="card-text">{caution.body}</p>
-          </li>
-        ))
-      }
+      {pillar.cautions.map((caution) => (
+        <li class="card">
+          <h3 class="card-title text-display-sm">{caution.title}</h3>
+          <p class="card-text">{caution.body}</p>
+        </li>
+      ))}
     </ul>
   </div>
 </section>
@@ -83,14 +81,12 @@ const { pillar, t, locale } = Astro.props;
       lede={pillar.credentialsHeading.lede}
     />
     <ul class="credential-list">
-      {
-        pillar.credentials.map((credential) => (
-          <li class="credential">
-            <h3 class="credential-label">{credential.label}</h3>
-            <p class="credential-detail">{credential.detail}</p>
-          </li>
-        ))
-      }
+      {pillar.credentials.map((credential) => (
+        <li class="credential">
+          <h3 class="credential-label">{credential.label}</h3>
+          <p class="credential-detail">{credential.detail}</p>
+        </li>
+      ))}
     </ul>
   </div>
 </section>

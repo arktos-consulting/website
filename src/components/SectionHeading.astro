@@ -8,25 +8,31 @@
  */
 interface Props {
   /** Small-caps overline. */
-  eyebrow?: string;
+  eyebrow?: string
   /** Start of the heading, in full colour. */
-  title: string;
+  title: string
   /** End of the heading, highlighted with the accent gradient. */
-  accent?: string;
+  accent?: string
   /** Introductory paragraph under the heading. */
-  lede?: string;
+  lede?: string
   /** HTML heading level, to respect the page hierarchy. */
-  level?: 'h1' | 'h2';
+  level?: "h1" | "h2"
 }
 
-const { eyebrow, title, accent, lede, level = 'h2' } = Astro.props;
-const Heading = level;
+const { eyebrow, title, accent, lede, level = "h2" } = Astro.props
+const Heading = level
 ---
 
 <div class="section-head">
   {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-  <Heading class:list={['section-title', level === 'h1' ? 'text-display-xl' : 'text-display-lg']}>
-    {title}{accent && <span class="accent"> {accent}</span>}
+  <Heading
+    class:list={[
+      "section-title",
+      level === "h1" ? "text-display-xl" : "text-display-lg",
+    ]}
+  >
+    {title}
+    {accent && <span class="accent"> {accent}</span>}
   </Heading>
   {lede && <p class="lede section-lede">{lede}</p>}
 </div>

@@ -1,5 +1,5 @@
-import { getCollection, type CollectionEntry } from 'astro:content';
-import type { Locale } from '@/i18n';
+import { getCollection, type CollectionEntry } from "astro:content"
+import type { Locale } from "@/i18n"
 
 /**
  * Blog helpers.
@@ -13,47 +13,47 @@ import type { Locale } from '@/i18n';
 
 /** Long date formatters, one per locale. */
 const DATE_FORMATTERS: Record<Locale, Intl.DateTimeFormat> = {
-  fr: new Intl.DateTimeFormat('fr-FR', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    timeZone: 'Europe/Paris',
+  fr: new Intl.DateTimeFormat("fr-FR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Europe/Paris",
   }),
-  en: new Intl.DateTimeFormat('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    timeZone: 'Europe/Paris',
+  en: new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "Europe/Paris",
   }),
-};
+}
 
 /** Short formatters, for dense lists. */
 const SHORT_DATE_FORMATTERS: Record<Locale, Intl.DateTimeFormat> = {
-  fr: new Intl.DateTimeFormat('fr-FR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    timeZone: 'Europe/Paris',
+  fr: new Intl.DateTimeFormat("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    timeZone: "Europe/Paris",
   }),
-  en: new Intl.DateTimeFormat('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    timeZone: 'Europe/Paris',
+  en: new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    timeZone: "Europe/Paris",
   }),
-};
+}
 
 /** Astro collection holding the posts of a locale. */
 export const BLOG_COLLECTIONS = {
-  fr: 'blog',
-  en: 'blogEn',
-} as const;
+  fr: "blog",
+  en: "blogEn",
+} as const
 
 /** Astro collection name for a locale's posts. */
-export type BlogCollection = (typeof BLOG_COLLECTIONS)[Locale];
+export type BlogCollection = (typeof BLOG_COLLECTIONS)[Locale]
 
 /** A blog post entry, whichever locale it belongs to. */
-export type PostEntry = CollectionEntry<'blog'> | CollectionEntry<'blogEn'>;
+export type PostEntry = CollectionEntry<"blog"> | CollectionEntry<"blogEn">
 
 /**
  * Renders a date in the long format of a locale.
@@ -63,7 +63,7 @@ export type PostEntry = CollectionEntry<'blog'> | CollectionEntry<'blogEn'>;
  * @returns The date spelled out, for example « 12 août 2026 » or `12 August 2026`
  */
 export function formatDate(date: Date, locale: Locale): string {
-  return DATE_FORMATTERS[locale].format(date);
+  return DATE_FORMATTERS[locale].format(date)
 }
 
 /**
@@ -74,7 +74,7 @@ export function formatDate(date: Date, locale: Locale): string {
  * @returns The date in DD/MM/YYYY format
  */
 export function formatDateShort(date: Date, locale: Locale): string {
-  return SHORT_DATE_FORMATTERS[locale].format(date);
+  return SHORT_DATE_FORMATTERS[locale].format(date)
 }
 
 /**
@@ -84,7 +84,7 @@ export function formatDateShort(date: Date, locale: Locale): string {
  * @returns The date in ISO 8601 format (YYYY-MM-DD)
  */
 export function formatDateIso(date: Date): string {
-  return date.toISOString().split('T')[0] ?? '';
+  return date.toISOString().split("T")[0] ?? ""
 }
 
 /**
@@ -94,9 +94,9 @@ export function formatDateIso(date: Date): string {
  * @returns The number of reading minutes, at least 1
  */
 export function readingTime(markdownSource: string): number {
-  const wordsPerMinute = 200;
-  const wordCount = markdownSource.trim().split(/\s+/).length;
-  return Math.max(1, Math.round(wordCount / wordsPerMinute));
+  const wordsPerMinute = 200
+  const wordCount = markdownSource.trim().split(/\s+/).length
+  return Math.max(1, Math.round(wordCount / wordsPerMinute))
 }
 
 /**
@@ -108,16 +108,14 @@ export function readingTime(markdownSource: string): number {
  * @param locale Locale whose posts to retrieve
  * @returns The published posts, sorted by publication date descending
  */
-export async function getPublishedPosts(
-  locale: Locale,
-): Promise<PostEntry[]> {
+export async function getPublishedPosts(locale: Locale): Promise<PostEntry[]> {
   const posts = await getCollection(
-    BLOG_COLLECTIONS[locale] as 'blog',
-    ({ data }) => !data.draft,
-  );
+    BLOG_COLLECTIONS[locale] as "blog",
+    ({ data }) => !data.draft
+  )
   return (posts as PostEntry[]).sort((first, second) => {
-    return second.data.publishedAt.getTime() - first.data.publishedAt.getTime();
-  });
+    return second.data.publishedAt.getTime() - first.data.publishedAt.getTime()
+  })
 }
 
 /**
@@ -131,15 +129,15 @@ export async function getPublishedPosts(
 export function postBreadcrumbs(
   title: string,
   slug: string,
-  locale: Locale,
+  locale: Locale
 ): { name: string; path: string }[] {
-  const home = locale === 'fr' ? '/' : '/en/';
-  const blog = locale === 'fr' ? '/blog/' : '/en/blog/';
-  const post = `${blog}${slug}/`;
+  const home = locale === "fr" ? "/" : "/en/"
+  const blog = locale === "fr" ? "/blog/" : "/en/blog/"
+  const post = `${blog}${slug}/`
 
   return [
-    { name: locale === 'fr' ? 'Accueil' : 'Home', path: home },
-    { name: 'Blog', path: blog },
+    { name: locale === "fr" ? "Accueil" : "Home", path: home },
+    { name: "Blog", path: blog },
     { name: title, path: post },
-  ];
+  ]
 }

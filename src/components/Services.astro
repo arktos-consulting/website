@@ -6,19 +6,19 @@
  * by the home page renders without a link rather than pointing at a missing
  * page.
  */
-import { getContent } from '@/data';
-import type { Dictionary, Locale } from '@/i18n';
-import SectionHeading from '@/components/SectionHeading.astro';
+import { getContent } from "@/data"
+import type { Dictionary, Locale } from "@/i18n"
+import SectionHeading from "@/components/SectionHeading.astro"
 
 interface Props {
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, used to resolve editorial content. */
-  locale: Locale;
+  locale: Locale
 }
 
-const { t, locale } = Astro.props;
-const { SERVICES } = getContent(locale);
+const { t, locale } = Astro.props
+const { SERVICES } = getContent(locale)
 ---
 
 <section class="section" id="prestations">
@@ -31,19 +31,21 @@ const { SERVICES } = getContent(locale);
     <p class="services-lede lede">{t.services.lede}</p>
 
     <ul class="service-grid">
-      {
-        SERVICES.map((service, index) => (
-          <li class="card service-card" data-reveal data-reveal-delay={String(index % 4)}>
-            <h3 class="card-title text-display-sm">{service.title}</h3>
-            <p class="card-text">{service.summary}</p>
-            <ul class="check-list">
-              {service.includes.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          </li>
-        ))
-      }
+      {SERVICES.map((service, index) => (
+        <li
+          class="card service-card"
+          data-reveal
+          data-reveal-delay={String(index % 4)}
+        >
+          <h3 class="card-title text-display-sm">{service.title}</h3>
+          <p class="card-text">{service.summary}</p>
+          <ul class="check-list">
+            {service.includes.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </li>
+      ))}
     </ul>
   </div>
 </section>

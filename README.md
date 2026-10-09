@@ -15,11 +15,18 @@ bun run preview  # prévisualisation du build
 ## Vérifications
 
 ```bash
-bun run verify       # la chaîne complète : types, composants, build, bilingue
+bun run verify       # la chaîne complète : format, types, composants, build, bilingue
+bun run format       # réécrit les fichiers selon la convention Prettier
+bun run format:check # vérifie le format sans réécrire
 bun run typecheck    # astro sync, puis astro check, puis tsc --noEmit
 bun run build        # build de production dans dist/
 bun run verify:i18n  # contrôle du HTML et du sitemap produits (après le build)
 ```
+
+`bun run format:check` ouvre la chaîne `verify` : la convention de style est
+celle de tous les dépôts de l'organisation, définie dans `.prettierrc.json`
+(double quotes, sans points-virgules, 80 colonnes) et bornée par
+`.prettierignore`. `bun run format` applique la même convention.
 
 `bun run typecheck` lance `astro sync` avant `tsc` : les types des collections de
 contenu (`astro:content`) sont générés dans `.astro/`, qui n'est pas versionné.
@@ -33,17 +40,17 @@ l'exécution — constaté : 23 fichiers importaient un type qui n'était jamais
 réexporté, `tsc --noEmit` était vert. C'est la raison pour laquelle `typecheck`
 appelle `astro check` entre les deux.
 
-Les quatre commandes doivent sortir sans erreur avant tout envoi.
+Les cinq commandes doivent sortir sans erreur avant tout envoi.
 
 ## Stack
 
-| Rôle | Choix | Version |
-| --- | --- | --- |
-| Framework | Astro | 7.3.2 |
-| Styles | Tailwind CSS | 4.3.3 |
-| Typage | TypeScript | 6.0.3 |
-| Polices | Inter + Sora, auto-hébergées | sous-ensemble latin |
-| Hébergement | Amazon S3 + CloudFront | statique |
+| Rôle        | Choix                        | Version             |
+| ----------- | ---------------------------- | ------------------- |
+| Framework   | Astro                        | 7.3.2               |
+| Styles      | Tailwind CSS                 | 4.3.3               |
+| Typage      | TypeScript                   | 6.0.3               |
+| Polices     | Inter + Sora, auto-hébergées | sous-ensemble latin |
+| Hébergement | Amazon S3 + CloudFront       | statique            |
 
 **TypeScript reste volontairement en 6.x.** TypeScript 7 est disponible et
 largement plus rapide, mais il ne fournit pas encore d'API programmatique : le
@@ -110,10 +117,10 @@ qui se lisent dans sa langue, et les URL françaises déjà indexées ne bougent
 
 ### Où vit le texte
 
-| Nature | Emplacement |
-| --- | --- |
-| Libellés d'interface (boutons, navigation, titres de section) | `src/i18n/{fr,en}.ts` |
-| Contenu éditorial (prestations, missions, FAQ, pages piliers) | `src/data/` |
+| Nature                                                          | Emplacement                            |
+| --------------------------------------------------------------- | -------------------------------------- |
+| Libellés d'interface (boutons, navigation, titres de section)   | `src/i18n/{fr,en}.ts`                  |
+| Contenu éditorial (prestations, missions, FAQ, pages piliers)   | `src/data/`                            |
 | Indépendant de la langue (logos clients, identité, coordonnées) | `src/consts.ts`, `src/data/clients.ts` |
 
 **Le dictionnaire français est la source de vérité.** `en.ts` est typé sur la
@@ -187,10 +194,10 @@ l'URL : `src/content/blog/mon-sujet.md` est publié sur `/blog/mon-sujet/`.
 title: "Titre de l'article"
 description: "Résumé d'une phrase, utilisé dans le listing et les métadonnées."
 publishedAt: 2026-09-08
-updatedAt: 2026-10-01        # facultatif
+updatedAt: 2026-10-01 # facultatif
 tags: ["AWS", "FinOps"]
 summary: "Paragraphe d'accroche affiché en tête d'article."
-draft: false                 # true pour garder l'article hors ligne
+draft: false # true pour garder l'article hors ligne
 ---
 
 Le contenu en Markdown. Les titres `##` alimentent la table des matières.
@@ -257,12 +264,12 @@ Le HTML est complet sans exécution de script : il se lit entièrement avant qu'
 seul octet de JavaScript ne soit téléchargé, ce qui le rend directement lisible
 par les robots d'indexation et par les moteurs de réponse.
 
-| Élément | Poids |
-| --- | --- |
-| Page d'accueil (HTML) | ~42 Ko |
-| CSS | ~28 Ko |
-| JavaScript applicatif | 0 |
-| Polices (2 fichiers, latin) | 80 Ko |
+| Élément                     | Poids                                |
+| --------------------------- | ------------------------------------ |
+| Page d'accueil (HTML)       | ~42 Ko                               |
+| CSS                         | ~28 Ko                               |
+| JavaScript applicatif       | 0                                    |
+| Polices (2 fichiers, latin) | 80 Ko                                |
 | Matomo (matomo.js + appels) | externe, après chargement de la page |
 
 Les polices sont limitées au sous-ensemble latin : les jeux cyrillique, grec et

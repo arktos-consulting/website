@@ -7,19 +7,19 @@
  * different from one offering to the next. The secondary link is rendered only
  * when the content provides one.
  */
-import type { PillarHeading, PillarCta, PillarBase } from '@/data/pillars';
-import SectionHeading from '@/components/SectionHeading.astro';
+import type { PillarHeading, PillarCta, PillarBase } from "@/data/pillars"
+import SectionHeading from "@/components/SectionHeading.astro"
 
 interface Props {
   /** Hero heading, split so the last fragment carries the accent colour. */
-  heading: PillarHeading;
+  heading: PillarHeading
   /** Calls to action shown under the introduction. */
-  cta: PillarCta;
+  cta: PillarCta
   /** Page title, reused by the primary button's accessible label. */
-  title: PillarBase['title'];
+  title: PillarBase["title"]
 }
 
-const { heading, cta, title } = Astro.props;
+const { heading, cta, title } = Astro.props
 ---
 
 <section class="section page-hero">
@@ -33,7 +33,11 @@ const { heading, cta, title } = Astro.props;
       lede={heading.lede}
     />
     <div class="hero-actions">
-      <a class="btn btn-primary" href="#contact" aria-label={`${cta.primary}: ${title}`}>
+      <a
+        class="btn btn-primary"
+        href="#contact"
+        aria-label={`${cta.primary}: ${title}`}
+      >
         {cta.primary}
       </a>
       <a class="btn btn-ghost" href={cta.secondaryHref}>

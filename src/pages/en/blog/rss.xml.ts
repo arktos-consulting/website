@@ -4,11 +4,11 @@
  * A separate feed from the French one: the two sites have their own articles, and
  * a subscriber who reads English should not receive French posts.
  */
-import rss from '@astrojs/rss';
-import type { APIContext } from 'astro';
-import { SITE } from '@/consts';
-import { getDictionary } from '@/i18n';
-import { getPublishedPosts, formatDateIso } from '@/utils/blog';
+import rss from "@astrojs/rss"
+import type { APIContext } from "astro"
+import { SITE } from "@/consts"
+import { getDictionary } from "@/i18n"
+import { getPublishedPosts, formatDateIso } from "@/utils/blog"
 
 /**
  * Builds the RSS feed from the published English posts.
@@ -17,9 +17,9 @@ import { getPublishedPosts, formatDateIso } from '@/utils/blog';
  * @returns The HTTP response carrying the XML feed
  */
 export async function GET(context: APIContext) {
-  const locale = 'en' as const;
-  const t = getDictionary(locale);
-  const posts = await getPublishedPosts(locale);
+  const locale = "en" as const
+  const t = getDictionary(locale)
+  const posts = await getPublishedPosts(locale)
 
   return rss({
     title: t.blog.feedTitle,
@@ -37,5 +37,5 @@ export async function GET(context: APIContext) {
       }),
     })),
     customData: `<language>${locale}</language>`,
-  });
+  })
 }

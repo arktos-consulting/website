@@ -6,63 +6,64 @@
  * with its French counterpart is declared in the shared translation table rather
  * than computed from a filename convention.
  */
-import type { GetStaticPaths } from 'astro';
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import CaseStudy from '@/components/CaseStudy.astro';
-import { SITE } from '@/consts';
-import { getDictionary } from '@/i18n';
-import { getCaseStudies, casePath } from '@/data/case-studies';
-import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
+import type { GetStaticPaths } from "astro"
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import CaseStudy from "@/components/CaseStudy.astro"
+import { SITE } from "@/consts"
+import { getDictionary } from "@/i18n"
+import { getCaseStudies, casePath } from "@/data/case-studies"
+import { buildBreadcrumbs, serializeJsonLd } from "@/utils/seo"
 
 export const getStaticPaths = (() => {
-  const hub = getCaseStudies('en');
+  const hub = getCaseStudies("en")
   return hub.cases.map((study) => ({
     params: { slug: study.slug },
     props: { study },
-  }));
-}) satisfies GetStaticPaths;
+  }))
+}) satisfies GetStaticPaths
 
-const locale = 'en' as const;
-const t = getDictionary(locale);
-const hub = getCaseStudies(locale);
-const { study } = Astro.props;
+const locale = "en" as const
+const t = getDictionary(locale)
+const hub = getCaseStudies(locale)
+const { study } = Astro.props
 
-const pageUrl = `${SITE.url}${casePath(study.id, locale)}`;
+const pageUrl = `${SITE.url}${casePath(study.id, locale)}`
 
 const breadcrumbs = buildBreadcrumbs([
-  { name: 'Home', url: `${SITE.url}/en/` },
+  { name: "Home", url: `${SITE.url}/en/` },
   { name: hub.breadcrumb, url: `${SITE.url}/en/case-studies/` },
   { name: study.client, url: pageUrl },
-]);
+])
 
 const caseSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'CreativeWork',
-  '@id': `${pageUrl}#case-study`,
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  "@id": `${pageUrl}#case-study`,
   name: study.title,
   description: study.summary,
   url: pageUrl,
   inLanguage: locale,
-  about: { '@type': 'Organization', name: study.client },
-  ...(study.stack.length > 0 && { keywords: study.stack.join(', ') }),
+  about: { "@type": "Organization", name: study.client },
+  ...(study.stack.length > 0 && { keywords: study.stack.join(", ") }),
   author: {
-    '@type': 'Person',
+    "@type": "Person",
     name: SITE.founder,
     jobTitle: SITE.founderJobTitle,
     url: `${SITE.url}/`,
   },
-  publisher: { '@id': `${SITE.url}/#organization` },
-  isPartOf: { '@id': `${SITE.url}/#website` },
+  publisher: { "@id": `${SITE.url}/#organization` },
+  isPartOf: { "@id": `${SITE.url}/#website` },
   mainEntityOfPage: pageUrl,
-};
+}
 ---
 
 <BaseLayout title={study.title} description={study.summary}>
   <script type="application/ld+json" set:html={serializeJsonLd(caseSchema)} />
-  {
-    breadcrumbs && (
-      <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
-    )
-  }
+  {breadcrumbs && (
+    <script
+      type="application/ld+json"
+      set:html={serializeJsonLd(breadcrumbs)}
+    />
+  )}
   <CaseStudy study={study} t={t} locale={locale} />
 </BaseLayout>

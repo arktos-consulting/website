@@ -5,22 +5,22 @@
  * Rendered from content rather than written inline, so the French and English
  * pages share one layout and cannot drift apart.
  */
-import type { ManagedServicesPillar } from '@/data/pillars';
-import type { Dictionary, Locale } from '@/i18n';
-import SectionHeading from '@/components/SectionHeading.astro';
-import PillarHero from '@/components/PillarHero.astro';
-import Contact from '@/components/Contact.astro';
+import type { ManagedServicesPillar } from "@/data/pillars"
+import type { Dictionary, Locale } from "@/i18n"
+import SectionHeading from "@/components/SectionHeading.astro"
+import PillarHero from "@/components/PillarHero.astro"
+import Contact from "@/components/Contact.astro"
 
 interface Props {
   /** Page content for the current locale. */
-  pillar: ManagedServicesPillar;
+  pillar: ManagedServicesPillar
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, passed down to the contact section. */
-  locale: Locale;
+  locale: Locale
 }
 
-const { pillar, t, locale } = Astro.props;
+const { pillar, t, locale } = Astro.props
 ---
 
 <PillarHero heading={pillar.hero} cta={pillar.cta} title={pillar.title} />
@@ -33,18 +33,16 @@ const { pillar, t, locale } = Astro.props;
       accent={pillar.scope.accent}
     />
     <ul class="scope-grid">
-      {
-        pillar.coverage.map((group) => (
-          <li class="card">
-            <h3 class="card-title text-display-sm">{group.title}</h3>
-            <ul class="check-list">
-              {group.items.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          </li>
-        ))
-      }
+      {pillar.coverage.map((group) => (
+        <li class="card">
+          <h3 class="card-title text-display-sm">{group.title}</h3>
+          <ul class="check-list">
+            {group.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </li>
+      ))}
     </ul>
   </div>
 </section>
@@ -57,14 +55,12 @@ const { pillar, t, locale } = Astro.props;
       accent={pillar.commitmentsHeading.accent}
     />
     <dl class="commitment-grid">
-      {
-        pillar.commitments.map((commitment) => (
-          <div class="commitment">
-            <dt class="commitment-label">{commitment.label}</dt>
-            <dd class="commitment-value">{commitment.value}</dd>
-          </div>
-        ))
-      }
+      {pillar.commitments.map((commitment) => (
+        <div class="commitment">
+          <dt class="commitment-label">{commitment.label}</dt>
+          <dd class="commitment-value">{commitment.value}</dd>
+        </div>
+      ))}
     </dl>
   </div>
 </section>
@@ -77,14 +73,12 @@ const { pillar, t, locale } = Astro.props;
       accent={pillar.hygieneHeading.accent}
     />
     <ul class="reason-grid">
-      {
-        pillar.hygiene.map((reason) => (
-          <li class="reason">
-            <h3 class="reason-title">{reason.title}</h3>
-            <p class="reason-body">{reason.detail}</p>
-          </li>
-        ))
-      }
+      {pillar.hygiene.map((reason) => (
+        <li class="reason">
+          <h3 class="reason-title">{reason.title}</h3>
+          <p class="reason-body">{reason.detail}</p>
+        </li>
+      ))}
     </ul>
   </div>
 </section>

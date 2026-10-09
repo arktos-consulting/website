@@ -12,15 +12,15 @@
  * canonical URL and no alternate, rather than an `hreflang` pointing at the wrong
  * page.
  */
-import type { Locale } from './index';
-import { CASE_SLUGS } from '../data/case-studies/slugs';
+import type { Locale } from "./index"
+import { CASE_SLUGS } from "../data/case-studies/slugs"
 
 /** A French URL and the English URL that translates it. */
 export interface RoutePair {
   /** Path of the French page, with leading and trailing slashes. */
-  fr: string;
+  fr: string
   /** Path of the English page, with leading and trailing slashes. */
-  en: string;
+  en: string
 }
 
 /**
@@ -29,13 +29,16 @@ export interface RoutePair {
  * The segment is translated like any other (`/cas-clients/` versus
  * `/en/case-studies/`), so it is declared here and read when building the pairs.
  */
-const CASE_HUB: Record<Locale, string> = { fr: '/cas-clients/', en: '/en/case-studies/' };
+const CASE_HUB: Record<Locale, string> = {
+  fr: "/cas-clients/",
+  en: "/en/case-studies/",
+}
 
 /** Path of every case study page, one pair per case, in both languages. */
 const CASE_PAIRS: readonly RoutePair[] = CASE_SLUGS.map((entry) => ({
   fr: `${CASE_HUB.fr}${entry.fr}/`,
   en: `${CASE_HUB.en}${entry.en}/`,
-}));
+}))
 
 /**
  * Every page that exists in both languages.
@@ -47,29 +50,29 @@ const CASE_PAIRS: readonly RoutePair[] = CASE_SLUGS.map((entry) => ({
  * so a page's URL segment and its translation cannot disagree.
  */
 export const ROUTE_PAIRS: readonly RoutePair[] = [
-  { fr: '/', en: '/en/' },
-  { fr: '/conseil/', en: '/en/consulting/' },
-  { fr: '/ia/', en: '/en/ai/' },
-  { fr: '/infogerance/', en: '/en/managed-services/' },
-  { fr: '/references/', en: '/en/references/' },
+  { fr: "/", en: "/en/" },
+  { fr: "/conseil/", en: "/en/consulting/" },
+  { fr: "/ia/", en: "/en/ai/" },
+  { fr: "/infogerance/", en: "/en/managed-services/" },
+  { fr: "/references/", en: "/en/references/" },
   { fr: CASE_HUB.fr, en: CASE_HUB.en },
-  { fr: '/blog/', en: '/en/blog/' },
+  { fr: "/blog/", en: "/en/blog/" },
   // Blog posts. Each English article is its own document with its own slug, so
   // the pairing is declared rather than computed from a filename convention.
   {
-    fr: '/blog/reduire-facture-aws-sans-casser-production/',
-    en: '/en/blog/cutting-aws-cost-without-breaking-production/',
+    fr: "/blog/reduire-facture-aws-sans-casser-production/",
+    en: "/en/blog/cutting-aws-cost-without-breaking-production/",
   },
   {
-    fr: '/blog/infogerer-eks-quand-on-est-seul/',
-    en: '/en/blog/running-eks-on-your-own/',
+    fr: "/blog/infogerer-eks-quand-on-est-seul/",
+    en: "/en/blog/running-eks-on-your-own/",
   },
   {
-    fr: '/blog/tracabilite-changements-kubernetes-audit/',
-    en: '/en/blog/kubernetes-change-traceability-audit/',
+    fr: "/blog/tracabilite-changements-kubernetes-audit/",
+    en: "/en/blog/kubernetes-change-traceability-audit/",
   },
   ...CASE_PAIRS,
-];
+]
 
 /**
  * Returns the translation pair a path belongs to.
@@ -78,8 +81,12 @@ export const ROUTE_PAIRS: readonly RoutePair[] = [
  * @returns The pair containing that path, or `null` when the page has no translation
  */
 export function findRoutePair(path: string): RoutePair | null {
-  const normalized = path.endsWith('/') ? path : `${path}/`;
-  return ROUTE_PAIRS.find((pair) => pair.fr === normalized || pair.en === normalized) ?? null;
+  const normalized = path.endsWith("/") ? path : `${path}/`
+  return (
+    ROUTE_PAIRS.find(
+      (pair) => pair.fr === normalized || pair.en === normalized
+    ) ?? null
+  )
 }
 
 /**
@@ -89,7 +96,7 @@ export function findRoutePair(path: string): RoutePair | null {
  * @returns The French and English paths of that page
  */
 export function pairPaths(pair: RoutePair): Record<Locale, string> {
-  return { fr: pair.fr, en: pair.en };
+  return { fr: pair.fr, en: pair.en }
 }
 
 /**
@@ -104,11 +111,11 @@ export function pairPaths(pair: RoutePair): Record<Locale, string> {
  * @returns The path of the translated page, or `null` when none exists
  */
 export function alternatePath(path: string, locale: Locale): string | null {
-  const pair = findRoutePair(path);
+  const pair = findRoutePair(path)
   if (!pair) {
-    return null;
+    return null
   }
-  return locale === 'fr' ? pair.en : pair.fr;
+  return locale === "fr" ? pair.en : pair.fr
 }
 
 /**
@@ -122,8 +129,8 @@ export function alternatePath(path: string, locale: Locale): string | null {
 export function alternateUrl(
   path: string,
   locale: Locale,
-  siteOrigin: string,
+  siteOrigin: string
 ): string | null {
-  const target = alternatePath(path, locale);
-  return target ? `${siteOrigin}${target}` : null;
+  const target = alternatePath(path, locale)
+  return target ? `${siteOrigin}${target}` : null
 }

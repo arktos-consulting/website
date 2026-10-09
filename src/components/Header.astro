@@ -11,22 +11,22 @@
  * prefixed (`/ia/` in French, `/en/ai/` in English):
  * only the page itself knows its counterpart.
  */
-import { SITE } from '@/consts';
-import type { Dictionary, Locale } from '@/i18n';
-import { alternateLocale, LANGUAGE_LABELS } from '@/i18n';
+import { SITE } from "@/consts"
+import type { Dictionary, Locale } from "@/i18n"
+import { alternateLocale, LANGUAGE_LABELS } from "@/i18n"
 
 interface Props {
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, used to label the language switch. */
-  locale: Locale;
+  locale: Locale
   /** URL of this page in the other locale, or `null` when there is no translation. */
-  alternateUrl: string | null;
+  alternateUrl: string | null
 }
 
-const { t, locale, alternateUrl } = Astro.props;
-const otherLocale = alternateLocale(locale);
-const homeHref = locale === 'fr' ? '/' : '/en/';
+const { t, locale, alternateUrl } = Astro.props
+const otherLocale = alternateLocale(locale)
+const homeHref = locale === "fr" ? "/" : "/en/"
 ---
 
 <header class="site-header">
@@ -61,30 +61,26 @@ const homeHref = locale === 'fr' ? '/' : '/en/';
 
     <nav class="site-nav" aria-label={t.nav.mainNavigation}>
       <ul class="nav-list">
-        {
-          t.nav.links.map((link) => (
-            <li>
-              <a class="nav-link" href={link.href}>
-                {link.label}
-              </a>
-            </li>
-          ))
-        }
+        {t.nav.links.map((link) => (
+          <li>
+            <a class="nav-link" href={link.href}>
+              {link.label}
+            </a>
+          </li>
+        ))}
       </ul>
 
-      {
-        alternateUrl && (
-          <a
-            class="lang-switch"
-            href={alternateUrl}
-            hreflang={otherLocale}
-            lang={otherLocale}
-            aria-label={t.nav.languageSwitch}
-          >
-            {LANGUAGE_LABELS[otherLocale]}
-          </a>
-        )
-      }
+      {alternateUrl && (
+        <a
+          class="lang-switch"
+          href={alternateUrl}
+          hreflang={otherLocale}
+          lang={otherLocale}
+          aria-label={t.nav.languageSwitch}
+        >
+          {LANGUAGE_LABELS[otherLocale]}
+        </a>
+      )}
     </nav>
   </div>
 </header>

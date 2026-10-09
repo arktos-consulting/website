@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Git
+.git/
+
+# Build outputs
+dist/
+build/
+.build/
+dist-ssr/
+.astro/
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store

@@ -43,7 +43,8 @@
 
 .btn-primary:hover {
   background-color: color-mix(in srgb, var(--color-azure) 88%, white);
-  box-shadow: 0 14px 40px color-mix(in srgb, var(--color-azure) 45%, transparent);
+  box-shadow: 0 14px 40px
+    color-mix(in srgb, var(--color-azure) 45%, transparent);
 }
 
 .btn-ghost {

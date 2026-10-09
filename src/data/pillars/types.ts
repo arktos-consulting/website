@@ -14,137 +14,137 @@
 /** A numbered or titled block with supporting bullet points. */
 export interface PillarPhase {
   /** Two-digit index shown before the title, such as `01`. */
-  step: string;
+  step: string
   /** Block title. */
-  title: string;
+  title: string
   /** Explanatory paragraph. */
-  detail: string;
+  detail: string
   /** Detail points, rendered as a checklist. */
-  items: readonly string[];
+  items: readonly string[]
 }
 
 /** A short card with a title and a paragraph. */
 export interface PillarCard {
   /** Card title. */
-  title: string;
+  title: string
   /** Card body. */
-  body: string;
+  body: string
 }
 
 /** A section heading, split so the last fragment can carry the accent colour. */
 export interface PillarHeading {
   /** Small-caps overline. */
-  eyebrow: string;
+  eyebrow: string
   /** Start of the heading, in full colour. */
-  title: string;
+  title: string
   /** End of the heading, highlighted with the accent gradient. */
-  accent: string;
+  accent: string
   /** Optional introductory paragraph. */
-  lede?: string;
+  lede?: string
 }
 
 /** The two calls to action shown under a pillar hero. */
 export interface PillarCta {
   /** Primary button label, linking to the contact form. */
-  primary: string;
+  primary: string
   /** Secondary link label. */
-  secondary: string;
+  secondary: string
   /** Destination of the secondary link. */
-  secondaryHref: string;
+  secondaryHref: string
 }
 
 /** Fields shared by every pillar page. */
 export interface PillarBase {
   /** URL segment for this language, without slashes, such as `conseil`. */
-  slug: string;
+  slug: string
   /** Page title, without the company name. */
-  title: string;
+  title: string
   /** Meta description. */
-  description: string;
+  description: string
   /** Label used in the breadcrumb trail. */
-  breadcrumb: string;
+  breadcrumb: string
   /** Hero heading. */
-  hero: PillarHeading;
+  hero: PillarHeading
   /** Hero calls to action. */
-  cta: PillarCta;
+  cta: PillarCta
 }
 
 /** A single figure used as evidence, such as `~150` microservices. */
 export interface PillarProof {
   /** The figure itself. */
-  value: string;
+  value: string
   /** What the figure refers to. */
-  text: string;
+  text: string
 }
 
 /** The consulting pillar: audit, architecture, FinOps. */
 export interface ConsultingPillar extends PillarBase {
   /** Scope of the engagement, grouped by domain. */
-  scope: PillarHeading;
+  scope: PillarHeading
   /** Technical domains covered. */
-  domains: readonly { title: string; items: readonly string[] }[];
+  domains: readonly { title: string; items: readonly string[] }[]
   /** Engagement sequence. */
-  process: PillarHeading;
+  process: PillarHeading
   /** The four steps, from scoping to handover. */
-  phases: readonly PillarPhase[];
+  phases: readonly PillarPhase[]
   /** Evidence section. */
-  proofHeading: PillarHeading;
+  proofHeading: PillarHeading
   /** Figures backing the claims. */
-  proofs: readonly PillarProof[];
+  proofs: readonly PillarProof[]
 }
 
 /** The sovereign cloud pillar: design, build, operate. Remnant kept in history. */
 /** The applied AI pillar: LLM agents and automation. */
 export interface AiPillar extends PillarBase {
   /** Use case section. */
-  useCasesHeading: PillarHeading;
+  useCasesHeading: PillarHeading
   /** Use cases, from the most accessible to the most involved. */
-  useCases: readonly PillarPhase[];
+  useCases: readonly PillarPhase[]
   /** Early decisions, framed as vigilance points. */
-  cautionsHeading: PillarHeading;
+  cautionsHeading: PillarHeading
   /** Vigilance points. */
-  cautions: readonly PillarCard[];
+  cautions: readonly PillarCard[]
   /** Experience section. */
-  credentialsHeading: PillarHeading;
+  credentialsHeading: PillarHeading
   /** References backing the AI work. */
-  credentials: readonly { label: string; detail: string }[];
+  credentials: readonly { label: string; detail: string }[]
 }
 
 /** A commitment shown in the managed services table. */
 export interface ManagedServiceCommitment {
   /** What is committed to. */
-  label: string;
+  label: string
   /** The commitment itself. */
-  value: string;
+  value: string
   /** Scope or limitation that qualifies the commitment. */
-  note?: string;
+  note?: string
 }
 
 /** The managed services pillar: running an EKS platform. */
 export interface ManagedServicesPillar extends PillarBase {
   /** Scope section. */
-  scope: PillarHeading;
+  scope: PillarHeading
   /** What is covered. */
-  coverage: readonly { title: string; items: readonly string[] }[];
+  coverage: readonly { title: string; items: readonly string[] }[]
   /** Commitments section. */
-  commitmentsHeading: PillarHeading;
+  commitmentsHeading: PillarHeading
   /** Reaction and intervention commitments. */
-  commitments: readonly ManagedServiceCommitment[];
+  commitments: readonly ManagedServiceCommitment[]
   /** Platform hygiene section. */
-  hygieneHeading: PillarHeading;
+  hygieneHeading: PillarHeading
   /** Recurring work on the platform. */
-  hygiene: readonly PillarPhase[];
+  hygiene: readonly PillarPhase[]
 }
 
 /** Every pillar page, keyed by its identifier. */
 export interface PillarBundle {
   /** Audit and architecture consulting. */
-  consulting: ConsultingPillar;
+  consulting: ConsultingPillar
   /** Applied AI and LLM agents. */
-  ai: AiPillar;
+  ai: AiPillar
   /** Kubernetes managed services. */
-  managedServices: ManagedServicesPillar;
+  managedServices: ManagedServicesPillar
 }
 
 /** Identifier of a pillar page. */
-export type PillarId = keyof PillarBundle;
+export type PillarId = keyof PillarBundle

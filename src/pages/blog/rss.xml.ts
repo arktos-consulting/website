@@ -5,11 +5,11 @@
  * but it lets a reader follow the site without coming back to it, and it feeds
  * technical aggregators.
  */
-import rss from '@astrojs/rss';
-import type { APIContext } from 'astro';
-import { SITE } from '@/consts';
-import { getDictionary } from '@/i18n';
-import { getPublishedPosts, formatDateIso } from '@/utils/blog';
+import rss from "@astrojs/rss"
+import type { APIContext } from "astro"
+import { SITE } from "@/consts"
+import { getDictionary } from "@/i18n"
+import { getPublishedPosts, formatDateIso } from "@/utils/blog"
 
 /**
  * Builds the RSS feed from the published posts.
@@ -18,9 +18,9 @@ import { getPublishedPosts, formatDateIso } from '@/utils/blog';
  * @returns The HTTP response carrying the XML feed
  */
 export async function GET(context: APIContext) {
-  const locale = 'fr' as const;
-  const t = getDictionary(locale);
-  const posts = await getPublishedPosts(locale);
+  const locale = "fr" as const
+  const t = getDictionary(locale)
+  const posts = await getPublishedPosts(locale)
 
   return rss({
     title: t.blog.feedTitle,
@@ -38,5 +38,5 @@ export async function GET(context: APIContext) {
       }),
     })),
     customData: `<language>${locale}</language>`,
-  });
+  })
 }

@@ -8,7 +8,7 @@
  */
 
 /** Key of the engagement carried out for the parent company. */
-export const PARENT_COMPANY_STUDY_ID = 'hartza-capital';
+export const PARENT_COMPANY_STUDY_ID = "hartza-capital"
 
 /**
  * Whether a case study is an engagement carried out for the parent company.
@@ -17,5 +17,5 @@ export const PARENT_COMPANY_STUDY_ID = 'hartza-capital';
  * @returns True when the engagement was carried out for the parent company
  */
 export function isParentCompanyStudy(studyId: string): boolean {
-  return studyId === PARENT_COMPANY_STUDY_ID;
+  return studyId === PARENT_COMPANY_STUDY_ID
 }

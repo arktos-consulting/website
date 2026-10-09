@@ -5,15 +5,15 @@
  * A utility page: kept out of the sitemap and out of search results, while
  * staying reachable from the footer.
  */
-import { SITE, HOSTING, MATOMO_CONFIGURED } from '@/consts';
-import type { Dictionary } from '@/i18n';
+import { SITE, HOSTING, MATOMO_CONFIGURED } from "@/consts"
+import type { Dictionary } from "@/i18n"
 
 interface Props {
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
 }
 
-const { t } = Astro.props;
+const { t } = Astro.props
 ---
 
 <section class="section page-hero">
@@ -34,7 +34,9 @@ const { t } = Astro.props;
         </div>
         <div>
           <dt>{t.legal.legalForm}</dt>
-          <dd>{SITE.legalForm} {t.legal.shareCapital} {SITE.shareCapital}</dd>
+          <dd>
+            {SITE.legalForm} {t.legal.shareCapital} {SITE.shareCapital}
+          </dd>
         </div>
         <div>
           <dt>{t.legal.siretLabel}</dt>
@@ -42,7 +44,9 @@ const { t } = Astro.props;
         </div>
         <div>
           <dt>{t.legal.rcsLabel}</dt>
-          <dd>{SITE.siren} RCS {SITE.rcsCity}</dd>
+          <dd>
+            {SITE.siren} RCS {SITE.rcsCity}
+          </dd>
         </div>
         <div>
           <dt>{t.legal.vatLabel}</dt>
@@ -58,12 +62,17 @@ const { t } = Astro.props;
         </div>
         <div>
           <dt>{t.legal.contactLabel}</dt>
-          <dd><a href={SITE.emailHref}>{SITE.email}</a></dd>
+          <dd>
+            <a href={SITE.emailHref}>{SITE.email}</a>
+          </dd>
         </div>
       </dl>
       <p class="legal-text">
-        {t.legal.registryText}{' '}
-        <a href={SITE.registryUrl} target="_blank" rel="noopener">{t.legal.registryLink}</a>.
+        {t.legal.registryText}{" "}
+        <a href={SITE.registryUrl} target="_blank" rel="noopener">
+          {t.legal.registryLink}
+        </a>
+        .
       </p>
     </article>
 
@@ -80,7 +89,9 @@ const { t } = Astro.props;
         </div>
         <div>
           <dt>{t.legal.phoneLabel}</dt>
-          <dd><a href={HOSTING.phoneHref}>{HOSTING.phone}</a></dd>
+          <dd>
+            <a href={HOSTING.phoneHref}>{HOSTING.phone}</a>
+          </dd>
         </div>
       </dl>
     </article>
@@ -90,8 +101,7 @@ const { t } = Astro.props;
       <p class="legal-text">{t.legal.dataTextOne}</p>
       <p class="legal-text">{t.legal.dataTextTwo}</p>
       <p class="legal-text">
-        {t.legal.dataTextThree}{' '}
-        <a href={SITE.emailHref}>{SITE.email}</a>.
+        {t.legal.dataTextThree} <a href={SITE.emailHref}>{SITE.email}</a>.
       </p>
     </article>
 
@@ -99,30 +109,30 @@ const { t } = Astro.props;
       <h2 class="legal-title">{t.legal.analyticsHeading}</h2>
       <p class="legal-text">{t.legal.analyticsTextOne}</p>
       <p class="legal-text">{t.legal.analyticsTextTwo}</p>
-      {
-        MATOMO_CONFIGURED ? (
-          <div class="legal-optout">
-            <p class="legal-text" data-matomo-outcome="out" hidden>
-              {t.legal.analyticsOptOutDone}
-            </p>
-            <p class="legal-text" data-matomo-outcome="in">
-              {t.legal.analyticsOptOutLead}
-            </p>
-            <button class="legal-button" type="button" data-matomo-opt-out>
-              {t.legal.analyticsOptOutButton}
-            </button>
-            <button class="legal-button" type="button" data-matomo-opt-in hidden>
-              {t.legal.analyticsOptInButton}
-            </button>
-          </div>
-        ) : null
-      }
+      {MATOMO_CONFIGURED ? (
+        <div class="legal-optout">
+          <p class="legal-text" data-matomo-outcome="out" hidden>
+            {t.legal.analyticsOptOutDone}
+          </p>
+          <p class="legal-text" data-matomo-outcome="in">
+            {t.legal.analyticsOptOutLead}
+          </p>
+          <button class="legal-button" type="button" data-matomo-opt-out>
+            {t.legal.analyticsOptOutButton}
+          </button>
+          <button class="legal-button" type="button" data-matomo-opt-in hidden>
+            {t.legal.analyticsOptInButton}
+          </button>
+        </div>
+      ) : null}
     </article>
 
     <article>
       <h2 class="legal-title">{t.legal.ipHeading}</h2>
       <p class="legal-text">
-        {t.legal.ipTextLead}{SITE.legalName}{t.legal.ipTextTail}
+        {t.legal.ipTextLead}
+        {SITE.legalName}
+        {t.legal.ipTextTail}
       </p>
     </article>
   </div>

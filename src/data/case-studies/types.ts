@@ -11,48 +11,48 @@
 /** A case study page. */
 export interface CaseStudy {
   /** Stable key, resolving to the URL segment of each language. */
-  id: string;
+  id: string
   /** URL segment for the language this content is written in. */
-  slug: string;
+  slug: string
   /** Client name, or its nature when the name is not public. */
-  client: string;
+  client: string
   /** Sector or nature of the client, shown as the page overline. */
-  clientType: string;
+  clientType: string
   /** Years of the engagement. */
-  period: string;
+  period: string
   /** Engagement title, written around the outcome. */
-  title: string;
+  title: string
   /** One-line summary, reused as the page meta description. */
-  summary: string;
+  summary: string
   /** Technologies and practices involved. */
-  stack: readonly string[];
+  stack: readonly string[]
   /** Context and constraint: what the client was up against. */
-  context: readonly string[];
+  context: readonly string[]
   /** What was delivered. */
-  delivered: readonly string[];
+  delivered: readonly string[]
   /** Outcome, and how it landed. */
-  outcome: readonly string[];
+  outcome: readonly string[]
   /** Recurring work carried alongside the engagement, when there was any. */
-  misc?: readonly string[];
+  misc?: readonly string[]
 }
 
 /** Hub page prose and the case list for one language. */
 export interface CaseStudyBundle {
   /** Title used for metadata. */
-  title: string;
+  title: string
   /** Description used for metadata, sitemap and structured data. */
-  description: string;
+  description: string
   /** Breadcrumb label of the hub page. */
-  breadcrumb: string;
+  breadcrumb: string
   /** Hero heading, split so the last fragment carries the accent colour. */
   hero: {
     /** Full heading, in plain colour. */
-    title: string;
+    title: string
     /** End of the heading, highlighted with the accent gradient. */
-    accent: string;
+    accent: string
     /** Introductory paragraph. */
-    lede: string;
-  };
+    lede: string
+  }
   /** Every published case, in display order. */
-  cases: readonly CaseStudy[];
+  cases: readonly CaseStudy[]
 }

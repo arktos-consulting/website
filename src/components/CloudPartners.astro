@@ -8,15 +8,15 @@
  * through the consultant. The AWS partnership and its figures stay attributed to
  * the collective, which holds them.
  */
-import { PROFILES } from '@/consts';
-import type { Dictionary } from '@/i18n';
+import { PROFILES } from "@/consts"
+import type { Dictionary } from "@/i18n"
 
 interface Props {
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
 }
 
-const { t } = Astro.props;
+const { t } = Astro.props
 ---
 
 <section class="section section-alt" id="cloud-partners">
@@ -24,20 +24,26 @@ const { t } = Astro.props;
     <div class="collective-copy" data-reveal>
       <p class="eyebrow eyebrow-aws">{t.cloudPartners.eyebrow}</p>
       <h2 class="text-display-lg collective-title">
-        {t.cloudPartners.title}{' '}
+        {t.cloudPartners.title}{" "}
         <span class="accent">{t.cloudPartners.accent}</span>
       </h2>
 
       <p class="lede collective-text">
-        {t.cloudPartners.bodyOneLead} <strong>Cloud Partners</strong>{t.cloudPartners.bodyOne}
+        {t.cloudPartners.bodyOneLead} <strong>Cloud Partners</strong>
+        {t.cloudPartners.bodyOne}
       </p>
       <p class="lede collective-text">
-        {t.cloudPartners.bodyTwoLead} <em>Select Consulting</em>{' '}
+        {t.cloudPartners.bodyTwoLead} <em>Select Consulting</em>{" "}
         {t.cloudPartners.bodyTwoTail}
       </p>
 
       <div class="collective-actions">
-        <a class="btn btn-aws" href={PROFILES.cloudPartners} target="_blank" rel="noopener">
+        <a
+          class="btn btn-aws"
+          href={PROFILES.cloudPartners}
+          target="_blank"
+          rel="noopener"
+        >
           {t.cloudPartners.ctaPrimary}
           <span aria-hidden="true">→</span>
         </a>
@@ -61,14 +67,12 @@ const { t } = Astro.props;
       </p>
 
       <dl class="collective-stats">
-        {
-          t.cloudPartners.stats.map((stat) => (
-            <div class="collective-stat">
-              <dt class="collective-stat-value">{stat.value}</dt>
-              <dd class="collective-stat-label">{stat.label}</dd>
-            </div>
-          ))
-        }
+        {t.cloudPartners.stats.map((stat) => (
+          <div class="collective-stat">
+            <dt class="collective-stat-value">{stat.value}</dt>
+            <dd class="collective-stat-label">{stat.label}</dd>
+          </div>
+        ))}
       </dl>
     </div>
   </div>

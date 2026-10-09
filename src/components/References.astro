@@ -6,26 +6,26 @@
  * technical detail and the tags live on the references page. A home page does
  * not reproduce the content of a dedicated page, it makes you want to read it.
  */
-import { getCaseStudies, casePath } from '@/data/case-studies';
-import type { Dictionary, Locale } from '@/i18n';
-import SectionHeading from '@/components/SectionHeading.astro';
+import { getCaseStudies, casePath } from "@/data/case-studies"
+import type { Dictionary, Locale } from "@/i18n"
+import SectionHeading from "@/components/SectionHeading.astro"
 
 interface Props {
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, used to resolve editorial content. */
-  locale: Locale;
+  locale: Locale
   /** Number of engagements to display; all of them when omitted. */
-  limit?: number;
+  limit?: number
   /** Reduces each engagement to its client, period and title. */
-  compact?: boolean;
+  compact?: boolean
 }
 
-const { t, locale, limit, compact = false } = Astro.props;
-const { cases } = getCaseStudies(locale);
-const displayed = limit ? cases.slice(0, limit) : cases;
+const { t, locale, limit, compact = false } = Astro.props
+const { cases } = getCaseStudies(locale)
+const displayed = limit ? cases.slice(0, limit) : cases
 
-const referencesHref = locale === 'fr' ? '/references/' : '/en/references/';
+const referencesHref = locale === "fr" ? "/references/" : "/en/references/"
 ---
 
 <section class="section" id="references">
@@ -36,50 +36,52 @@ const referencesHref = locale === 'fr' ? '/references/' : '/en/references/';
       lede={compact ? t.references.ledeCompact : t.references.ledeFull}
     />
 
-    {
-      compact ? (
-        <ul class="mission-compact">
-          {displayed.map((study, index) => (
-            <li class="mission-row" data-reveal data-reveal-delay={String(index % 4)}>
-              <span class="mission-client">{study.client}</span>
-              <span class="mission-title">{study.title}</span>
+    {compact ? (
+      <ul class="mission-compact">
+        {displayed.map((study, index) => (
+          <li
+            class="mission-row"
+            data-reveal
+            data-reveal-delay={String(index % 4)}
+          >
+            <span class="mission-client">{study.client}</span>
+            <span class="mission-title">{study.title}</span>
+            <span class="mission-period">{study.period}</span>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <ul class="mission-grid">
+        {displayed.map((study) => (
+          <li class="card mission-card">
+            <p class="mission-client">
+              {study.client}
               <span class="mission-period">{study.period}</span>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <ul class="mission-grid">
-          {displayed.map((study) => (
-            <li class="card mission-card">
-              <p class="mission-client">
-                {study.client}
-                <span class="mission-period">{study.period}</span>
-              </p>
-              <h3 class="card-title text-display-sm">
-                <a class="mission-link" href={casePath(study.id, locale)}>{study.title}</a>
-              </h3>
-              <p class="card-text">{study.summary}</p>
-              <ul class="tag-list">
-                {study.stack.map((technology) => (
-                  <li class="tag">{technology}</li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      )
-    }
+            </p>
+            <h3 class="card-title text-display-sm">
+              <a class="mission-link" href={casePath(study.id, locale)}>
+                {study.title}
+              </a>
+            </h3>
+            <p class="card-text">{study.summary}</p>
+            <ul class="tag-list">
+              {study.stack.map((technology) => (
+                <li class="tag">{technology}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    )}
 
-    {
-      limit && limit < cases.length && (
-        <p class="missions-more">
-          <a class="btn btn-ghost btn-sm" href={referencesHref}>
-            {t.references.seeAll} {cases.length} {t.references.seeAllSuffix}
-            <span aria-hidden="true">→</span>
-          </a>
-        </p>
-      )
-    }
+    {limit && limit < cases.length && (
+      <p class="missions-more">
+        <a class="btn btn-ghost btn-sm" href={referencesHref}>
+          {t.references.seeAll} {cases.length} {t.references.seeAllSuffix}
+          <span aria-hidden="true">→</span>
+        </a>
+      </p>
+    )}
 
     {!compact && <p class="missions-note">{t.references.footnote}</p>}
   </div>

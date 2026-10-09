@@ -1,5 +1,5 @@
-import { defineCollection, z } from 'astro:content';
-import { glob } from 'astro/loaders';
+import { defineCollection, z } from "astro:content"
+import { glob } from "astro/loaders"
 
 /**
  * Shared frontmatter schema for blog posts, in both languages.
@@ -22,7 +22,7 @@ const postSchema = z.object({
   draft: z.boolean().default(false),
   /** Summary paragraph displayed at the top of the post. */
   summary: z.string().optional(),
-});
+})
 
 /**
  * Posts live as Markdown in `src/content/blog/` (French) and
@@ -31,13 +31,13 @@ const postSchema = z.object({
  * of producing a broken page in production.
  */
 const blog = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/blog" }),
   schema: postSchema,
-});
+})
 
 const blogEn = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/blog-en' }),
+  loader: glob({ pattern: "**/*.md", base: "./src/content/blog-en" }),
   schema: postSchema,
-});
+})
 
-export const collections = { blog, blogEn };
+export const collections = { blog, blogEn }

@@ -10,16 +10,16 @@
  * `en/404.html` for hosts that resolve per-directory error pages, while the root
  * file stays French.
  */
-import type { Dictionary, Locale } from '@/i18n';
+import type { Dictionary, Locale } from "@/i18n"
 
 interface Props {
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, used to build the contact link. */
-  locale: Locale;
+  locale: Locale
 }
 
-const { t, locale } = Astro.props;
+const { t, locale } = Astro.props
 
 /**
  * Request identifier, in the format of AWS headers.
@@ -27,13 +27,14 @@ const { t, locale } = Astro.props;
  * Generated at build time: it changes on every deployment, as a real
  * service-side identifier would, without depending on a browser script.
  */
-const requestId = Array.from({ length: 16 }, () =>
-  '0123456789ABCDEF'[Math.floor(Math.random() * 16)],
-).join('');
+const requestId = Array.from(
+  { length: 16 },
+  () => "0123456789ABCDEF"[Math.floor(Math.random() * 16)]
+).join("")
 
-const hostId = `${requestId.slice(0, 8)}-${requestId.slice(8)}-AMS`;
+const hostId = `${requestId.slice(0, 8)}-${requestId.slice(8)}-AMS`
 
-const contactHref = locale === 'fr' ? '/#contact' : '/en/#contact';
+const contactHref = locale === "fr" ? "/#contact" : "/en/#contact"
 ---
 
 <section class="section error-page">
@@ -42,7 +43,7 @@ const contactHref = locale === 'fr' ? '/#contact' : '/en/#contact';
   <div class="container error-inner">
     <p class="eyebrow eyebrow-aws">{t.notFound.eyebrow}</p>
     <h1 class="text-display-xl error-title">
-      {t.notFound.titleLead}{' '}
+      {t.notFound.titleLead}{" "}
       <span class="accent">{t.notFound.titleAccent}</span>
     </h1>
     <p class="lede error-lede">{t.notFound.lede}</p>
@@ -69,23 +70,26 @@ const contactHref = locale === 'fr' ? '/#contact' : '/en/#contact';
 
     <!-- Get back to a known section -->
     <nav class="recovery" aria-labelledby="recovery-title">
-      <h2 class="recovery-title" id="recovery-title">{t.notFound.recoveryHeading}</h2>
+      <h2 class="recovery-title" id="recovery-title">
+        {t.notFound.recoveryHeading}
+      </h2>
       <ul class="recovery-list">
-        {
-          t.notFound.entries.map((link) => (
-            <li>
-              <a class="recovery-link" href={link.href}>
-                <span class="recovery-label">{link.label}</span>
-                <span class="recovery-detail">{link.detail}</span>
-                <span class="recovery-arrow" aria-hidden="true">→</span>
-              </a>
-            </li>
-          ))
-        }
+        {t.notFound.entries.map((link) => (
+          <li>
+            <a class="recovery-link" href={link.href}>
+              <span class="recovery-label">{link.label}</span>
+              <span class="recovery-detail">{link.detail}</span>
+              <span class="recovery-arrow" aria-hidden="true">
+                →
+              </span>
+            </a>
+          </li>
+        ))}
       </ul>
       <p class="recovery-foot">
-        {t.notFound.footQuestion}{' '}
-        <a href={contactHref}>{t.notFound.footContact}</a>{t.notFound.footTail}
+        {t.notFound.footQuestion}{" "}
+        <a href={contactHref}>{t.notFound.footContact}</a>
+        {t.notFound.footTail}
       </p>
     </nav>
   </div>
@@ -94,9 +98,9 @@ const contactHref = locale === 'fr' ? '/#contact' : '/en/#contact';
 <script>
   // Shows the path that was actually requested in the error response. Without
   // scripting the fallback value stays readable: the page works either way.
-  const pathSlot = document.getElementById('requested-path');
+  const pathSlot = document.getElementById("requested-path")
   if (pathSlot) {
-    pathSlot.textContent = window.location.pathname;
+    pathSlot.textContent = window.location.pathname
   }
 </script>
 
@@ -129,7 +133,11 @@ const contactHref = locale === 'fr' ? '/#contact' : '/en/#contact';
   }
 
   .accent {
-    background: linear-gradient(100deg, var(--color-violet) 0%, var(--color-cyan) 100%);
+    background: linear-gradient(
+      100deg,
+      var(--color-violet) 0%,
+      var(--color-cyan) 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;

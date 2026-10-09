@@ -10,21 +10,21 @@
  * engagements, and the shorter summary keeps this page a list while the case study
  * carries the whole story.
  */
-import type { Dictionary, Locale } from '@/i18n';
-import { getCaseStudies, casePath } from '@/data/case-studies';
-import { isParentCompanyStudy } from '@/data/case-studies/ownership';
-import SectionHeading from '@/components/SectionHeading.astro';
-import Contact from '@/components/Contact.astro';
+import type { Dictionary, Locale } from "@/i18n"
+import { getCaseStudies, casePath } from "@/data/case-studies"
+import { isParentCompanyStudy } from "@/data/case-studies/ownership"
+import SectionHeading from "@/components/SectionHeading.astro"
+import Contact from "@/components/Contact.astro"
 
 interface Props {
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, used to resolve editorial content. */
-  locale: Locale;
+  locale: Locale
 }
 
-const { t, locale } = Astro.props;
-const { cases } = getCaseStudies(locale);
+const { t, locale } = Astro.props
+const { cases } = getCaseStudies(locale)
 ---
 
 <section class="section page-hero">
@@ -43,32 +43,32 @@ const { cases } = getCaseStudies(locale);
 <section class="section section-alt">
   <div class="container">
     <ol class="mission-list">
-      {
-        cases.map((study) => (
-          <li class="mission">
-            <div class="mission-meta">
-              <p class="mission-client">
-                {study.client}
-                {isParentCompanyStudy(study.id) && (
-                  <span class="mission-own">{t.parentStudy.badge}</span>
-                )}
-              </p>
-              <p class="mission-period">{study.period}</p>
-            </div>
-            <div class="mission-body">
-              <h2 class="mission-title text-display-md">
-                <a class="mission-link" href={casePath(study.id, locale)}>{study.title}</a>
-              </h2>
-              <p class="mission-text">{study.summary}</p>
-              <ul class="tag-list">
-                {study.stack.map((technology) => (
-                  <li class="tag">{technology}</li>
-                ))}
-              </ul>
-            </div>
-          </li>
-        ))
-      }
+      {cases.map((study) => (
+        <li class="mission">
+          <div class="mission-meta">
+            <p class="mission-client">
+              {study.client}
+              {isParentCompanyStudy(study.id) && (
+                <span class="mission-own">{t.parentStudy.badge}</span>
+              )}
+            </p>
+            <p class="mission-period">{study.period}</p>
+          </div>
+          <div class="mission-body">
+            <h2 class="mission-title text-display-md">
+              <a class="mission-link" href={casePath(study.id, locale)}>
+                {study.title}
+              </a>
+            </h2>
+            <p class="mission-text">{study.summary}</p>
+            <ul class="tag-list">
+              {study.stack.map((technology) => (
+                <li class="tag">{technology}</li>
+              ))}
+            </ul>
+          </div>
+        </li>
+      ))}
     </ol>
 
     <p class="mission-footnote">{t.references.footnote}</p>

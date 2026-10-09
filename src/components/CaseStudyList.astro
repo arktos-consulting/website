@@ -5,21 +5,21 @@
  * Rendered from content rather than written inline, so the French and English
  * pages share one layout and cannot drift apart.
  */
-import type { Dictionary, Locale } from '@/i18n';
-import { getCaseStudies, casePath } from '@/data/case-studies';
-import { isParentCompanyStudy } from '@/data/case-studies/ownership';
-import SectionHeading from '@/components/SectionHeading.astro';
-import Contact from '@/components/Contact.astro';
+import type { Dictionary, Locale } from "@/i18n"
+import { getCaseStudies, casePath } from "@/data/case-studies"
+import { isParentCompanyStudy } from "@/data/case-studies/ownership"
+import SectionHeading from "@/components/SectionHeading.astro"
+import Contact from "@/components/Contact.astro"
 
 interface Props {
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, used to resolve case study content and links. */
-  locale: Locale;
+  locale: Locale
 }
 
-const { t, locale } = Astro.props;
-const hub = getCaseStudies(locale);
+const { t, locale } = Astro.props
+const hub = getCaseStudies(locale)
 ---
 
 <section class="section page-hero">
@@ -38,28 +38,28 @@ const hub = getCaseStudies(locale);
 <section class="section section-alt">
   <div class="container">
     <ul class="case-grid">
-      {
-        hub.cases.map((entry) => (
-          <li class="card case-card">
-            <p class="case-meta">
-              <span class="case-client">{entry.client}</span>
-              {isParentCompanyStudy(entry.id) && (
-                <span class="case-own">{t.parentStudy.badge}</span>
-              )}
-              <span class="case-period">{entry.period}</span>
-            </p>
-            <h2 class="card-title text-display-sm">
-              <a class="case-link" href={casePath(entry.id, locale)}>{entry.title}</a>
-            </h2>
-            <p class="card-text">{entry.summary}</p>
-            <ul class="tag-list">
-              {entry.stack.map((technology) => (
-                <li class="tag">{technology}</li>
-              ))}
-            </ul>
-          </li>
-        ))
-      }
+      {hub.cases.map((entry) => (
+        <li class="card case-card">
+          <p class="case-meta">
+            <span class="case-client">{entry.client}</span>
+            {isParentCompanyStudy(entry.id) && (
+              <span class="case-own">{t.parentStudy.badge}</span>
+            )}
+            <span class="case-period">{entry.period}</span>
+          </p>
+          <h2 class="card-title text-display-sm">
+            <a class="case-link" href={casePath(entry.id, locale)}>
+              {entry.title}
+            </a>
+          </h2>
+          <p class="card-text">{entry.summary}</p>
+          <ul class="tag-list">
+            {entry.stack.map((technology) => (
+              <li class="tag">{technology}</li>
+            ))}
+          </ul>
+        </li>
+      ))}
     </ul>
   </div>
 </section>
@@ -124,7 +124,7 @@ const hub = getCaseStudies(locale);
   /* The card is the target: the whole surface is clickable through the title
      link, which stays the only link so it remains one tab stop. */
   .case-link::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
   }

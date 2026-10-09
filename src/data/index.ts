@@ -9,28 +9,24 @@
  * rather than duplicated per locale, so the trust strip cannot list different
  * clients depending on the language of the page.
  */
-import type { Locale } from '@/i18n';
-import * as fr from './content';
-import * as en from './content.en';
-import { CLIENT_LOGOS } from './clients';
-import { CASE_SLUGS } from './case-studies/slugs';
+import type { Locale } from "@/i18n"
+import * as fr from "./content"
+import * as en from "./content.en"
+import { CLIENT_LOGOS } from "./clients"
+import { CASE_SLUGS } from "./case-studies/slugs"
 
-export type {
-  Service,
-  Differentiator,
-  FaqEntry,
-} from './content';
+export type { Service, Differentiator, FaqEntry } from "./content"
 
 /** Every content export a locale provides, shared by both languages. */
 export interface ContentBundle {
   /** The services offered, in display order. */
-  SERVICES: readonly import('./content').Service[];
+  SERVICES: readonly import("./content").Service[]
   /** Reassurance arguments. */
-  DIFFERENTIATORS: readonly import('./content').Differentiator[];
+  DIFFERENTIATORS: readonly import("./content").Differentiator[]
   /** Frequently asked questions, mirrored into `FAQPage` markup. */
-  FAQ: readonly import('./content').FaqEntry[];
+  FAQ: readonly import("./content").FaqEntry[]
   /** Client logos for the trust strip. */
-  CLIENT_LOGOS: typeof CLIENT_LOGOS;
+  CLIENT_LOGOS: typeof CLIENT_LOGOS
 }
 
 const BUNDLES: Record<Locale, ContentBundle> = {
@@ -46,7 +42,7 @@ const BUNDLES: Record<Locale, ContentBundle> = {
     FAQ: en.FAQ,
     CLIENT_LOGOS,
   },
-};
+}
 
 /**
  * Returns the editorial content for a locale.
@@ -55,7 +51,7 @@ const BUNDLES: Record<Locale, ContentBundle> = {
  * @returns The content bundle for that locale
  */
 export function getContent(locale: Locale): ContentBundle {
-  return BUNDLES[locale];
+  return BUNDLES[locale]
 }
 
 /**
@@ -68,7 +64,7 @@ export function getContent(locale: Locale): ContentBundle {
  * @returns The client name of every case study, in display order
  */
 export function missionClientNames(locale: Locale): string[] {
-  return CASE_SLUGS.map((entry) => entry.name[locale]);
+  return CASE_SLUGS.map((entry) => entry.name[locale])
 }
 
-export { CLIENT_LOGOS, fr, en };
+export { CLIENT_LOGOS, fr, en }

@@ -12,21 +12,21 @@
  * services: the buyer's questions are answered by the offer itself and by
  * the contact prompt.
  */
-import type { Dictionary, Locale } from '@/i18n';
-import Hero from '@/components/Hero.astro';
-import Services from '@/components/Services.astro';
-import HartzaProof from '@/components/HartzaProof.astro';
-import CloudPartners from '@/components/CloudPartners.astro';
-import Contact from '@/components/Contact.astro';
+import type { Dictionary, Locale } from "@/i18n"
+import Hero from "@/components/Hero.astro"
+import Services from "@/components/Services.astro"
+import HartzaProof from "@/components/HartzaProof.astro"
+import CloudPartners from "@/components/CloudPartners.astro"
+import Contact from "@/components/Contact.astro"
 
 interface Props {
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, passed down to each section. */
-  locale: Locale;
+  locale: Locale
 }
 
-const { t, locale } = Astro.props;
+const { t, locale } = Astro.props
 ---
 
 <Hero t={t} locale={locale} />

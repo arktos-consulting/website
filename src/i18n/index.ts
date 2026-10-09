@@ -8,11 +8,11 @@
  * Translation pairs are re-exported from `./routes` so that pages, the layout and
  * the sitemap all import them from one place.
  */
-import type { Dictionary } from './fr';
-import fr from './fr';
-import en from './en';
+import type { Dictionary } from "./fr"
+import fr from "./fr"
+import en from "./en"
 
-export type { Dictionary };
+export type { Dictionary }
 
 export {
   ROUTE_PAIRS,
@@ -21,30 +21,30 @@ export {
   alternatePath,
   alternateUrl,
   type RoutePair,
-} from './routes';
+} from "./routes"
 
 /** Supported locales, mirroring the `i18n` block of the Astro config. */
-export const LOCALES = ['fr', 'en'] as const;
+export const LOCALES = ["fr", "en"] as const
 
 /** A supported locale code. */
-export type Locale = (typeof LOCALES)[number];
+export type Locale = (typeof LOCALES)[number]
 
 /** The locale served at the root of the domain. */
-export const DEFAULT_LOCALE: Locale = 'fr';
+export const DEFAULT_LOCALE: Locale = "fr"
 
-const DICTIONARIES: Record<Locale, Dictionary> = { fr, en };
+const DICTIONARIES: Record<Locale, Dictionary> = { fr, en }
 
 /** Human-readable locale tags for `og:locale` and structured data. */
 export const OG_LOCALES: Record<Locale, string> = {
-  fr: 'fr_FR',
-  en: 'en_US',
-};
+  fr: "fr_FR",
+  en: "en_US",
+}
 
 /** `hreflang` values, including the default used for unmatched languages. */
 export const HREFLANG: Record<Locale, string> = {
-  fr: 'fr-FR',
-  en: 'en-US',
-};
+  fr: "fr-FR",
+  en: "en-US",
+}
 
 /**
  * Narrows an arbitrary string to a supported locale.
@@ -54,9 +54,11 @@ export const HREFLANG: Record<Locale, string> = {
  */
 export function toLocale(value: string | undefined): Locale | null {
   if (!value) {
-    return null;
+    return null
   }
-  return (LOCALES as readonly string[]).includes(value) ? (value as Locale) : null;
+  return (LOCALES as readonly string[]).includes(value)
+    ? (value as Locale)
+    : null
 }
 
 /**
@@ -67,13 +69,13 @@ export function toLocale(value: string | undefined): Locale | null {
  * @throws Error when the locale is not supported
  */
 export function getDictionary(locale: Locale): Dictionary {
-  const dictionary = DICTIONARIES[locale];
+  const dictionary = DICTIONARIES[locale]
   if (!dictionary) {
     throw new Error(
-      `No dictionary for locale "${locale}". Add it to src/i18n/<locale>.ts and register it in LOCALES.`,
-    );
+      `No dictionary for locale "${locale}". Add it to src/i18n/<locale>.ts and register it in LOCALES.`
+    )
   }
-  return dictionary;
+  return dictionary
 }
 
 /**
@@ -90,16 +92,16 @@ export function getDictionary(locale: Locale): Dictionary {
  */
 export function localizedPath(
   pathByLocale: Record<Locale, string>,
-  targetLocale: Locale,
+  targetLocale: Locale
 ): string {
-  return pathByLocale[targetLocale];
+  return pathByLocale[targetLocale]
 }
 
 /** The site's primary language switch target, shown in the header. */
 export const LANGUAGE_LABELS: Record<Locale, string> = {
-  fr: 'FR',
-  en: 'EN',
-};
+  fr: "FR",
+  en: "EN",
+}
 
 /**
  * Returns the other locale of a pair.
@@ -108,5 +110,5 @@ export const LANGUAGE_LABELS: Record<Locale, string> = {
  * @returns The locale to switch to
  */
 export function alternateLocale(locale: Locale): Locale {
-  return locale === 'fr' ? 'en' : 'fr';
+  return locale === "fr" ? "en" : "fr"
 }

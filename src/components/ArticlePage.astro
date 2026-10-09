@@ -7,38 +7,38 @@
  * of contents, footer — is language-dependent only through the dictionary, so
  * the French and English article pages share this layout.
  */
-import type { Dictionary, Locale } from '@/i18n';
-import { SITE } from '@/consts';
-import { formatDate } from '@/utils/blog';
+import type { Dictionary, Locale } from "@/i18n"
+import { SITE } from "@/consts"
+import { formatDate } from "@/utils/blog"
 
 interface Heading {
   /** Heading level, 2 or 3. */
-  depth: number;
+  depth: number
   /** Anchor target of the heading. */
-  slug: string;
+  slug: string
   /** Heading text. */
-  text: string;
+  text: string
 }
 
 interface Props {
   /** Article title. */
-  title: string;
+  title: string
   /** One-sentence summary shown under the title. */
-  summary?: string;
+  summary?: string
   /** Topics covered, shown as tags. */
-  tags: readonly string[];
+  tags: readonly string[]
   /** Publication date. */
-  publishedAt: Date;
+  publishedAt: Date
   /** Last revision date, when the article was updated. */
-  updatedAt?: Date;
+  updatedAt?: Date
   /** Headings collected by the Markdown renderer, for the table of contents. */
-  headings: readonly Heading[];
+  headings: readonly Heading[]
   /** Reading time in minutes. */
-  minutes: number;
+  minutes: number
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, used for dates and links. */
-  locale: Locale;
+  locale: Locale
 }
 
 const {
@@ -51,14 +51,16 @@ const {
   minutes,
   t,
   locale,
-} = Astro.props;
+} = Astro.props
 
-const homeHref = locale === 'fr' ? '/' : '/en/';
-const blogHref = locale === 'fr' ? '/blog/' : '/en/blog/';
-const contactHref = `${homeHref}#contact`;
+const homeHref = locale === "fr" ? "/" : "/en/"
+const blogHref = locale === "fr" ? "/blog/" : "/en/blog/"
+const contactHref = `${homeHref}#contact`
 
 /** Level 2 and 3 headings, for the side table of contents. */
-const toc = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
+const toc = headings.filter(
+  (heading) => heading.depth >= 2 && heading.depth <= 3
+)
 ---
 
 <article class="section article">
@@ -67,70 +69,76 @@ const toc = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 
   <div class="container">
     <nav class="breadcrumb" aria-label={t.common.onThisPage}>
       <ol>
-        <li><a href={homeHref}>{t.notFound.entries[0]?.label ?? 'Home'}</a></li>
+        <li>
+          <a href={homeHref}>{t.notFound.entries[0]?.label ?? "Home"}</a>
+        </li>
         <li aria-hidden="true">/</li>
-        <li><a href={blogHref}>{t.blog.breadcrumb}</a></li>
+        <li>
+          <a href={blogHref}>{t.blog.breadcrumb}</a>
+        </li>
       </ol>
     </nav>
 
     <header class="article-head">
       <p class="article-meta">
-        <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt, locale)}</time>
+        <time datetime={publishedAt.toISOString()}>
+          {formatDate(publishedAt, locale)}
+        </time>
         <span aria-hidden="true">·</span>
-        <span>{minutes} {t.common.readingTimeSuffix}</span>
+        <span>
+          {minutes} {t.common.readingTimeSuffix}
+        </span>
         <span aria-hidden="true">·</span>
-        <span>{t.common.byAuthor} {SITE.founder}</span>
+        <span>
+          {t.common.byAuthor} {SITE.founder}
+        </span>
       </p>
 
       <h1 class="text-display-lg article-title">{title}</h1>
 
       {summary && <p class="lede article-summary">{summary}</p>}
 
-      {
-        tags.length > 0 && (
-          <ul class="tag-list">
-            {tags.map((tag) => (
-              <li class="tag">{tag}</li>
-            ))}
-          </ul>
-        )
-      }
+      {tags.length > 0 && (
+        <ul class="tag-list">
+          {tags.map((tag) => (
+            <li class="tag">{tag}</li>
+          ))}
+        </ul>
+      )}
     </header>
 
     <div class="article-layout">
       <div class="article-body">
         <slot />
 
-        {
-          updatedAt && (
-            <p class="article-updated">
-              {t.common.updatedOn} {formatDate(updatedAt, locale)}.
-            </p>
-          )
-        }
+        {updatedAt && (
+          <p class="article-updated">
+            {t.common.updatedOn} {formatDate(updatedAt, locale)}.
+          </p>
+        )}
       </div>
 
-      {
-        toc.length > 0 && (
-          <aside class="article-toc">
-            <h2 class="toc-title" id="toc-heading">{t.common.onThisPage}</h2>
-            <nav aria-labelledby="toc-heading">
-              <ul>
-                {toc.map((heading) => (
-                  <li class:list={['toc-item', `toc-depth-${heading.depth}`]}>
-                    <a href={`#${heading.slug}`}>{heading.text}</a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </aside>
-        )
-      }
+      {toc.length > 0 && (
+        <aside class="article-toc">
+          <h2 class="toc-title" id="toc-heading">
+            {t.common.onThisPage}
+          </h2>
+          <nav aria-labelledby="toc-heading">
+            <ul>
+              {toc.map((heading) => (
+                <li class:list={["toc-item", `toc-depth-${heading.depth}`]}>
+                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </aside>
+      )}
     </div>
 
     <footer class="article-foot">
       <p class="article-foot-text">
-        {t.blog.articleFootLead}{' '}
+        {t.blog.articleFootLead}{" "}
         <a href={contactHref}>{t.blog.articleFootCta}</a>
       </p>
       <a class="btn btn-ghost btn-sm" href={blogHref}>

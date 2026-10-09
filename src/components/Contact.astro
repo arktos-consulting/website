@@ -6,18 +6,18 @@
  * with the page rather than on scroll, so the calendar is already interactive
  * when the section reaches the viewport.
  */
-import { SITE, PROFILES } from '@/consts';
-import type { Dictionary, Locale } from '@/i18n';
-import SectionHeading from '@/components/SectionHeading.astro';
+import { SITE, PROFILES } from "@/consts"
+import type { Dictionary, Locale } from "@/i18n"
+import SectionHeading from "@/components/SectionHeading.astro"
 
 interface Props {
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale. The iframe title is localised through the dictionary. */
-  locale: Locale;
+  locale: Locale
 }
 
-const { t, locale } = Astro.props;
+const { t, locale } = Astro.props
 ---
 
 <section class="section section-alt" id="contact">
@@ -33,7 +33,9 @@ const { t, locale } = Astro.props;
       <ul class="contact-channels">
         <li class="channel">
           <span class="channel-label">{t.contact.emailLabel}</span>
-          <a class="channel-value" href={SITE.emailHref}>{SITE.email}</a>
+          <a class="channel-value" href={SITE.emailHref}>
+            {SITE.email}
+          </a>
         </li>
         <li class="channel">
           <span class="channel-label">{t.contact.locationLabel}</span>
@@ -41,7 +43,12 @@ const { t, locale } = Astro.props;
         </li>
         <li class="channel">
           <span class="channel-label">{t.contact.linkedinLabel}</span>
-          <a class="channel-value" href={PROFILES.linkedin} target="_blank" rel="noopener">
+          <a
+            class="channel-value"
+            href={PROFILES.linkedin}
+            target="_blank"
+            rel="noopener"
+          >
             {SITE.founder}
           </a>
         </li>

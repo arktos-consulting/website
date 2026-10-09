@@ -5,22 +5,22 @@
  * Rendered from content rather than written inline, so the French and English
  * pages share one layout and cannot drift apart.
  */
-import type { ConsultingPillar } from '@/data/pillars';
-import type { Dictionary, Locale } from '@/i18n';
-import SectionHeading from '@/components/SectionHeading.astro';
-import PillarHero from '@/components/PillarHero.astro';
-import Contact from '@/components/Contact.astro';
+import type { ConsultingPillar } from "@/data/pillars"
+import type { Dictionary, Locale } from "@/i18n"
+import SectionHeading from "@/components/SectionHeading.astro"
+import PillarHero from "@/components/PillarHero.astro"
+import Contact from "@/components/Contact.astro"
 
 interface Props {
   /** Page content for the current locale. */
-  pillar: ConsultingPillar;
+  pillar: ConsultingPillar
   /** Dictionary for the current locale. */
-  t: Dictionary;
+  t: Dictionary
   /** Current locale, passed down to the contact section. */
-  locale: Locale;
+  locale: Locale
 }
 
-const { pillar, t, locale } = Astro.props;
+const { pillar, t, locale } = Astro.props
 ---
 
 <PillarHero heading={pillar.hero} cta={pillar.cta} title={pillar.title} />
@@ -33,18 +33,16 @@ const { pillar, t, locale } = Astro.props;
       accent={pillar.scope.accent}
     />
     <ul class="domain-grid">
-      {
-        pillar.domains.map((domain) => (
-          <li class="card">
-            <h3 class="card-title text-display-sm">{domain.title}</h3>
-            <ul class="check-list">
-              {domain.items.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          </li>
-        ))
-      }
+      {pillar.domains.map((domain) => (
+        <li class="card">
+          <h3 class="card-title text-display-sm">{domain.title}</h3>
+          <ul class="check-list">
+            {domain.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </li>
+      ))}
     </ul>
   </div>
 </section>
@@ -57,24 +55,24 @@ const { pillar, t, locale } = Astro.props;
       accent={pillar.process.accent}
     />
     <ol class="phase-list">
-      {
-        pillar.phases.map((phase) => (
-          <li class="phase">
-            <div class="phase-head">
-              <span class="phase-step" aria-hidden="true">{phase.step}</span>
-              <h3 class="phase-title">{phase.title}</h3>
-            </div>
-            <p class="phase-detail">{phase.detail}</p>
-            {phase.items.length > 0 && (
-              <ul class="check-list phase-items">
-                {phase.items.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))
-      }
+      {pillar.phases.map((phase) => (
+        <li class="phase">
+          <div class="phase-head">
+            <span class="phase-step" aria-hidden="true">
+              {phase.step}
+            </span>
+            <h3 class="phase-title">{phase.title}</h3>
+          </div>
+          <p class="phase-detail">{phase.detail}</p>
+          {phase.items.length > 0 && (
+            <ul class="check-list phase-items">
+              {phase.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
     </ol>
   </div>
 </section>
@@ -87,14 +85,12 @@ const { pillar, t, locale } = Astro.props;
       accent={pillar.proofHeading.accent}
     />
     <ul class="proof-list">
-      {
-        pillar.proofs.map((proof) => (
-          <li class="proof">
-            <span class="proof-value">{proof.value}</span>
-            <span class="proof-text">{proof.text}</span>
-          </li>
-        ))
-      }
+      {pillar.proofs.map((proof) => (
+        <li class="proof">
+          <span class="proof-value">{proof.value}</span>
+          <span class="proof-text">{proof.text}</span>
+        </li>
+      ))}
     </ul>
   </div>
 </section>
