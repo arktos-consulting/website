@@ -92,10 +92,10 @@ const en: Dictionary = {
 
   hartza: {
     eyebrow: 'In production at my own company',
-    title: 'As if it were mine,',
-    accent: 'because I have one.',
+    title: 'Your platform,',
+    accent: 'like mine.',
     body:
-      'Hartza Capital, my investment fintech, has been running algorithmic trading on AWS in production for 4 years. HPC, data, APIs, event-driven workflows. I treat your product with the same care.',
+      'Hartza Capital, my investment fintech, has been running algorithmic trading on AWS in production for 4 years. HPC, data, APIs, event-driven workflows.',
     articlesHeading: 'How it is built',
     articles: [
       {

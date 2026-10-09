@@ -106,10 +106,10 @@ const fr = {
   /** Hartza Capital proof section. */
   hartza: {
     eyebrow: 'En production chez moi',
-    title: 'Comme si c’était le mien,',
-    accent: 'parce que j’en ai un.',
+    title: 'Votre plateforme,',
+    accent: 'comme la mienne.',
     body:
-      'Hartza Capital, ma fintech d’investissement, fait tourner du trading algorithmique en production sur AWS depuis 4 ans. HPC, data, API, workflows event-driven. Je traite votre produit avec le même soin.',
+      'Hartza Capital, ma fintech d’investissement, fait tourner du trading algorithmique en production sur AWS depuis 4 ans. HPC, data, API, workflows event-driven.',
     articlesHeading: 'Comment c’est construit',
     articles: [
       {
