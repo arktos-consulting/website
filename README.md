@@ -1,308 +1,300 @@
-# Arktos Consulting — site web
+# Arktos Consulting — website
 
-Site de présentation des prestations de conseil AWS/Kubernetes et d'infogérance
-d'Arktos Consulting. Construit avec Astro, rendu entièrement en HTML statique.
+Marketing site for Arktos Consulting's AWS/Kubernetes consulting and managed
+services. Built with Astro, rendered entirely as static HTML.
 
-## Démarrage
+## Getting started
 
 ```bash
 bun install
-bun run dev      # serveur de développement sur http://localhost:4321
-bun run build    # build de production dans dist/
-bun run preview  # prévisualisation du build
+bun run dev      # development server on http://localhost:4321
+bun run build    # production build into dist/
+bun run preview  # preview the build
 ```
 
-## Vérifications
+## Checks
 
 ```bash
-bun run verify       # la chaîne complète : format, types, composants, build, bilingue
-bun run format       # réécrit les fichiers selon la convention Prettier
-bun run format:check # vérifie le format sans réécrire
-bun run typecheck    # astro sync, puis astro check, puis tsc --noEmit
-bun run build        # build de production dans dist/
-bun run verify:i18n  # contrôle du HTML et du sitemap produits (après le build)
+bun run verify       # the full chain: format, types, components, build, bilingual
+bun run format       # rewrites files to the Prettier convention
+bun run format:check # checks the formatting without rewriting
+bun run typecheck    # astro sync, then astro check, then tsc --noEmit
+bun run build        # production build into dist/
+bun run verify:i18n  # checks the built HTML and sitemap (after the build)
 ```
 
-`bun run format:check` ouvre la chaîne `verify` : la convention de style est
-celle de tous les dépôts de l'organisation, définie dans `.prettierrc.json`
-(double quotes, sans points-virgules, 80 colonnes) et bornée par
-`.prettierignore`. `bun run format` applique la même convention.
+`bun run format:check` opens the `verify` chain: the style convention is the one
+used across the organisation's repositories, defined in `.prettierrc.json`
+(double quotes, no semicolons, 80 columns) and bounded by `.prettierignore`.
+`bun run format` applies the same convention.
 
-`bun run typecheck` lance `astro sync` avant `tsc` : les types des collections de
-contenu (`astro:content`) sont générés dans `.astro/`, qui n'est pas versionné.
-Sans cette étape, le typage échoue sur une machine neuve et en intégration
-continue.
+`bun run typecheck` runs `astro sync` before `tsc`: the content collection types
+(`astro:content`) are generated into `.astro/`, which is not versioned. Without
+that step, type checking fails on a fresh machine and in continuous integration.
 
-**`tsc` ne lit pas les fichiers `.astro`.** Il attrape les erreurs dans les
-modules TypeScript, jamais dans les composants, les pages ou le layout. Un type
-oublié dans un export passe donc `tsc` sans broncher et ne casse qu'à
-l'exécution — constaté : 23 fichiers importaient un type qui n'était jamais
-réexporté, `tsc --noEmit` était vert. C'est la raison pour laquelle `typecheck`
-appelle `astro check` entre les deux.
+**`tsc` does not read `.astro` files.** It catches errors in TypeScript modules,
+never in components, pages or the layout. A type missing from an export therefore
+passes `tsc` silently and only breaks at runtime — observed: 23 files imported a
+type that was never re-exported while `tsc --noEmit` stayed green. That is why
+`typecheck` calls `astro check` between the two.
 
-Les cinq commandes doivent sortir sans erreur avant tout envoi.
+Every command above must exit without error before anything is submitted.
 
 ## Stack
 
-| Rôle        | Choix                        | Version             |
-| ----------- | ---------------------------- | ------------------- |
-| Framework   | Astro                        | 7.3.2               |
-| Styles      | Tailwind CSS                 | 4.3.3               |
-| Typage      | TypeScript                   | 6.0.3               |
-| Polices     | Inter + Sora, auto-hébergées | sous-ensemble latin |
-| Hébergement | Amazon S3 + CloudFront       | statique            |
+| Role      | Choice                    | Version      |
+| --------- | ------------------------- | ------------ |
+| Framework | Astro                     | 7.3.2        |
+| Styling   | Tailwind CSS              | 4.3.3        |
+| Typing    | TypeScript                | 6.0.3        |
+| Fonts     | Inter + Sora, self-hosted | latin subset |
+| Hosting   | Amazon S3 + CloudFront    | static       |
 
-**TypeScript reste volontairement en 6.x.** TypeScript 7 est disponible et
-largement plus rapide, mais il ne fournit pas encore d'API programmatique : le
-type-checking des templates Astro et l'outillage ESLint ne fonctionnent pas avec.
-La montée de version attend l'API annoncée pour 7.1.
+**TypeScript is deliberately kept on 6.x.** TypeScript 7 is available and much
+faster, but it does not yet provide a programmatic API: type checking of Astro
+templates and the ESLint tooling do not work with it. The upgrade waits for the
+API announced for 7.1.
 
-**React n'est pas monté.** Le site n'a aucun îlot interactif. Les dépendances
-`react` et `react-dom` restent déclarées, prêtes à l'emploi dès qu'un composant
-le justifiera — l'activer ajouterait environ 200 Ko de JavaScript par page.
+**React is not mounted.** The site has no interactive island. The `react` and
+`react-dom` dependencies stay declared, ready to use as soon as a component
+justifies it — enabling them would add about 200 KB of JavaScript per page.
 
 ## Structure
 
 ```
 src/
-  consts.ts              identité, coordonnées, hébergeur, Matomo, carrière
-  content.config.ts      schéma des collections d'articles (fr et en)
-  content/blog/          articles en français, en Markdown
-  content/blog-en/       articles en anglais, en Markdown
+  consts.ts              identity, contact details, host, Matomo, career
+  content.config.ts      article collection schema (fr and en)
+  content/blog/          French articles, in Markdown
+  content/blog-en/       English articles, in Markdown
   i18n/
-    fr.ts                dictionnaire français : la source de vérité des libellés
-    en.ts                dictionnaire anglais, typé sur la forme dérivée de fr.ts
+    fr.ts                French dictionary: the source of truth for labels
+    en.ts                English dictionary, typed on the shape derived from fr.ts
     index.ts             getDictionary, locales, hreflang, og:locale
-    routes.ts            table des paires de traduction FR/EN (source unique)
+    routes.ts            FR/EN translation pair table (single source)
   data/
-    content.ts           contenu éditorial français (prestations, missions, FAQ)
-    content.en.ts        contenu éditorial anglais
-    clients.ts           logos clients, indépendants de la langue
+    content.ts           French editorial content (services, engagements, FAQ)
+    content.en.ts        English editorial content
+    clients.ts           client logos, language-independent
     case-studies/
-      slugs.ts           segments d'URL des cas clients, par langue (source unique)
-      fr.ts              cas clients français
-      en.ts              cas clients anglais
-      types.ts           contrats des pages cas clients
-      ownership.ts       identification du cas mené pour la société mère
-      index.ts           getCaseStudies(locale), chemins des cas
+      slugs.ts           case study URL segments, per language (single source)
+      fr.ts              French case studies
+      en.ts              English case studies
+      types.ts           case study page contracts
+      ownership.ts       marks the engagement carried out for the parent company
+      index.ts           getCaseStudies(locale), case paths
     index.ts             getContent(locale)
-    pillars/             contenu des quatre pages piliers, par langue et typé
-  utils/career.ts        calcul des années d'expérience
-  utils/blog.ts          dates localisées, temps de lecture, récupération des articles
-  utils/seo.ts           graphe JSON-LD et fil d'Ariane
+    pillars/             pillar page content, per language and typed
+  utils/career.ts        computes the years of experience
+  utils/blog.ts          localised dates, reading time, article retrieval
+  utils/seo.ts           JSON-LD graph and breadcrumb
   layouts/BaseLayout.astro
-  components/            entête, sections, cartes d'article, pied de page
-  components/pillars/    rendu des pages piliers, un composant pour les deux langues
-  pages/                 routes françaises (racine)
-  pages/cas-clients/     hub et pages des cas clients, français
-  pages/en/              routes anglaises
-  pages/en/case-studies/ hub et pages des cas clients, anglais
+  components/            header, sections, article cards, footer
+  components/pillars/    pillar page rendering, one component for both languages
+  pages/                 French routes (root)
+  pages/cas-clients/     case study hub and pages, French
+  pages/en/              English routes
+  pages/en/case-studies/ case study hub and pages, English
 scripts/
-  verify-i18n.mjs        contrôle du bilingue sur le build produit
+  verify-i18n.mjs        checks the bilingual invariants on the built output
 public/
-  images/                logos clients (silhouettes), logo.svg, image de partage
-  fonts/                 sous-ensembles latins d'Inter et Sora
+  images/                client logos (silhouettes), logo.svg, share image
+  fonts/                 latin subsets of Inter and Sora
   files/cv.pdf
   robots.txt
 ```
 
-## Bilingue
+## Bilingual
 
-Le français est servi à la racine, l'anglais sous `/en/`. Les deux sont des sites
-distincts, pas une page unique traduite à la volée.
+French is served at the root, English under `/en/`. The two are distinct sites,
+not a single page translated on the fly.
 
-**Les segments d'URL sont traduits, pas préfixés.** `/conseil/` a pour pendant
-`/en/consulting/`, et non `/en/conseil/`. Un lecteur anglophone obtient des URL
-qui se lisent dans sa langue, et les URL françaises déjà indexées ne bougent pas.
+**URL segments are translated, not prefixed.** `/conseil/` maps to
+`/en/consulting/`, not `/en/conseil/`. An English reader gets URLs that read in
+their language, and the already-indexed French URLs do not move.
 
-### Où vit le texte
+### Where the text lives
 
-| Nature                                                          | Emplacement                            |
-| --------------------------------------------------------------- | -------------------------------------- |
-| Libellés d'interface (boutons, navigation, titres de section)   | `src/i18n/{fr,en}.ts`                  |
-| Contenu éditorial (prestations, missions, FAQ, pages piliers)   | `src/data/`                            |
-| Indépendant de la langue (logos clients, identité, coordonnées) | `src/consts.ts`, `src/data/clients.ts` |
+| Nature                                                         | Location                               |
+| -------------------------------------------------------------- | -------------------------------------- |
+| Interface labels (buttons, navigation, section headings)       | `src/i18n/{fr,en}.ts`                  |
+| Editorial content (services, engagements, FAQ, pillar pages)   | `src/data/`                            |
+| Language-independent (client logos, identity, contact details) | `src/consts.ts`, `src/data/clients.ts` |
 
-**Le dictionnaire français est la source de vérité.** `en.ts` est typé sur la
-forme dérivée de `fr.ts` : une clé présente en français et absente en anglais fait
-échouer le build. C'est la raison pour laquelle ces fichiers sont en TypeScript et
-non en JSON — un JSON ne produirait aucune erreur de compilation et laisserait
-`undefined` s'afficher en production.
+**The French dictionary is the source of truth.** `en.ts` is typed on the shape
+derived from `fr.ts`: a key present in French and missing in English fails the
+build. That is why these files are TypeScript and not JSON — JSON would produce no
+compilation error and let `undefined` show up in production.
 
-De même, `content.en.ts` et `data/pillars/en.ts` sont typés sur les interfaces du
-côté français : un champ ajouté d'un côté seulement ne compile pas.
+Likewise, `content.en.ts` and `data/pillars/en.ts` are typed on the French side's
+interfaces: a field added on one side only does not compile.
 
-### Publier une page ou un article traduit
+### Publishing a translated page or article
 
-Ajouter la paire dans `ROUTE_PAIRS`, dans `src/i18n/routes.ts` :
+Add the pair to `ROUTE_PAIRS`, in `src/i18n/routes.ts`:
 
 ```ts
-{ fr: '/mon-sujet/', en: '/en/my-topic/' },
+{ fr: "/mon-sujet/", en: "/en/my-topic/" },
 ```
 
-C'est la seule déclaration nécessaire. Le layout en déduit l'URL canonique, les
-`hreflang` réciproques, le `x-default` et la cible du sélecteur de langue ; le
-plan du site en déduit ses alternances. Une page absente de cette table est
-traitée comme monolingue : elle reçoit une URL canonique et aucun `hreflang`, ce
-qui est plus sûr qu'une alternance pointant vers une page qui n'existe pas dans
-cette langue.
+That is the only declaration needed. The layout derives the canonical URL, the
+reciprocal `hreflang` tags, `x-default` and the language switcher target from it;
+the sitemap derives its alternates. A page absent from that table is treated as
+monolingual: it gets a canonical URL and no `hreflang`, which is safer than an
+alternate pointing at a page that does not exist in that language.
 
-**Seule exception : les cas clients.** Leurs seize paires sont dérivées de
-`CASE_SLUGS`, dans `src/data/case-studies/slugs.ts`, et non recopiées ici. Le
-segment d'URL d'un cas est ainsi écrit une seule fois ; `getCaseStudies` vérifie
-au chargement que le segment du contenu correspond à celui de cette liste, et
-lève une erreur sinon. Un cas à ajouter s'ajoute donc là, puis dans `fr.ts` et
-`en.ts`.
+**Single exception: case studies.** Their sixteen pairs are derived from
+`CASE_SLUGS`, in `src/data/case-studies/slugs.ts`, not copied here. A case's URL
+segment is thus written once; `getCaseStudies` verifies at load time that the
+content's segment matches the one in that list, and throws otherwise. A case to
+add is therefore added there, then in `fr.ts` and `en.ts`.
 
-### Les quatre pièges
+### The four traps
 
-**1. `tsc` ne voit pas les `.astro`.** Voir la section Vérifications.
+**1. `tsc` does not see `.astro`.** See the Checks section.
 
-**2. Ne pas déclarer sa traduction est silencieux.** Une page pilier absente de
-`ROUTE_PAIRS` n'échoue pas : elle perd simplement ses `hreflang`, sans erreur ni
-avertissement. `bun run verify:i18n` comble ce trou en refusant toute page
-indexable sans alternance complète.
+**2. Not declaring a translation is silent.** A pillar page missing from
+`ROUTE_PAIRS` does not fail: it simply loses its `hreflang`, with no error and no
+warning. `bun run verify:i18n` closes that hole by refusing any indexable page
+without a complete alternate.
 
-**3. Le sitemap ne déduit rien des URL.** Les segments traduits rendent toute
-inférence impossible : l'option `i18n` du greffon `@astrojs/sitemap` ne
-correspond à aucune URL et produit un sitemap sans alternance, sans rien
-signaler. Les alternances sont donc écrites depuis `ROUTE_PAIRS`, dans
-`astro.config.mjs`.
+**3. The sitemap infers nothing from URLs.** Translated segments make any
+inference impossible: the `i18n` option of the `@astrojs/sitemap` plugin matches
+no URL and produces a sitemap with no alternates, without reporting anything. The
+alternates are therefore written from `ROUTE_PAIRS`, in `astro.config.mjs`.
 
-**4. Le sélecteur de langue utilise un chemin, pas une URL absolue.** Sinon une
-prévisualisation ou un déploiement de préproduction renverrait le visiteur vers la
-production. Les balises `canonical` et `hreflang` restent, elles, absolues.
+**4. The language switcher uses a path, not an absolute URL.** Otherwise a
+preview or a pre-production deployment would send the visitor to production. The
+`canonical` and `hreflang` tags stay absolute.
 
-`bun run verify:i18n` contrôle les invariants du bilingue sur le build produit :
-alternances réciproques dans le sitemap et dans le HTML, pages `noindex` exclues
-des deux, langue déclarée correcte, et absence de texte français dans une page
-anglaise.
+`bun run verify:i18n` checks the bilingual invariants on the built output:
+reciprocal alternates in the sitemap and in the HTML, `noindex` pages excluded
+from both, the declared language correct, and no French text inside an English
+page.
 
-### Traduire un article
+### Translating an article
 
-Un article anglais est un document distinct, avec son propre slug et sa propre
-date de publication — pas une copie de fichier. Il vit dans
-`src/content/blog-en/`, et la paire est déclarée dans `ROUTE_PAIRS`.
+An English article is a distinct document, with its own slug and its own
+publication date — not a file copy. It lives in `src/content/blog-en/`, and the
+pair is declared in `ROUTE_PAIRS`.
 
-## Publier un article
+## Publishing an article
 
-Créer un fichier Markdown dans `src/content/blog/`. Le nom du fichier devient
-l'URL : `src/content/blog/mon-sujet.md` est publié sur `/blog/mon-sujet/`.
+Create a Markdown file in `src/content/blog/`. The file name becomes the URL:
+`src/content/blog/my-topic.md` is published at `/blog/my-topic/`.
 
 ```markdown
 ---
-title: "Titre de l'article"
-description: "Résumé d'une phrase, utilisé dans le listing et les métadonnées."
+title: "Article title"
+description: "One-sentence summary, used in the listing and the metadata."
 publishedAt: 2026-09-08
-updatedAt: 2026-10-01 # facultatif
+updatedAt: 2026-10-01 # optional
 tags: ["AWS", "FinOps"]
-summary: "Paragraphe d'accroche affiché en tête d'article."
-draft: false # true pour garder l'article hors ligne
+summary: "Opening paragraph shown at the top of the article."
+draft: false # true keeps the article offline
 ---
 
-Le contenu en Markdown. Les titres `##` alimentent la table des matières.
+The Markdown content. `##` headings feed the table of contents.
 ```
 
-Le schéma de `src/content.config.ts` valide le frontmatter au build : une date
-mal formée ou un `description` manquant fait échouer la construction plutôt que
-de produire une page cassée en production.
+The schema in `src/content.config.ts` validates the frontmatter at build time: a
+malformed date or a missing `description` fails the build rather than producing a
+broken page in production.
 
-Ajouter un article le publie automatiquement dans le listing, le flux RSS, le
-plan du site, les métadonnées Open Graph et le balisage `BlogPosting`. Rien
-d'autre à modifier.
+Adding an article publishes it automatically in the listing, the RSS feed, the
+sitemap, the Open Graph metadata and the `BlogPosting` markup. Nothing else to
+change.
 
-Les brouillons (`draft: true`) sont exclus du listing, du RSS et du sitemap.
+Drafts (`draft: true`) are excluded from the listing, the RSS feed and the
+sitemap.
 
-## Conventions de contenu
+## Content conventions
 
-- Les commentaires de code sont en **anglais**, sans exception : TSDoc, commentaires
-  en ligne, bannières de section CSS et commentaires YAML.
-- Les textes affichés vivent dans `src/i18n/` et `src/data/`, jamais dans les
-  composants. Une donnée affichée à deux endroits finit par diverger.
-- Une donnée qui ne dépend pas de la langue ne se duplique pas par langue. Les
-  logos clients ont été un temps présents à l'identique dans les deux fichiers de
-  contenu : un client ajouté d'un seul côté aurait fait diverger la bande de
-  confiance selon la langue de la page, sans erreur.
-- Les années d'expérience sont **calculées** à partir de `CAREER` dans
-  `src/consts.ts`, jamais écrites en dur. Un chiffre recopié devient faux à la
-  première année suivante.
-- Le graphe JSON-LD est produit par `src/utils/seo.ts` à partir des mêmes
-  sources : le balisage et le contenu visible ne peuvent pas se contredire.
-- Les réponses de la FAQ sont reprises mot pour mot dans le balisage `FAQPage`.
-  Modifier une réponse implique de vérifier que le balisage suit.
+- Code comments are in **English**, without exception: TSDoc, inline comments,
+  CSS section banners and YAML comments.
+- Displayed text lives in `src/i18n/` and `src/data/`, never in components. Data
+  displayed in two places ends up diverging.
+- Data that does not depend on the language is not duplicated per language. The
+  client logos were once present identically in both content files: a client
+  added on one side only would have made the trust strip diverge depending on the
+  page language, with no error.
+- The years of experience are **computed** from `CAREER` in `src/consts.ts`,
+  never hard-coded. A copied figure becomes wrong the following year.
+- The JSON-LD graph is produced by `src/utils/seo.ts` from the same sources: the
+  markup and the visible content cannot contradict each other.
+- FAQ answers are reproduced word for word in the `FAQPage` markup. Changing an
+  answer means checking that the markup follows.
 
-## Référencement
+## SEO
 
-Le site est optimisé pour les moteurs de recherche classiques et pour les
-moteurs de réponse génératifs.
+The site is optimised for classic search engines and for generative answer
+engines.
 
-**Ce qui est en place :** titres et descriptions uniques par page, URL
-canoniques, `hreflang` réciproques avec `x-default`, `og:locale` et
-`og:locale:alternate`, données structurées (`ProfessionalService`, `Person`,
-`WebSite`, `WebPage`, `FAQPage`, `BreadcrumbList`, `BlogPosting`), plan du site
-généré au build avec ses alternances, métadonnées Open Graph et Twitter Card,
-image de partage 1200×630.
+**What is in place:** unique titles and descriptions per page, canonical URLs,
+reciprocal `hreflang` with `x-default`, `og:locale` and `og:locale:alternate`,
+structured data (`ProfessionalService`, `Person`, `WebSite`, `WebPage`,
+`FAQPage`, `BreadcrumbList`, `BlogPosting`), a sitemap generated at build time
+with its alternates, Open Graph and Twitter Card metadata, a 1200×630 share
+image.
 
-Les données structurées déclarent la langue de la page (`inLanguage`) et les
-sujets d'expertise dans la langue du lecteur : un moteur de réponse qui traite une
-requête anglaise doit trouver le terme anglais pour relier l'entité au sujet.
+The structured data declares the page language (`inLanguage`) and the areas of
+expertise in the reader's language: an answer engine processing an English query
+must find the English term to link the entity to the topic.
 
-**robots.txt distingue deux décisions distinctes.** Les robots de recherche et de
-réponse sont autorisés (`OAI-SearchBot`, `PerplexityBot`, `Claude-SearchBot`) :
-les bloquer retirerait le site des réponses de ChatGPT, Perplexity et Claude. Les
-robots d'entraînement sont refusés (`GPTBot`, `ClaudeBot`, `CCBot`,
-`Google-Extended`) : ils alimentent les corpus sans générer de trafic de réponse.
-Cette distinction est le point le plus souvent raté, et la plus coûteuse à rater.
+**robots.txt distinguishes two separate decisions.** Search and answer robots are
+allowed (`OAI-SearchBot`, `PerplexityBot`, `Claude-SearchBot`): blocking them
+would remove the site from ChatGPT, Perplexity and Claude answers. Training
+robots are refused (`GPTBot`, `ClaudeBot`, `CCBot`, `Google-Extended`): they feed
+corpora without generating answer traffic. This distinction is the most commonly
+missed point, and the most costly to miss.
 
-**llms.txt n'est pas publié volontairement.** Google a déclaré ne pas l'utiliser,
-et les mesures d'accès montrent que les robots qui génèrent des citations ne le
-demandent quasiment jamais. Le fichier ne produit pas de citations.
+**llms.txt is deliberately not published.** Google has stated it does not use it,
+and access measurements show that the robots generating citations almost never
+request it. The file does not produce citations.
 
 ## Performance
 
-Le HTML est complet sans exécution de script : il se lit entièrement avant qu'un
-seul octet de JavaScript ne soit téléchargé, ce qui le rend directement lisible
-par les robots d'indexation et par les moteurs de réponse.
+The HTML is complete without script execution: it reads in full before a single
+byte of JavaScript is downloaded, which makes it directly readable by indexing
+robots and by answer engines.
 
-| Élément                     | Poids                                |
-| --------------------------- | ------------------------------------ |
-| Page d'accueil (HTML)       | ~42 Ko                               |
-| CSS                         | ~28 Ko                               |
-| JavaScript applicatif       | 0                                    |
-| Polices (2 fichiers, latin) | 80 Ko                                |
-| Matomo (matomo.js + appels) | externe, après chargement de la page |
+| Element                    | Weight                              |
+| -------------------------- | ----------------------------------- |
+| Home page (HTML)           | ~42 KB                              |
+| CSS                        | ~28 KB                              |
+| Application JavaScript     | 0                                   |
+| Fonts (2 files, latin)     | 80 KB                               |
+| Matomo (matomo.js + calls) | external, after the page has loaded |
 
-Les polices sont limitées au sous-ensemble latin : les jeux cyrillique, grec et
-vietnamien représenteraient environ 170 Ko supplémentaires jamais utilisés. Elles
-sont servies depuis le domaine plutôt que par un CDN tiers, ce qui retire une
-connexion externe du chemin d'affichage.
+The fonts are limited to the latin subset: the Cyrillic, Greek and Vietnamese
+sets would add about 170 KB that is never used. They are served from the domain
+rather than from a third-party CDN, which removes an external connection from the
+display path.
 
-## Mesure d'audience
+## Audience measurement
 
-L'audience est mesurée avec Matomo, en mode sans cookie : c'est ce qui place la
-mesure dans l'exemption de consentement de la CNIL, et pourquoi le site n'affiche
-aucun bandeau. Le script est absent tant que `MATOMO.url` et `MATOMO.siteId`
-(dans `src/consts.ts`) restent les placeholders.
+Audience is measured with Matomo, in cookieless mode: that is what places the
+measurement inside the CNIL consent exemption, and why the site shows no banner.
+The script is absent as long as `MATOMO.url` and `MATOMO.siteId` (in
+`src/consts.ts`) remain placeholders.
 
-L'exemption ne tient qu'à une configuration de l'instance, à vérifier côté Matomo
-Cloud : anonymisation des IP avant traitement, aucun cookie tiers, aucun
-cross-domain, pas de User ID, pas d'e-commerce, pas de heatmaps ni
-d'enregistrements de session, exports désactivés, et hébergement dans l'Union
-européenne. La case « Visits log & Visitor profile » doit rester désactivée dans
-les réglages de vie privée.
+The exemption rests entirely on the instance configuration, to be verified on the
+Matomo Cloud side: IP anonymisation before processing, no third-party cookies, no
+cross-domain, no User ID, no e-commerce, no heatmaps or session recordings,
+exports disabled, and hosting inside the European Union. The "Visits log &
+Visitor profile" setting must stay disabled in the privacy settings.
 
-Le droit d'opposition est la contrepartie de l'exemption, et il est obligatoire :
-le bouton vit dans les mentions légales (ancre `#mesure-audience`), lié depuis le
-pied de page. Il pousse `optUserOut` dans la file Matomo et mémorise le choix en
-`localStorage` ; le rechargement applique l'opposition avant que le tracker ne
-soit chargé.
+The right to object is the counterpart of the exemption, and it is mandatory: the
+button lives in the legal notices (anchor `#mesure-audience`), linked from the
+footer. It pushes `optUserOut` into the Matomo queue and remembers the choice in
+`localStorage`; a reload applies the objection before the tracker is loaded.
 
-## Déploiement
+## Deployment
 
-Le site est publié sur Amazon S3 et distribué via Amazon CloudFront. La mise en
-ligne est manuelle : `bun run build` produit `dist/`, synchronisé ensuite vers le
+The site is published to Amazon S3 and distributed through Amazon CloudFront.
+Publishing is manual: `bun run build` produces `dist/`, then synchronised to the
 bucket.
 
-`bun run verify` rejoue sur le poste les mêmes étapes que
-`.github/workflows/verify.yml` sur chaque pull request : typage, composants,
-build, invariants du bilingue. Une erreur doit bloquer la mise en production.
+`bun run verify` replays locally the same steps as `.github/workflows/verify.yml`
+on every pull request: formatting, types, components, build, bilingual
+invariants. An error must block production.
