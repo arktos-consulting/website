@@ -125,7 +125,6 @@ const en: Dictionary = {
       'You always talk to me. When a subject falls outside my scope, one of them steps in. The AWS',
     bodyTwoTail: 'partnership is held by the collective.',
     ctaPrimary: 'Meet the collective',
-    ctaSecondary: 'AWS partner profile',
     badgeAlt: 'AWS Select Consulting Partner',
     stats: [
       { value: '50+', label: 'AWS certifications maintained' },

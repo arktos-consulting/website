@@ -140,7 +140,6 @@ const fr = {
       'Vous parlez toujours à moi. Quand un sujet sort de mon périmètre, c’est l’un d’eux qui intervient. Le partenariat AWS',
     bodyTwoTail: 'est porté par le collectif.',
     ctaPrimary: 'Découvrir le collectif',
-    ctaSecondary: 'Fiche partenaire AWS',
     badgeAlt: 'AWS Select Consulting Partner',
     stats: [
       { value: '50+', label: 'certifications AWS maintenues' },
