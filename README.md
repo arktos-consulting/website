@@ -12,6 +12,10 @@ bun run build    # production build into dist/
 bun run preview  # preview the build
 ```
 
+The same commands are exposed through the `Makefile` — `make help` lists them —
+so the names work identically from a terminal, an editor task runner or CI.
+`make ci` is the gate, and runs the same chain as `bun run verify`.
+
 ## Checks
 
 ```bash
