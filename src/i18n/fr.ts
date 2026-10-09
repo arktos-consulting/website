@@ -148,7 +148,7 @@ const fr = {
       'Réponse sous un jour ouvré. Je vous dis si je suis la bonne personne, y compris quand la réponse est non.',
     emailLabel: 'E-mail',
     locationLabel: 'Localisation',
-    location: 'Lyon, France · remote accepté',
+    location: 'Lyon, France · hybride/remote accepté',
     linkedinLabel: 'LinkedIn',
     calendlyTitle: 'Réservez un créneau de trente minutes',
   },

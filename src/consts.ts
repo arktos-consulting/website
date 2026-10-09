@@ -14,8 +14,8 @@
 export const SITE = {
   url: 'https://www.arktos.consulting',
   name: 'Arktos Consulting',
-  legalName: 'EURL Arktos Consulting',
-  legalForm: 'EURL',
+  legalName: 'SASU Arktos Consulting',
+  legalForm: 'SASU',
   shareCapital: '1 000 €',
   siret: '90878661900019',
   vatId: 'FR65908786619',
@@ -36,7 +36,7 @@ export const SITE = {
 
 /** Verifiable external profiles, declared in `sameAs`. */
 export const PROFILES = {
-  linkedin: 'https://www.linkedin.com/in/perriea-cloud/',
+  linkedin: 'https://www.linkedin.com/in/perriea/',
   github: 'https://github.com/perriea',
   meetup:
     'https://www.meetup.com/fr-FR/aws-lyon-amazon-web-services-user-group/',

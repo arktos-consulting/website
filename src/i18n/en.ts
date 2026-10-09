@@ -133,7 +133,7 @@ const en: Dictionary = {
       'Reply within one business day. I will tell you whether I am the right person, including when the answer is no.',
     emailLabel: 'Email',
     locationLabel: 'Based in',
-    location: 'Lyon, France · remote across Europe',
+    location: 'Lyon, France · hybrid/remote across Europe',
     linkedinLabel: 'LinkedIn',
     calendlyTitle: 'Book a thirty-minute slot',
   },
