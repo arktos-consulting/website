@@ -71,6 +71,12 @@ src/
     content.ts           contenu éditorial français (prestations, missions, FAQ)
     content.en.ts        contenu éditorial anglais
     clients.ts           logos clients, indépendants de la langue
+    case-studies/
+      slugs.ts           segments d'URL des cas clients, par langue (source unique)
+      fr.ts              cas clients français
+      en.ts              cas clients anglais
+      types.ts           contrats des pages cas clients
+      index.ts           getCaseStudies(locale), chemins des cas
     index.ts             getContent(locale)
     pillars/             contenu des quatre pages piliers, par langue et typé
   utils/career.ts        calcul des années d'expérience
@@ -80,7 +86,9 @@ src/
   components/            entête, sections, cartes d'article, pied de page
   components/pillars/    rendu des pages piliers, un composant pour les deux langues
   pages/                 routes françaises (racine)
+  pages/cas-clients/     hub et pages des cas clients, français
   pages/en/              routes anglaises
+  pages/en/case-studies/ hub et pages des cas clients, anglais
 scripts/
   verify-i18n.mjs        contrôle du bilingue sur le build produit
 public/
@@ -130,6 +138,13 @@ plan du site en déduit ses alternances. Une page absente de cette table est
 traitée comme monolingue : elle reçoit une URL canonique et aucun `hreflang`, ce
 qui est plus sûr qu'une alternance pointant vers une page qui n'existe pas dans
 cette langue.
+
+**Seule exception : les cas clients.** Leurs seize paires sont dérivées de
+`CASE_SLUGS`, dans `src/data/case-studies/slugs.ts`, et non recopiées ici. Le
+segment d'URL d'un cas est ainsi écrit une seule fois ; `getCaseStudies` vérifie
+au chargement que le segment du contenu correspond à celui de cette liste, et
+lève une erreur sinon. Un cas à ajouter s'ajoute donc là, puis dans `fr.ts` et
+`en.ts`.
 
 ### Les quatre pièges
 
