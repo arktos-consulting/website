@@ -19,24 +19,6 @@ export interface Service {
   summary: string;
   /** Detailed work included in the offering. */
   includes: readonly string[];
-  /** Link to the dedicated pillar page, when one exists. */
-  href?: string;
-}
-
-/** A past engagement, used as technical evidence. */
-export interface Mission {
-  /** Sector or nature of the client, as it can be made public. */
-  clientType: string;
-  /** Client name when the reference is public. */
-  client?: string;
-  /** Years of the engagement. */
-  period: string;
-  /** Engagement title, written around the outcome. */
-  title: string;
-  /** Technical detail of what was delivered. */
-  description: string;
-  /** Technologies and practices involved. */
-  tags: readonly string[];
 }
 
 /** A reassurance argument, shown in a grid. */
@@ -66,17 +48,16 @@ export const SERVICES: readonly Service[] = [
       'Gouvernance multi-comptes et IAM',
       'Choix d’architecture et de services',
     ],
-    href: '/conseil/',
   },
   {
-    slug: 'cloud-souverain',
-    title: 'Software sur-mesure',
+    slug: 'cloud-native',
+    title: 'Conception Cloud Native sur AWS',
     summary:
-      'Applications adaptées à AWS : la bonne base de données, le bon caching, un run simple ensuite.',
+      'Les choix d’architecture et les pratiques qui évitent l’enfermement et gardent la plateforme opérable.',
     includes: [
-      'Choix et intégration des services AWS (RDS, ElastiCache, S3, DynamoDB…)',
-      'Architecture pensée pour un run simple et observable',
-      'Adaptation au plus près de vos usages',
+      'Cadrage et choix d’architecture Cloud Native',
+      'Bonnes pratiques : réversibilité, scalabilité, observabilité',
+      'Accompagnement des équipes sur les décisions et les standards',
     ],
   },
   {
@@ -88,7 +69,6 @@ export const SERVICES: readonly Service[] = [
       'Supervision et gestion des incidents',
       'Mises à jour et maîtrise des coûts',
     ],
-    href: '/infogerance/',
   },
   {
     slug: 'ia',
@@ -100,7 +80,6 @@ export const SERVICES: readonly Service[] = [
       'Recherche documentaire et extraction',
       'Industrialisation : MLOps, coûts, supervision',
     ],
-    href: '/ia/',
   },
 ] as const;
 
@@ -121,82 +100,6 @@ export const DIFFERENTIATORS: readonly Differentiator[] = [
   {
     title: 'Un périmètre explicite',
     body: 'Ce qui est couvert, ce qui ne l’est pas, et sous quel délai je réponds : écrit avant de commencer.',
-  },
-] as const;
-
-/** Public engagements, usable as references. */
-export const MISSIONS: readonly Mission[] = [
-  {
-    clientType: 'Organisme financier public',
-    client: 'Bpifrance',
-    period: '2024-2025',
-    title: 'Traçabilité réglementaire des changements Kubernetes',
-    description:
-      'Outil de traçabilité des modifications de cluster, avec reporting. R&D sur Knative et atelier de réversibilité AWS.',
-    tags: ['Kubernetes', 'Conformité', 'Knative'],
-  },
-  {
-    clientType: 'Éditeur logiciel, plateforme LLM',
-    client: 'Yseop',
-    period: '2023-2024',
-    title: 'Industrialisation MLOps sur AWS et on-premise',
-    description:
-      'Durcissement des environnements et suppression des frictions de la chaîne MLOps. Transfert des pratiques SRE aux équipes.',
-    tags: ['AWS', 'MLOps', 'SRE', 'FinOps'],
-  },
-  {
-    clientType: 'Opérateur ferroviaire national',
-    client: 'SNCF',
-    period: '2022-2023',
-    title: 'Construction des services managés d’un cloud privé',
-    description:
-      'Conception et direction de la construction des services managés du cloud privé du groupe: conteneurs auto-servis, bases de données, coffre de secrets, pour un parc de plus de 300 clusters Kubernetes.',
-    tags: ['Cloud privé', 'Kubernetes', 'Services managés', 'Open source'],
-  },
-  {
-    clientType: 'Éditeur SaaS, 800+ microservices',
-    client: 'Seiitra',
-    period: '2021-2022',
-    title: 'Sécurisation Azure/Kubernetes et plan FinOps',
-    description:
-      'Correction des lacunes de sécurité et de scalabilité sur plus de 800 microservices, et définition des standards d’exploitation.',
-    tags: ['Azure', 'Kubernetes', 'FinOps'],
-  },
-  {
-    clientType: 'Négociant industriel, distribution B2B',
-    client: 'Descours & Cabaud',
-    period: '2020-2021',
-    title: 'Bascule du commerce physique vers la vente en ligne',
-    description:
-      'Définition des normes du projet, puis sensibilisation des développeurs aux pratiques DevOps et au SRE.',
-    tags: ['DevOps', 'Transformation', 'CI/CD'],
-  },
-  {
-    clientType: 'Plateforme de santé, données sensibles',
-    client: 'Doctolib',
-    period: '2019',
-    title: 'Migration d’un bare metal vers Kubernetes sur AWS',
-    description:
-      'Remplacement d’une infrastructure bare metal par un Kubernetes sur AWS, avec les directives de sécurité liées aux données de santé.',
-    tags: ['AWS', 'Kubernetes', 'Santé'],
-  },
-  {
-    clientType: 'Groupe audiovisuel',
-    client: 'Canal+',
-    period: '2019',
-    title: 'Remplacement des pipelines CI/CD Jenkins',
-    description:
-      'Pipelines Kubernetes optimisés pour l’éphémérité des ressources, après évaluation de TektonCD, DroneIO et JenkinsX.',
-    tags: ['CI/CD', 'Kubernetes', 'TektonCD'],
-  },
-  {
-    clientType: 'Ma propre plateforme, en production',
-    client: 'Hartza Capital',
-    period: 'depuis 2018',
-    title: 'Analyse continue des marchés financiers',
-    description:
-      'Architecture de plus de 90 microservices Go, serverless AWS et agents LLM d’interprétation des données.',
-    tags: ['Go', 'Microservices', 'LLM'],
   },
 ] as const;
 

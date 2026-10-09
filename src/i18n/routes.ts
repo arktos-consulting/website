@@ -13,6 +13,7 @@
  * page.
  */
 import type { Locale } from './index';
+import { CASE_SLUGS } from '../data/case-studies/slugs';
 
 /** A French URL and the English URL that translates it. */
 export interface RoutePair {
@@ -23,10 +24,27 @@ export interface RoutePair {
 }
 
 /**
+ * Path segment each language serves the case study hub and pages under.
+ *
+ * The segment is translated like any other (`/cas-clients/` versus
+ * `/en/case-studies/`), so it is declared here and read when building the pairs.
+ */
+const CASE_HUB: Record<Locale, string> = { fr: '/cas-clients/', en: '/en/case-studies/' };
+
+/** Path of every case study page, one pair per case, in both languages. */
+const CASE_PAIRS: readonly RoutePair[] = CASE_SLUGS.map((entry) => ({
+  fr: `${CASE_HUB.fr}${entry.fr}/`,
+  en: `${CASE_HUB.en}${entry.en}/`,
+}));
+
+/**
  * Every page that exists in both languages.
  *
  * Utility pages are deliberately absent: legal notices are `noindex` in both
  * languages, and an error page is not addressable.
+ *
+ * The case study pairs are derived from `CASE_SLUGS` rather than typed out again,
+ * so a page's URL segment and its translation cannot disagree.
  */
 export const ROUTE_PAIRS: readonly RoutePair[] = [
   { fr: '/', en: '/en/' },
@@ -34,6 +52,7 @@ export const ROUTE_PAIRS: readonly RoutePair[] = [
   { fr: '/ia/', en: '/en/ai/' },
   { fr: '/infogerance/', en: '/en/managed-services/' },
   { fr: '/references/', en: '/en/references/' },
+  { fr: CASE_HUB.fr, en: CASE_HUB.en },
   { fr: '/blog/', en: '/en/blog/' },
   // Blog posts. Each English article is its own document with its own slug, so
   // the pairing is declared rather than computed from a filename convention.
@@ -49,6 +68,7 @@ export const ROUTE_PAIRS: readonly RoutePair[] = [
     fr: '/blog/tracabilite-changements-kubernetes-audit/',
     en: '/en/blog/kubernetes-change-traceability-audit/',
   },
+  ...CASE_PAIRS,
 ];
 
 /**

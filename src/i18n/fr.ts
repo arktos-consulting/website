@@ -20,7 +20,6 @@ const fr = {
     brandSub: 'Consulting',
     backToTop: 'Retour en haut',
     skipToContent: 'Aller au contenu principal',
-    readMore: 'En savoir plus',
     allArticles: 'Tous les articles',
     readingTimeSuffix: 'min de lecture',
     byAuthor: 'Par',
@@ -42,6 +41,7 @@ const fr = {
       { href: '/infogerance/', label: 'Infogérance' },
       { href: '/blog/', label: 'Blog' },
       { href: '/references/', label: 'Références' },
+      { href: '/cas-clients/', label: 'Cas clients' },
     ],
   },
 
@@ -91,6 +91,17 @@ const fr = {
     heroTitle: 'Le détail technique',
     heroAccent: 'plutôt que les logos.',
     heroLedeLead: 'missions : contexte, contrainte et résultat.',
+  },
+
+  /** Case study pages. */
+  caseStudy: {
+    contextHeading: 'Contexte & contrainte',
+    deliveredHeading: 'Ce qui a été livré',
+    outcomeHeading: 'Résultat',
+    stackHeading: 'Pile technique',
+    miscHeading: 'Travaux récurrents',
+    otherCasesHeading: 'Autres cas clients',
+    allCases: 'Tous les cas clients',
   },
 
   /** Hartza Capital proof section. */

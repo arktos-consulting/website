@@ -13,10 +13,10 @@ import type { Locale } from '@/i18n';
 import * as fr from './content';
 import * as en from './content.en';
 import { CLIENT_LOGOS } from './clients';
+import { CASE_SLUGS } from './case-studies/slugs';
 
 export type {
   Service,
-  Mission,
   Differentiator,
   FaqEntry,
 } from './content';
@@ -27,8 +27,6 @@ export interface ContentBundle {
   SERVICES: readonly import('./content').Service[];
   /** Reassurance arguments. */
   DIFFERENTIATORS: readonly import('./content').Differentiator[];
-  /** Public engagements used as references. */
-  MISSIONS: readonly import('./content').Mission[];
   /** Frequently asked questions, mirrored into `FAQPage` markup. */
   FAQ: readonly import('./content').FaqEntry[];
   /** Client logos for the trust strip. */
@@ -39,14 +37,12 @@ const BUNDLES: Record<Locale, ContentBundle> = {
   fr: {
     SERVICES: fr.SERVICES,
     DIFFERENTIATORS: fr.DIFFERENTIATORS,
-    MISSIONS: fr.MISSIONS,
     FAQ: fr.FAQ,
     CLIENT_LOGOS,
   },
   en: {
     SERVICES: en.SERVICES,
     DIFFERENTIATORS: en.DIFFERENTIATORS,
-    MISSIONS: en.MISSIONS,
     FAQ: en.FAQ,
     CLIENT_LOGOS,
   },
@@ -60,6 +56,19 @@ const BUNDLES: Record<Locale, ContentBundle> = {
  */
 export function getContent(locale: Locale): ContentBundle {
   return BUNDLES[locale];
+}
+
+/**
+ * Lists the client names of the published engagements.
+ *
+ * The names live in the case study content, which is why this is not part of a
+ * content bundle: it would otherwise have to be maintained twice.
+ *
+ * @param locale Locale the names are written in
+ * @returns The client name of every case study, in display order
+ */
+export function missionClientNames(locale: Locale): string[] {
+  return CASE_SLUGS.map((entry) => entry.name[locale]);
 }
 
 export { CLIENT_LOGOS, fr, en };

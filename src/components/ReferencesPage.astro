@@ -5,9 +5,13 @@
  * Each engagement describes the context, the constraint and the technologies
  * involved. It is the technical detail that constitutes the proof, more than the
  * client's name. Shared by the French and English routes.
+ *
+ * The content is the case study set, not a second list: the two pages show the same
+ * engagements, and the shorter summary keeps this page a list while the case study
+ * carries the whole story.
  */
 import type { Dictionary, Locale } from '@/i18n';
-import { getContent } from '@/data';
+import { getCaseStudies, casePath } from '@/data/case-studies';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Contact from '@/components/Contact.astro';
 
@@ -19,7 +23,7 @@ interface Props {
 }
 
 const { t, locale } = Astro.props;
-const { MISSIONS } = getContent(locale);
+const { cases } = getCaseStudies(locale);
 ---
 
 <section class="section page-hero">
@@ -30,7 +34,7 @@ const { MISSIONS } = getContent(locale);
       level="h1"
       title={t.references.heroTitle}
       accent={t.references.heroAccent}
-      lede={`${MISSIONS.length} ${t.references.heroLedeLead}`}
+      lede={`${cases.length} ${t.references.heroLedeLead}`}
     />
   </div>
 </section>
@@ -39,18 +43,20 @@ const { MISSIONS } = getContent(locale);
   <div class="container">
     <ol class="mission-list">
       {
-        MISSIONS.map((mission) => (
+        cases.map((study) => (
           <li class="mission">
             <div class="mission-meta">
-              <p class="mission-client">{mission.client ?? mission.clientType}</p>
-              <p class="mission-period">{mission.period}</p>
+              <p class="mission-client">{study.client}</p>
+              <p class="mission-period">{study.period}</p>
             </div>
             <div class="mission-body">
-              <h2 class="mission-title text-display-md">{mission.title}</h2>
-              <p class="mission-text">{mission.description}</p>
+              <h2 class="mission-title text-display-md">
+                <a class="mission-link" href={casePath(study.id, locale)}>{study.title}</a>
+              </h2>
+              <p class="mission-text">{study.summary}</p>
               <ul class="tag-list">
-                {mission.tags.map((tag) => (
-                  <li class="tag">{tag}</li>
+                {study.stack.map((technology) => (
+                  <li class="tag">{technology}</li>
                 ))}
               </ul>
             </div>
@@ -123,6 +129,15 @@ const { MISSIONS } = getContent(locale);
   .mission-title {
     margin: 0;
     color: var(--color-ivory);
+  }
+
+  .mission-link {
+    color: inherit;
+    transition: color 0.2s;
+  }
+
+  .mission-link:hover {
+    color: var(--color-cyan);
   }
 
   .mission-text {

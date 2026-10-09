@@ -9,15 +9,16 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import ReferencesPage from '@/components/ReferencesPage.astro';
 import { getDictionary } from '@/i18n';
-import { getContent } from '@/data';
+import { getCaseStudies } from '@/data/case-studies';
+import { missionClientNames } from '@/data';
 import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
 
 const locale = 'en' as const;
 const t = getDictionary(locale);
-const { MISSIONS } = getContent(locale);
+const { cases } = getCaseStudies(locale);
 
 
-const description = `${MISSIONS.length} AWS, Kubernetes and DevOps infrastructure engagements: a French public investment bank, the national railway operator, a SaaS vendor, a health platform, a broadcaster. Technical detail for each.`;
+const description = `${cases.length} AWS, Kubernetes and DevOps infrastructure engagements: ${missionClientNames(locale).join(', ')}. Technical detail for each.`;
 
 const breadcrumbs = buildBreadcrumbs([
   { name: 'Home', url: `${Astro.site}/en/` },

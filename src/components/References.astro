@@ -6,7 +6,7 @@
  * technical detail and the tags live on the references page. A home page does
  * not reproduce the content of a dedicated page, it makes you want to read it.
  */
-import { getContent } from '@/data';
+import { getCaseStudies, casePath } from '@/data/case-studies';
 import type { Dictionary, Locale } from '@/i18n';
 import SectionHeading from '@/components/SectionHeading.astro';
 
@@ -22,8 +22,8 @@ interface Props {
 }
 
 const { t, locale, limit, compact = false } = Astro.props;
-const { MISSIONS } = getContent(locale);
-const displayed = limit ? MISSIONS.slice(0, limit) : MISSIONS;
+const { cases } = getCaseStudies(locale);
+const displayed = limit ? cases.slice(0, limit) : cases;
 
 const referencesHref = locale === 'fr' ? '/references/' : '/en/references/';
 ---
@@ -40,27 +40,29 @@ const referencesHref = locale === 'fr' ? '/references/' : '/en/references/';
     {
       compact ? (
         <ul class="mission-compact">
-          {displayed.map((mission, index) => (
+          {displayed.map((study, index) => (
             <li class="mission-row" data-reveal data-reveal-delay={String(index % 4)}>
-              <span class="mission-client">{mission.client ?? mission.clientType}</span>
-              <span class="mission-title">{mission.title}</span>
-              <span class="mission-period">{mission.period}</span>
+              <span class="mission-client">{study.client}</span>
+              <span class="mission-title">{study.title}</span>
+              <span class="mission-period">{study.period}</span>
             </li>
           ))}
         </ul>
       ) : (
         <ul class="mission-grid">
-          {displayed.map((mission) => (
+          {displayed.map((study) => (
             <li class="card mission-card">
               <p class="mission-client">
-                {mission.client ?? mission.clientType}
-                <span class="mission-period">{mission.period}</span>
+                {study.client}
+                <span class="mission-period">{study.period}</span>
               </p>
-              <h3 class="card-title text-display-sm">{mission.title}</h3>
-              <p class="card-text">{mission.description}</p>
+              <h3 class="card-title text-display-sm">
+                <a class="mission-link" href={casePath(study.id, locale)}>{study.title}</a>
+              </h3>
+              <p class="card-text">{study.summary}</p>
               <ul class="tag-list">
-                {mission.tags.map((tag) => (
-                  <li class="tag">{tag}</li>
+                {study.stack.map((technology) => (
+                  <li class="tag">{technology}</li>
                 ))}
               </ul>
             </li>
@@ -70,10 +72,10 @@ const referencesHref = locale === 'fr' ? '/references/' : '/en/references/';
     }
 
     {
-      limit && limit < MISSIONS.length && (
+      limit && limit < cases.length && (
         <p class="missions-more">
           <a class="btn btn-ghost btn-sm" href={referencesHref}>
-            {t.references.seeAll} {MISSIONS.length} {t.references.seeAllSuffix}
+            {t.references.seeAll} {cases.length} {t.references.seeAllSuffix}
             <span aria-hidden="true">→</span>
           </a>
         </p>

@@ -19,11 +19,11 @@ const fr: PillarBundle = {
       title: 'Auditer, concevoir, puis',
       accent: 'vous rendre autonome.',
       lede:
-        'J’interviens quand les décisions d’architecture doivent être tranchées et assumées. Neuf ans d’expérience, de quelques services à plus de 800 microservices.',
+        'J’interviens quand les décisions d’architecture doivent être tranchées et assumées. Neuf ans d’expérience, d’une poignée de services à des plateformes entières.',
     },
     cta: {
       primary: 'Discuter de votre besoin',
-      secondary: 'Voir aussi le software sur-mesure',
+      secondary: 'Voir aussi la conception Cloud Native',
       secondaryHref: '/#prestations',
     },
     scope: {
@@ -94,9 +94,7 @@ const fr: PillarBundle = {
       accent: 'qui ne sont pas des maquettes.',
     },
     proofs: [
-      { value: '300+', text: 'clusters Kubernetes, parc d’un opérateur ferroviaire national' },
-      { value: '800+', text: 'microservices Azure/Kubernetes, éditeur SaaS' },
-      { value: '90+', text: 'microservices Go, ma plateforme Hartza Capital' },
+      { value: '~150', text: 'microservices Azure/Kubernetes exploités, éditeur SaaS' },
     ],
   },
 
@@ -193,7 +191,7 @@ const fr: PillarBundle = {
       {
         label: 'Hartza Capital',
         detail:
-          'Agents LLM d’interprétation de données de marché, en production depuis 2018, sur une architecture de plus de 90 microservices Go.',
+          'Agents LLM d’interprétation de données de marché, en production depuis 2018.',
       },
       {
         label: 'Yseop',

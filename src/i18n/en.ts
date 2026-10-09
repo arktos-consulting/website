@@ -16,7 +16,6 @@ const en: Dictionary = {
     brandSub: 'Consulting',
     backToTop: 'Back to top',
     skipToContent: 'Skip to main content',
-    readMore: 'Learn more',
     allArticles: 'All articles',
     readingTimeSuffix: 'min read',
     byAuthor: 'By',
@@ -37,6 +36,7 @@ const en: Dictionary = {
       { href: '/en/managed-services/', label: 'Managed services' },
       { href: '/en/blog/', label: 'Blog' },
       { href: '/en/references/', label: 'References' },
+      { href: '/en/case-studies/', label: 'Case studies' },
     ],
   },
 
@@ -79,6 +79,16 @@ const en: Dictionary = {
     heroTitle: 'The technical detail',
     heroAccent: 'rather than the logos.',
     heroLedeLead: 'engagements: context, constraint and outcome.',
+  },
+
+  caseStudy: {
+    contextHeading: 'Context & constraint',
+    deliveredHeading: 'What was delivered',
+    outcomeHeading: 'Outcome',
+    stackHeading: 'Stack',
+    miscHeading: 'Recurring work',
+    otherCasesHeading: 'Other case studies',
+    allCases: 'All case studies',
   },
 
   hartza: {

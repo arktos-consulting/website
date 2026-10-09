@@ -1,0 +1,68 @@
+---
+/**
+ * Case study page, English route.
+ *
+ * Each English case study is its own document with its own slug, so the pairing
+ * with its French counterpart is declared in the shared translation table rather
+ * than computed from a filename convention.
+ */
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import CaseStudy from '@/components/CaseStudy.astro';
+import { SITE } from '@/consts';
+import { getDictionary } from '@/i18n';
+import { getCaseStudies, casePath } from '@/data/case-studies';
+import { buildBreadcrumbs, serializeJsonLd } from '@/utils/seo';
+
+export const getStaticPaths = (() => {
+  const hub = getCaseStudies('en');
+  return hub.cases.map((study) => ({
+    params: { slug: study.slug },
+    props: { study },
+  }));
+}) satisfies GetStaticPaths;
+
+const locale = 'en' as const;
+const t = getDictionary(locale);
+const hub = getCaseStudies(locale);
+const { study } = Astro.props;
+
+const pageUrl = `${SITE.url}${casePath(study.id, locale)}`;
+
+const breadcrumbs = buildBreadcrumbs([
+  { name: 'Home', url: `${SITE.url}/en/` },
+  { name: hub.breadcrumb, url: `${SITE.url}/en/case-studies/` },
+  { name: study.client, url: pageUrl },
+]);
+
+const caseSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  '@id': `${pageUrl}#case-study`,
+  name: study.title,
+  description: study.summary,
+  url: pageUrl,
+  inLanguage: locale,
+  about: { '@type': 'Organization', name: study.client },
+  ...(study.stack.length > 0 && { keywords: study.stack.join(', ') }),
+  author: {
+    '@type': 'Person',
+    name: SITE.founder,
+    jobTitle: SITE.founderJobTitle,
+    url: `${SITE.url}/`,
+  },
+  publisher: { '@id': `${SITE.url}/#organization` },
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  mainEntityOfPage: pageUrl,
+};
+---
+
+<BaseLayout title={study.title} description={study.summary}>
+  <script type="application/ld+json" set:html={serializeJsonLd(caseSchema)} />
+  {
+    breadcrumbs && (
+      <script type="application/ld+json" set:html={serializeJsonLd(breadcrumbs)} />
+    )
+  }
+  <CaseStudy study={study} t={t} locale={locale} />
+</BaseLayout>

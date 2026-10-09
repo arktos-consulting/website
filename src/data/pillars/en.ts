@@ -24,11 +24,11 @@ const en: PillarBundle = {
       title: 'Audit, design, then',
       accent: 'leave you in control.',
       lede:
-        'I step in when architecture decisions have to be made and owned. Nine years of experience, from a handful of services to more than 800 microservices.',
+        'I step in when architecture decisions have to be made and owned. Nine years of experience, from a handful of services to entire platforms.',
     },
     cta: {
       primary: 'Talk through your needs',
-      secondary: 'See custom software',
+      secondary: 'See Cloud Native design',
       secondaryHref: '/en/#prestations',
     },
     scope: {
@@ -99,9 +99,7 @@ const en: PillarBundle = {
       accent: 'not mock-ups.',
     },
     proofs: [
-      { value: '300+', text: 'Kubernetes clusters, national railway operator estate' },
-      { value: '800+', text: 'Azure/Kubernetes microservices, SaaS vendor' },
-      { value: '90+', text: 'Go microservices, my own Hartza Capital platform' },
+      { value: '~150', text: 'Azure/Kubernetes microservices in operation, SaaS vendor' },
     ],
   },
 
@@ -198,7 +196,7 @@ const en: PillarBundle = {
       {
         label: 'Hartza Capital',
         detail:
-          'LLM agents interpreting market data, in production since 2018, on an architecture of more than 90 Go microservices.',
+          'LLM agents interpreting market data, in production since 2018.',
       },
       {
         label: 'Yseop',

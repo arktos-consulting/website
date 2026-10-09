@@ -69,7 +69,7 @@ export interface PillarBase {
   cta: PillarCta;
 }
 
-/** A single figure used as evidence, such as `300+` clusters. */
+/** A single figure used as evidence, such as `~150` microservices. */
 export interface PillarProof {
   /** The figure itself. */
   value: string;

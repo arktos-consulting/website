@@ -11,7 +11,7 @@
  * France, and dropping the references would remove the strongest evidence on
  * the site.
  */
-import type { Service, Mission, Differentiator, FaqEntry } from './content';
+import type { Service, Differentiator, FaqEntry } from './content';
 
 /** The services offered, in display order. */
 export const SERVICES: readonly Service[] = [
@@ -24,17 +24,16 @@ export const SERVICES: readonly Service[] = [
       'Multi-account governance and IAM',
       'Architecture and service selection',
     ],
-    href: '/en/consulting/',
   },
   {
-    slug: 'sovereign-cloud',
-    title: 'Custom software on AWS',
+    slug: 'cloud-native',
+    title: 'Cloud Native design on AWS',
     summary:
-      'Applications built for AWS: the right database, the right caching, a simple run afterwards.',
+      'The architecture choices and practices that avoid lock-in and keep the platform operable.',
     includes: [
-      'Picking and integrating AWS services (RDS, ElastiCache, S3, DynamoDB…)',
-      'Architecture built for a simple, observable run',
-      'Adapted to how your team actually works',
+      'Scoping and Cloud Native architecture choices',
+      'Good practice: reversibility, scalability, observability',
+      'Supporting teams on decisions and standards',
     ],
   },
   {
@@ -46,7 +45,6 @@ export const SERVICES: readonly Service[] = [
       'Monitoring and incident management',
       'Upgrades and cost control',
     ],
-    href: '/en/managed-services/',
   },
   {
     slug: 'ai',
@@ -58,7 +56,6 @@ export const SERVICES: readonly Service[] = [
       'Document search and extraction',
       'Production readiness: MLOps, cost, monitoring',
     ],
-    href: '/en/ai/',
   },
 ] as const;
 
@@ -79,82 +76,6 @@ export const DIFFERENTIATORS: readonly Differentiator[] = [
   {
     title: 'An explicit scope',
     body: 'What is covered, what is not, and how fast I answer: written down before we start.',
-  },
-] as const;
-
-/** Public engagements, usable as references. */
-export const MISSIONS: readonly Mission[] = [
-  {
-    clientType: 'French public investment bank',
-    client: 'Bpifrance',
-    period: '2024-2025',
-    title: 'Regulatory change traceability on Kubernetes',
-    description:
-      'Cluster change audit tooling with reporting, covering a sector requirement. R&D on Knative and a reversibility workshop away from AWS.',
-    tags: ['Kubernetes', 'Compliance', 'Knative'],
-  },
-  {
-    clientType: 'Software vendor, LLM platform',
-    client: 'Yseop',
-    period: '2023-2024',
-    title: 'MLOps industrialisation on AWS and on-premise',
-    description:
-      'Hardening of environments and removal of friction from the MLOps chain. SRE practices handed over to the teams.',
-    tags: ['AWS', 'MLOps', 'SRE', 'FinOps'],
-  },
-  {
-    clientType: 'French national railway operator',
-    client: 'SNCF',
-    period: '2022-2023',
-    title: 'Building the managed services of a private cloud',
-    description:
-      'Design and direction of the managed services of the group private cloud: self-service containers, databases, secrets vault, for a fleet of more than 300 Kubernetes clusters.',
-    tags: ['Private cloud', 'Kubernetes', 'Managed services', 'Open source'],
-  },
-  {
-    clientType: 'SaaS vendor, 800+ microservices',
-    client: 'Seiitra',
-    period: '2021-2022',
-    title: 'Securing an Azure/Kubernetes platform and a FinOps plan',
-    description:
-      'Fixing security and scalability gaps across more than 800 microservices, and defining reusable operational standards.',
-    tags: ['Azure', 'Kubernetes', 'FinOps'],
-  },
-  {
-    clientType: 'Industrial distributor, B2B commerce',
-    client: 'Descours & Cabaud',
-    period: '2020-2021',
-    title: 'Moving physical retail to online sales',
-    description:
-      'Defining the project standards, then introducing developers to DevOps practice and the run teams to SRE.',
-    tags: ['DevOps', 'Transformation', 'CI/CD'],
-  },
-  {
-    clientType: 'Healthcare platform, sensitive data',
-    client: 'Doctolib',
-    period: '2019',
-    title: 'Migrating from bare metal to Kubernetes on AWS',
-    description:
-      'Replacing a bare metal estate with Kubernetes on AWS, including the security rules required for health data.',
-    tags: ['AWS', 'Kubernetes', 'Healthcare'],
-  },
-  {
-    clientType: 'Broadcaster',
-    client: 'Canal+',
-    period: '2019',
-    title: 'Replacing the legacy CI/CD pipelines',
-    description:
-      'Kubernetes pipelines built for ephemeral resources, after evaluating TektonCD, DroneIO and JenkinsX.',
-    tags: ['CI/CD', 'Kubernetes', 'TektonCD'],
-  },
-  {
-    clientType: 'My own platform, in production',
-    client: 'Hartza Capital',
-    period: 'since 2018',
-    title: 'Continuous analysis of financial markets',
-    description:
-      'An architecture of more than 90 Go microservices, AWS serverless, and LLM agents for interpreting the data.',
-    tags: ['Go', 'Microservices', 'LLM'],
   },
 ] as const;
 

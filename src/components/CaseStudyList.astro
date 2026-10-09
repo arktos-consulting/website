@@ -1,0 +1,116 @@
+---
+/**
+ * Case study hub: the list of every published engagement, as linked cards.
+ *
+ * Rendered from content rather than written inline, so the French and English
+ * pages share one layout and cannot drift apart.
+ */
+import type { Dictionary, Locale } from '@/i18n';
+import { getCaseStudies, casePath } from '@/data/case-studies';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Contact from '@/components/Contact.astro';
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary;
+  /** Current locale, used to resolve case study content and links. */
+  locale: Locale;
+}
+
+const { t, locale } = Astro.props;
+const hub = getCaseStudies(locale);
+---
+
+<section class="section page-hero">
+  <div class="ambient-glow" aria-hidden="true"></div>
+  <div class="container">
+    <SectionHeading
+      eyebrow={hub.breadcrumb}
+      level="h1"
+      title={hub.hero.title}
+      accent={hub.hero.accent}
+      lede={hub.hero.lede}
+    />
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <ul class="case-grid">
+      {
+        hub.cases.map((entry) => (
+          <li class="card case-card">
+            <p class="case-meta">
+              <span class="case-client">{entry.client}</span>
+              <span class="case-period">{entry.period}</span>
+            </p>
+            <h2 class="card-title text-display-sm">
+              <a class="case-link" href={casePath(entry.id, locale)}>{entry.title}</a>
+            </h2>
+            <p class="card-text">{entry.summary}</p>
+            <ul class="tag-list">
+              {entry.stack.map((technology) => (
+                <li class="tag">{technology}</li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<Contact t={t} locale={locale} />
+
+<style>
+  .page-hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(72px, 9vw, 128px) clamp(56px, 7vw, 96px);
+  }
+
+  .case-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .case-card {
+    gap: 14px;
+  }
+
+  .case-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
+  }
+
+  .case-client {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-violet);
+  }
+
+  .case-period {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    white-space: nowrap;
+  }
+
+  /* The card is the target: the whole surface is clickable through the title
+     link, which stays the only link so it remains one tab stop. */
+  .case-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+</style>
