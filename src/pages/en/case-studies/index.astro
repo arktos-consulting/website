@@ -1,0 +1,33 @@
+---
+/**
+ * Case study hub, English route.
+ *
+ * The URL segment is translated (`/cas-clients/` in French, `/en/case-studies/`
+ * here) and declared explicitly, so the pair stays verifiable in one place.
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import CaseStudyList from "@/components/CaseStudyList.astro"
+import { getDictionary } from "@/i18n"
+import { getCaseStudies } from "@/data/case-studies"
+import { buildBreadcrumbs, serializeJsonLd } from "@/utils/seo"
+import { SITE } from "@/consts"
+
+const locale = "en" as const
+const t = getDictionary(locale)
+const hub = getCaseStudies(locale)
+
+const breadcrumbs = buildBreadcrumbs([
+  { name: "Home", url: `${SITE.url}/en/` },
+  { name: hub.breadcrumb, url: `${SITE.url}${Astro.url.pathname}` },
+])
+---
+
+<BaseLayout title={hub.title} description={hub.description}>
+  {breadcrumbs && (
+    <script
+      type="application/ld+json"
+      set:html={serializeJsonLd(breadcrumbs)}
+    />
+  )}
+  <CaseStudyList t={t} locale={locale} />
+</BaseLayout>

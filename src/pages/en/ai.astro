@@ -1,0 +1,33 @@
+---
+/**
+ * Applied AI pillar page, English route.
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import AppliedAi from "@/components/pillars/AppliedAi.astro"
+import { getPillars } from "@/data/pillars"
+import { getDictionary } from "@/i18n"
+import { buildBreadcrumbs, serializeJsonLd } from "@/utils/seo"
+import { SITE } from "@/consts"
+
+const locale = "en" as const
+const pillar = getPillars(locale).ai
+const t = getDictionary(locale)
+
+const breadcrumbs = buildBreadcrumbs([
+  { name: "Home", url: `${SITE.url}/en/` },
+  { name: pillar.breadcrumb, url: `${SITE.url}${Astro.url.pathname}` },
+])
+---
+
+<BaseLayout
+  title={pillar.metaTitle ?? pillar.title}
+  description={pillar.description}
+>
+  {breadcrumbs && (
+    <script
+      type="application/ld+json"
+      set:html={serializeJsonLd(breadcrumbs)}
+    />
+  )}
+  <AppliedAi pillar={pillar} t={t} locale={locale} />
+</BaseLayout>

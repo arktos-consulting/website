@@ -1,0 +1,86 @@
+---
+/**
+ * Engagement questions, answered on the service pages.
+ *
+ * The visible answers and the `FAQPage` markup are emitted together, so the two
+ * cannot drift apart.
+ */
+import { getContent } from "@/data"
+import type { Dictionary, Locale } from "@/i18n"
+import { SITE } from "@/consts"
+import SectionHeading from "@/components/SectionHeading.astro"
+import { serializeJsonLd } from "@/utils/seo"
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary
+  /** Current locale, used to resolve editorial content. */
+  locale: Locale
+}
+
+const { t, locale } = Astro.props
+const { FAQ } = getContent(locale)
+
+const pageUrl = `${SITE.url}${Astro.url.pathname}`
+
+const faqPage = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "@id": `${pageUrl}#faq`,
+  url: pageUrl,
+  mainEntity: FAQ.map((entry) => ({
+    "@type": "Question",
+    name: entry.question,
+    acceptedAnswer: { "@type": "Answer", text: entry.answer },
+  })),
+}
+---
+
+<script type="application/ld+json" set:html={serializeJsonLd(faqPage)} />
+<section class="section">
+  <div class="container">
+    <SectionHeading
+      eyebrow={t.faq.eyebrow}
+      title={t.faq.title}
+      accent={t.faq.accent}
+    />
+    <dl class="faq-list">
+      {FAQ.map((entry) => (
+        <div class="faq-entry">
+          <dt class="faq-question">{entry.question}</dt>
+          <dd class="faq-answer">{entry.answer}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .faq-list {
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    max-width: 72ch;
+  }
+
+  .faq-entry {
+    padding: 20px 0;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .faq-entry:last-child {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .faq-question {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--color-ivory);
+  }
+
+  .faq-answer {
+    margin: 10px 0 0;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-muted);
+  }
+</style>

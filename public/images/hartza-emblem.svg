@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1009.36 1009.36">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Sfumatura_senza_nome_24);
+      }
+
+      .cls-1, .cls-2 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: url(#Sfumatura_senza_nome_24-2);
+      }
+    </style>
+    <linearGradient id="Sfumatura_senza_nome_24" data-name="Sfumatura senza nome 24" x1="504.68" y1="504.68" x2="1009.36" y2="504.68" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="0" stop-color="#fff" stop-opacity=".04"/>
+      <stop offset=".05" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset=".09" stop-color="#fff" stop-opacity=".39"/>
+      <stop offset=".14" stop-color="#fff" stop-opacity=".53"/>
+      <stop offset=".2" stop-color="#fff" stop-opacity=".66"/>
+      <stop offset=".25" stop-color="#fff" stop-opacity=".77"/>
+      <stop offset=".32" stop-color="#fff" stop-opacity=".85"/>
+      <stop offset=".4" stop-color="#fff" stop-opacity=".92"/>
+      <stop offset=".49" stop-color="#fff" stop-opacity=".97"/>
+      <stop offset=".63" stop-color="#fff" stop-opacity=".99"/>
+      <stop offset="1" stop-color="#fff"/>
+    </linearGradient>
+    <linearGradient id="Sfumatura_senza_nome_24-2" data-name="Sfumatura senza nome 24" x1="-542.95" y1="-2964.37" x2="-38.27" y2="-2964.37" gradientTransform="translate(-38.27 -2459.69) rotate(-180)" xlink:href="#Sfumatura_senza_nome_24"/>
+  </defs>
+  <g id="Livello_1" data-name="Livello 1">
+    <g>
+      <polygon class="cls-1" points="504.68 504.68 672.9 504.68 672.9 1009.36 1009.36 672.9 1009.36 0 504.68 504.68"/>
+      <polygon class="cls-2" points="504.68 504.68 336.45 504.68 336.45 0 0 336.45 0 1009.36 504.68 504.68"/>
+    </g>
+  </g>
+</svg>

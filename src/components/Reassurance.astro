@@ -1,0 +1,50 @@
+---
+/**
+ * How the work is done: the four commitments that hold on every engagement.
+ *
+ * Serves as the objection-handling block of the service pages, drawn from the
+ * same content as the home page's reassurance arguments.
+ */
+import { getContent } from "@/data"
+import type { Dictionary, Locale } from "@/i18n"
+import SectionHeading from "@/components/SectionHeading.astro"
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary
+  /** Current locale, used to resolve editorial content. */
+  locale: Locale
+}
+
+const { t, locale } = Astro.props
+const { DIFFERENTIATORS } = getContent(locale)
+---
+
+<section class="section section-alt">
+  <div class="container">
+    <SectionHeading
+      eyebrow={t.reassurance.eyebrow}
+      title={t.reassurance.title}
+      accent={t.reassurance.accent}
+    />
+    <ul class="reassurance-grid">
+      {DIFFERENTIATORS.map((argument) => (
+        <li class="card">
+          <h3 class="card-title text-display-sm">{argument.title}</h3>
+          <p class="card-text">{argument.body}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .reassurance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 22px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>

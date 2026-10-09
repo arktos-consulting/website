@@ -1,0 +1,39 @@
+---
+/**
+ * Home page body: value proposition, services, evidence and contact.
+ *
+ * It acts as a hub: it captures branded search and positioning, then routes
+ * visitors to the pillar pages that answer commercial queries. Shared by the
+ * French and English routes so the two sites cannot drift apart.
+ *
+ * The page is intentionally dense: hero (with engagement shape and response
+ * commitments inside the lede), services, references, collective and contact.
+ * No rhetorical "why us" or FAQ section, no decoration band between hero and
+ * services: the buyer's questions are answered by the offer itself and by
+ * the contact prompt.
+ */
+import type { Dictionary, Locale } from "@/i18n"
+import Hero from "@/components/Hero.astro"
+import Services from "@/components/Services.astro"
+import References from "@/components/References.astro"
+import HartzaProof from "@/components/HartzaProof.astro"
+import CloudPartners from "@/components/CloudPartners.astro"
+import Contact from "@/components/Contact.astro"
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary
+  /** Current locale, passed down to each section. */
+  locale: Locale
+}
+
+const { t, locale } = Astro.props
+---
+
+<Hero t={t} locale={locale} />
+<Services t={t} locale={locale} />
+
+<References t={t} locale={locale} limit={4} compact />
+<HartzaProof t={t} locale={locale} />
+<CloudPartners t={t} />
+<Contact t={t} locale={locale} />

@@ -1,0 +1,250 @@
+---
+/**
+ * Hartza Capital proof section.
+ *
+ * Shows that the consultant runs his own product in production on AWS, with
+ * the same technical demands (HPC, data, APIs, event-driven) that he will
+ * bring to the client's product. The proof is twofold: the fintech itself
+ * (algorithmic trading on AWS for 4 years) and the technical writing that
+ * documents how it is built.
+ *
+ * Placed between References (client logos and engagements) and Cloud Partners
+ * (the collective), it bridges the two: past work at scale and current
+ * production on AWS.
+ */
+import type { Dictionary, Locale } from "@/i18n"
+
+interface Props {
+  /** Dictionary for the current locale. */
+  t: Dictionary
+  /** Current locale, kept for symmetry with sibling sections. */
+  locale: Locale
+}
+
+const { t } = Astro.props
+---
+
+<section class="section" id="hartza">
+  <div class="container hartza-layout" data-reveal>
+    <div class="hartza-copy">
+      <p class="eyebrow">{t.hartza.eyebrow}</p>
+      <h2 class="text-display-lg hartza-title">
+        {t.hartza.title} <span class="accent">{t.hartza.accent}</span>
+      </h2>
+      <p class="lede hartza-body">{t.hartza.body}</p>
+
+      <div class="hartza-articles">
+        <p class="hartza-articles-heading">{t.hartza.articlesHeading}</p>
+        <ul class="hartza-articles-list">
+          {t.hartza.articles.map((article, index) => (
+            <li
+              class="hartza-article"
+              data-reveal
+              data-reveal-delay={String((index % 3) + 1)}
+            >
+              <span class="hartza-article-title">{article.title}</span>
+              <span class="hartza-article-arrow" aria-hidden="true">
+                →
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <a
+      class="hartza-brand"
+      href={`https://www.${t.hartza.link}/`}
+      target="_blank"
+      rel="noopener"
+      aria-label={t.hartza.link}
+    >
+      <img
+        src="/images/hartza-emblem.svg"
+        alt=""
+        width="88"
+        height="88"
+        loading="lazy"
+        decoding="async"
+      />
+      <span class="hartza-brand-name">Hartza Capital</span>
+      <span class="hartza-brand-link">
+        {t.hartza.link} <span aria-hidden="true">→</span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<style>
+  #hartza {
+    border-block: 1px solid var(--color-hairline);
+    background-color: color-mix(in srgb, var(--color-surface) 40%, transparent);
+    padding-block: clamp(56px, 7vw, 88px);
+  }
+
+  .hartza-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: clamp(32px, 5vw, 64px);
+    align-items: center;
+  }
+
+  /* Left column: emblem + wordmark + outbound link */
+  .hartza-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 26px 30px;
+    border: 1px solid var(--color-hairline);
+    border-radius: 16px;
+    background-color: var(--color-surface);
+    min-width: 200px;
+    transition:
+      border-color 0.2s,
+      transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hartza-brand:hover {
+    border-color: var(--color-cyan);
+    transform: translateY(-2px);
+  }
+
+  .hartza-brand:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .hartza-brand img {
+    width: 72px;
+    height: 72px;
+  }
+
+  .hartza-brand-name {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--color-ivory);
+    line-height: 1.2;
+  }
+
+  .hartza-brand-link {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-cyan);
+    line-height: 1.3;
+  }
+
+  /* Right column: title + body + article list */
+  .hartza-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .hartza-title {
+    margin: 0;
+    color: var(--color-ivory);
+  }
+
+  .accent {
+    background: linear-gradient(
+      100deg,
+      var(--color-violet) 0%,
+      var(--color-azure) 45%,
+      var(--color-cyan) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hartza-body {
+    margin: 0;
+    max-width: 62ch;
+  }
+
+  /* Article list: rows separated by hairlines. */
+  .hartza-articles {
+    margin-top: 12px;
+  }
+
+  .hartza-articles-heading {
+    margin: 0 0 8px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .hartza-articles-list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hartza-article {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 0;
+    border-top: 1px solid var(--color-hairline);
+    transition: border-color 0.2s;
+  }
+
+  .hartza-article:last-child {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .hartza-article:hover {
+    border-color: color-mix(in srgb, var(--color-cyan) 35%, transparent);
+  }
+
+  .hartza-article-title {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: -0.015em;
+    color: var(--color-ivory);
+  }
+
+  .hartza-article-arrow {
+    flex-shrink: 0;
+    font-size: 1rem;
+    color: var(--color-muted);
+    transition:
+      color 0.2s,
+      transform 0.2s;
+  }
+
+  .hartza-article:hover .hartza-article-arrow {
+    color: var(--color-cyan);
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 800px) {
+    .hartza-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .hartza-brand {
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+    }
+
+    .hartza-brand img {
+      width: 40px;
+      height: 40px;
+    }
+  }
+</style>

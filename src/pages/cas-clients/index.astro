@@ -1,0 +1,34 @@
+---
+/**
+ * Case study hub, French route.
+ *
+ * The layout resolves the canonical URL and the `hreflang` alternates from the
+ * request path and the shared translation table, so this file declares only which
+ * content to load.
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro"
+import CaseStudyList from "@/components/CaseStudyList.astro"
+import { getDictionary } from "@/i18n"
+import { getCaseStudies } from "@/data/case-studies"
+import { buildBreadcrumbs, serializeJsonLd } from "@/utils/seo"
+import { SITE } from "@/consts"
+
+const locale = "fr" as const
+const t = getDictionary(locale)
+const hub = getCaseStudies(locale)
+
+const breadcrumbs = buildBreadcrumbs([
+  { name: "Accueil", url: `${SITE.url}/` },
+  { name: hub.breadcrumb, url: `${SITE.url}${Astro.url.pathname}` },
+])
+---
+
+<BaseLayout title={hub.title} description={hub.description}>
+  {breadcrumbs && (
+    <script
+      type="application/ld+json"
+      set:html={serializeJsonLd(breadcrumbs)}
+    />
+  )}
+  <CaseStudyList t={t} locale={locale} />
+</BaseLayout>
