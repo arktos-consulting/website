@@ -2,10 +2,9 @@ name: Verify
 
 # Verifies the site on every pull request and on every pushed branch.
 #
-# This workflow is separate from the deployment one: a verification must run on
-# a PR before merge, not only after a push to main. The deployment re-runs its
-# own checks on its side, so that a commit arriving directly on main can never
-# be published without being verified.
+# The site is published to Amazon S3 and CloudFront, and that publication is a
+# manual step: this workflow is the only gate, so nothing reaches the bucket
+# without a green run behind it.
 
 on:
   pull_request:

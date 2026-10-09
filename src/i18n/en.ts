@@ -218,7 +218,7 @@ const en: Dictionary = {
     registryLink: 'Arktos Consulting record',
     hostingHeading: 'Hosting',
     hostingText:
-      'This site is hosted on GitHub Pages (GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, United States) and served through the Cloudflare network.',
+      'This site is hosted on Amazon Web Services (Amazon Web Services EMEA SARL, 38 avenue John F. Kennedy, L-1855 Luxembourg) and distributed through Amazon CloudFront.',
     dataHeading: 'Personal data',
     dataTextOne:
       'This site sets no analytics or advertising cookies, and uses no third-party tracking tool.',

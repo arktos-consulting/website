@@ -43,7 +43,7 @@ Les quatre commandes doivent sortir sans erreur avant tout envoi.
 | Styles | Tailwind CSS | 4.3.3 |
 | Typage | TypeScript | 6.0.3 |
 | Polices | Inter + Sora, auto-hébergées | sous-ensemble latin |
-| Hébergement | GitHub Pages + Cloudflare | statique |
+| Hébergement | Amazon S3 + CloudFront | statique |
 
 **TypeScript reste volontairement en 6.x.** TypeScript 7 est disponible et
 largement plus rapide, mais il ne fournit pas encore d'API programmatique : le
@@ -270,9 +270,10 @@ connexion externe du chemin d'affichage.
 
 ## Déploiement
 
-`.github/workflows/deploy.yml` construit et publie le site sur GitHub Pages à
-chaque push sur `main`. Le typage et la vérification Astro s'exécutent avant le
-build : une erreur bloque la mise en production.
+Le site est publié sur Amazon S3 et distribué via Amazon CloudFront. La mise en
+ligne est manuelle : `bun run build` produit `dist/`, synchronisé ensuite vers le
+bucket.
 
-Cloudflare sert de frontal sur le domaine, ce qui permet d'ajouter les en-têtes
-de sécurité et le cache des ressources que GitHub Pages ne gère pas seul.
+`bun run verify` rejoue sur le poste les mêmes étapes que
+`.github/workflows/verify.yml` sur chaque pull request : typage, composants,
+build, invariants du bilingue. Une erreur doit bloquer la mise en production.

@@ -2,7 +2,7 @@
  * Astro configuration for the Arktos Consulting site.
  *
  * The site is fully pre-rendered: `dist/` contains only HTML, CSS and static
- * images, served by GitHub Pages behind Cloudflare. No Node server is required
+ * images, served from Amazon S3 through CloudFront. No Node server is required
  * at runtime.
  *
  * The React integration is not mounted: the site has no interactive island, and
@@ -43,8 +43,8 @@ function findPair(url) {
  * Static build configuration.
  *
  * `format: 'directory'` writes each route to its own folder, and the 404 page
- * escapes it: Astro exports it as `404.html` at the root, which is what GitHub
- * Pages expects to serve an error page on a non-existent URL.
+ * escapes it: Astro exports it as `404.html` at the root, which the CloudFront
+ * distribution points its custom error response at for an unknown path.
  */
 export default defineConfig({
   site: SITE_ORIGIN,

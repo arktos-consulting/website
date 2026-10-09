@@ -238,7 +238,7 @@ const fr = {
     registryLink: 'fiche Arktos Consulting',
     hostingHeading: 'Hébergement',
     hostingText:
-      'Le site est hébergé par GitHub Pages (GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis) et distribué via le réseau Cloudflare.',
+      'Le site est hébergé sur Amazon Web Services (Amazon Web Services EMEA SARL, 38 avenue John F. Kennedy, L-1855 Luxembourg) et distribué via Amazon CloudFront.',
     dataHeading: 'Données personnelles',
     dataTextOne:
       'Ce site ne dépose aucun cookie de mesure d’audience ni de suivi publicitaire, et n’utilise aucun outil d’analyse tiers.',
