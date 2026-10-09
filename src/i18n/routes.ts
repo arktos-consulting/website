@@ -102,12 +102,8 @@ export function pairPaths(pair: RoutePair): Record<Locale, string> {
 /**
  * Builds the path of a page in the other language.
  *
- * Returns a path rather than a URL: the language switch must keep the visitor on
- * the host they are already on, otherwise a preview or staging deployment would
- * send them to production. Canonical and `hreflang` tags use the absolute form.
- *
- * @param path Path of the current page
- * @param locale Locale of the current page
+ * @param path - Path of the current page
+ * @param locale - Locale of the current page
  * @returns The path of the translated page, or `null` when none exists
  */
 export function alternatePath(path: string, locale: Locale): string | null {

@@ -76,11 +76,12 @@ export default defineConfig({
     sitemap({
       filter: (page) => !NOINDEX_PATHS.some((path) => page.endsWith(path)),
       /**
-       * Alternates are written from the shared translation table rather than
-       * inferred from the URL shape. Translated segments (`/conseil/` versus
-       * `/en/consulting/`) make inference impossible: the plugin's own `i18n`
-       * option matches nothing here and silently emits no alternate at all, which
-       * is why it is not used.
+       * Adds the translation alternates for a sitemap entry.
+       *
+       * Entries whose page belongs to no translation pair are returned unchanged.
+       *
+       * @param item - Sitemap entry emitted by the plugin for one page.
+       * @returns The entry with `links` carrying the French, English and default alternates, or the entry untouched when it has no translation.
        */
       serialize(item) {
         const pair = findPair(item.url)

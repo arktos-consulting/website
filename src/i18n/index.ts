@@ -79,15 +79,10 @@ export function getDictionary(locale: Locale): Dictionary {
 }
 
 /**
- * Builds the equivalent URL of a page in another locale.
+ * Returns the equivalent URL of a page in another locale.
  *
- * Each page passes its own translated path, because URL segments are translated
- * (`/conseil/` on the French side, `/en/consulting/` on the English side)
- * rather than prefixed. Pointing `hreflang` at the wrong URL is worse than
- * omitting it, so the mapping is explicit.
- *
- * @param pathByLocale The equivalent path in each locale, starting with a slash
- * @param targetLocale Locale to link to
+ * @param pathByLocale - The equivalent path in each locale, starting with a slash
+ * @param targetLocale - Locale to link to
  * @returns The absolute URL of that page in the target locale
  */
 export function localizedPath(

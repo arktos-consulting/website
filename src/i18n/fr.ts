@@ -291,20 +291,14 @@ const fr = {
   },
 } as const
 
-/**
- * Dictionary shape, with every value widened to `string`.
- *
- * Without this transformation, `as const` would freeze the French text and make
- * any translation invalid. The goal is to constrain the structure, not the
- * content. Arrays and keys stay `readonly` so they remain assignable to the
- * source dictionary, which is declared `as const`.
- */
+/** Recursively widens every leaf value of `T` to `string`, preserving object keys and `readonly` array shapes. */
 type Shape<T> = T extends readonly (infer U)[]
   ? readonly Shape<U>[]
   : T extends object
     ? { readonly [K in keyof T]: Shape<T[K]> }
     : string
 
+/** The dictionary type for a locale, with every value widened to `string`. */
 export type Dictionary = Shape<typeof fr>
 
 export default fr

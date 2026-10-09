@@ -57,11 +57,8 @@ export function getContent(locale: Locale): ContentBundle {
 /**
  * Lists the client names of the published engagements.
  *
- * The names live in the case study content, which is why this is not part of a
- * content bundle: it would otherwise have to be maintained twice.
- *
- * @param locale Locale the names are written in
- * @returns The client name of every case study, in display order
+ * @param locale - Locale the names are written in.
+ * @returns The client name of every case study, in display order.
  */
 export function missionClientNames(locale: Locale): string[] {
   return CASE_SLUGS.map((entry) => entry.name[locale])

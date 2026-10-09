@@ -61,13 +61,11 @@ function htmlPages() {
 }
 
 /**
- * Extracts the visible text of a page, with markup and code stripped.
+ * Extracts the visible text of a page: markup, script and style contents, and
+ * HTML entities are stripped, and whitespace is collapsed to single spaces.
  *
- * Scripts and styles are removed before tags, otherwise their contents would be
- * read as page text.
- *
- * @param html Raw HTML of the page
- * @returns The text a reader would see
+ * @param html - Raw HTML of the page.
+ * @returns The text a reader would see.
  */
 function visibleText(html) {
   return html

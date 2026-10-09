@@ -41,20 +41,16 @@ const KNOWS_ABOUT: Record<Locale, readonly string[]> = {
 }
 
 /**
- * Builds the site's JSON-LD structured data graph.
+ * Builds the site's JSON-LD structured data graph: one `ProfessionalService`
+ * entity connected to its founder, its offers and its certifications.
  *
- * The graph describes a single `ProfessionalService` entity connected to its
- * founder, its offers and its certifications. Using `@graph` with stable `@id`
- * values lets every page reuse the same entity instead of redeclaring competing
- * fragments, which generative engines aggregate poorly.
- *
- * @param options Page and content to connect to the main entity
- * @param options.pageUrl Canonical URL of the current page
- * @param options.pageTitle Title of the current page
- * @param options.pageDescription Description of the current page
- * @param options.locale Locale the page is written in
- * @param options.certifications AWS certifications to declare as credentials
- * @returns The serialisable object to place in an `application/ld+json` tag
+ * @param options - Page and content to connect to the main entity.
+ * @param options.pageUrl - Canonical URL of the current page.
+ * @param options.pageTitle - Title of the current page.
+ * @param options.pageDescription - Description of the current page.
+ * @param options.locale - Locale the page is written in.
+ * @param options.certifications - AWS certifications to declare as credentials.
+ * @returns The serialisable object for an `application/ld+json` tag.
  */
 export function buildStructuredData(options: {
   pageUrl: string

@@ -93,7 +93,6 @@ export interface ConsultingPillar extends PillarBase {
   proofs: readonly PillarProof[]
 }
 
-/** The sovereign cloud pillar: design, build, operate. Remnant kept in history. */
 /** The applied AI pillar: LLM agents and automation. */
 export interface AiPillar extends PillarBase {
   /** Use case section. */
