@@ -67,7 +67,7 @@ justifies it — enabling them would add about 200 KB of JavaScript per page.
 
 ```
 src/
-  consts.ts              identity, contact details, host, Matomo, career
+  consts.ts              identity, contact details, host, Plausible, career
   content.config.ts      article collection schema (fr and en)
   content/blog/          French articles, in Markdown
   content/blog-en/       English articles, in Markdown
@@ -220,7 +220,7 @@ sitemap.
   displayed in two places ends up diverging.
 - Data that does not depend on the language is not duplicated per language. The
   client logos were once present identically in both content files: a client
-  added on one side only would have made the trust strip diverge depending on the
+  added on one side only would have made the case pages disagree depending on the
   page language, with no error.
 - The years of experience are **computed** from `CAREER` in `src/consts.ts`,
   never hard-coded. A copied figure becomes wrong the following year.
@@ -234,12 +234,20 @@ sitemap.
 The site is optimised for classic search engines and for generative answer
 engines.
 
-**What is in place:** unique titles and descriptions per page, canonical URLs,
-reciprocal `hreflang` with `x-default`, `og:locale` and `og:locale:alternate`,
-structured data (`ProfessionalService`, `Person`, `WebSite`, `WebPage`,
-`FAQPage`, `BreadcrumbList`, `BlogPosting`), a sitemap generated at build time
-with its alternates, Open Graph and Twitter Card metadata, a 1200×630 share
-image.
+**What is in place:** unique titles and descriptions per page, an explicit
+`robots` directive (`index, follow, max-image-preview:large` on indexable pages,
+`noindex, nofollow` on utility pages), canonical URLs, reciprocal `hreflang`
+with `x-default`, `og:locale` and `og:locale:alternate`, structured data
+(`ProfessionalService`, `Person`, `WebSite`, `WebPage`, `FAQPage`,
+`BreadcrumbList`, `BlogPosting`), a sitemap generated at build time with its
+alternates, Open Graph and Twitter Card metadata, a 1200×630 share image.
+
+**Titles and descriptions stay inside the search display window.** `<title>`
+appends `: Arktos Consulting` to every page except the home, which carries its
+own full title. Where that pushes a title past what a results page shows, the
+content declares a shorter `metaTitle` rather than shortening the heading; where
+a summary is too long to serve as the meta description, it declares a
+`metaDescription`. Visible text is never rewritten for search results.
 
 The structured data declares the page language (`inLanguage`) and the areas of
 expertise in the reader's language: an answer engine processing an English query
@@ -262,13 +270,13 @@ The HTML is complete without script execution: it reads in full before a single
 byte of JavaScript is downloaded, which makes it directly readable by indexing
 robots and by answer engines.
 
-| Element                    | Weight                              |
-| -------------------------- | ----------------------------------- |
-| Home page (HTML)           | ~42 KB                              |
-| CSS                        | ~28 KB                              |
-| Application JavaScript     | 0                                   |
-| Fonts (2 files, latin)     | 80 KB                               |
-| Matomo (matomo.js + calls) | external, after the page has loaded |
+| Element                        | Weight                              |
+| ------------------------------ | ----------------------------------- |
+| Home page (HTML)               | ~42 KB                              |
+| CSS                            | ~28 KB                              |
+| Application JavaScript         | 0                                   |
+| Fonts (2 files, latin)         | 80 KB                               |
+| Plausible (script.js + events) | external, after the page has loaded |
 
 The fonts are limited to the latin subset: the Cyrillic, Greek and Vietnamese
 sets would add about 170 KB that is never used. They are served from the domain
@@ -277,21 +285,21 @@ display path.
 
 ## Audience measurement
 
-Audience is measured with Matomo, in cookieless mode: that is what places the
-measurement inside the CNIL consent exemption, and why the site shows no banner.
-The script is absent as long as `MATOMO.url` and `MATOMO.siteId` (in
-`src/consts.ts`) remain placeholders.
+Audience is measured with Plausible: no cookie is written, nothing is stored in
+the visitor's browser, and no personal data is kept. That is why the site shows no
+consent banner. The script is absent as long as `PLAUSIBLE.domain` (in
+`src/consts.ts`) remains a placeholder.
 
-The exemption rests entirely on the instance configuration, to be verified on the
-Matomo Cloud side: IP anonymisation before processing, no third-party cookies, no
-cross-domain, no User ID, no e-commerce, no heatmaps or session recordings,
-exports disabled, and hosting inside the European Union. The "Visits log &
-Visitor profile" setting must stay disabled in the privacy settings.
+Plausible serves the measurement from the European Union. Its daily visitor
+identifier is a salted hash of the domain, the address and the user agent, with the
+salt rotated and dropped every twenty-four hours: a visitor is not recognisable
+from one day to the next, nor from one site to another, and raw addresses are never
+stored.
 
-The right to object is the counterpart of the exemption, and it is mandatory: the
-button lives in the legal notices (anchor `#mesure-audience`), linked from the
-footer. It pushes `optUserOut` into the Matomo queue and remembers the choice in
-`localStorage`; a reload applies the objection before the tracker is loaded.
+The right to object is offered anyway: the button lives in the legal notices
+(anchor `#mesure-audience`), linked from the footer. It writes `plausible_ignore`
+into `localStorage`, which is the flag Plausible itself reads before sending an
+event, so the tracker then sends nothing at all.
 
 ## Deployment
 

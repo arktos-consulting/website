@@ -5,7 +5,7 @@
  * A utility page: kept out of the sitemap and out of search results, while
  * staying reachable from the footer.
  */
-import { SITE, HOSTING, MATOMO_CONFIGURED } from "@/consts"
+import { SITE, HOSTING, PLAUSIBLE_CONFIGURED } from "@/consts"
 import type { Dictionary } from "@/i18n"
 
 interface Props {
@@ -109,18 +109,23 @@ const { t } = Astro.props
       <h2 class="legal-title">{t.legal.analyticsHeading}</h2>
       <p class="legal-text">{t.legal.analyticsTextOne}</p>
       <p class="legal-text">{t.legal.analyticsTextTwo}</p>
-      {MATOMO_CONFIGURED ? (
+      {PLAUSIBLE_CONFIGURED ? (
         <div class="legal-optout">
-          <p class="legal-text" data-matomo-outcome="out" hidden>
+          <p class="legal-text" data-plausible-outcome="out" hidden>
             {t.legal.analyticsOptOutDone}
           </p>
-          <p class="legal-text" data-matomo-outcome="in">
+          <p class="legal-text" data-plausible-outcome="in">
             {t.legal.analyticsOptOutLead}
           </p>
-          <button class="legal-button" type="button" data-matomo-opt-out>
+          <button class="legal-button" type="button" data-plausible-opt-out>
             {t.legal.analyticsOptOutButton}
           </button>
-          <button class="legal-button" type="button" data-matomo-opt-in hidden>
+          <button
+            class="legal-button"
+            type="button"
+            data-plausible-opt-in
+            hidden
+          >
             {t.legal.analyticsOptInButton}
           </button>
         </div>
@@ -137,6 +142,60 @@ const { t } = Astro.props
     </article>
   </div>
 </section>
+
+{PLAUSIBLE_CONFIGURED && <script is:inline>
+  ;(() => {
+    const storageKey = "plausible_ignore"
+    const optOutButton = document.querySelector("[data-plausible-opt-out]")
+    const optInButton = document.querySelector("[data-plausible-opt-in]")
+    const trackedNotice = document.querySelector(
+      '[data-plausible-outcome="in"]'
+    )
+    const excludedNotice = document.querySelector(
+      '[data-plausible-outcome="out"]'
+    )
+
+    const hasOptedOut = () => {
+      try {
+        return window.localStorage.getItem(storageKey) === "true"
+      } catch (storageError) {
+        return false
+      }
+    }
+
+    const render = () => {
+      const excluded = hasOptedOut()
+      if (optOutButton) optOutButton.hidden = excluded
+      if (optInButton) optInButton.hidden = !excluded
+      if (trackedNotice) trackedNotice.hidden = excluded
+      if (excludedNotice) excludedNotice.hidden = !excluded
+    }
+
+    if (optOutButton) {
+      optOutButton.addEventListener("click", () => {
+        try {
+          window.localStorage.setItem(storageKey, "true")
+        } catch (storageError) {
+          /* Nothing can be remembered: the notice stays on the measured state. */
+        }
+        render()
+      })
+    }
+
+    if (optInButton) {
+      optInButton.addEventListener("click", () => {
+        try {
+          window.localStorage.removeItem(storageKey)
+        } catch (storageError) {
+          /* The flag was never written, there is nothing to remove. */
+        }
+        render()
+      })
+    }
+
+    render()
+  })()
+</script>}
 
 <style>
   .page-hero {

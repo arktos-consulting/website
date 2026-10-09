@@ -47,11 +47,11 @@ const fr = {
 
   /** Home page — hero section. */
   hero: {
-    /** Full home page title, used when the page overrides the layout default. */
-    metaTitle: "Expert AWS indépendant, Kubernetes & Ingénierie à Lyon",
+    /** Full home page title, emitted without the company suffix. */
+    metaTitle: "Expert AWS indépendant pour ETI, PME et startups à Lyon",
     /** Home page meta description. */
     metaDescription:
-      "Expert AWS indépendant à Lyon : audit d'architecture, cloud souverain, agents LLM et automatisation, exploitation de clusters EKS, maîtrise des coûts.",
+      "Expert AWS indépendant à Lyon pour ETI, PME et startups : audit d'architecture, cloud souverain, agents LLM, exploitation de clusters EKS, maîtrise des coûts.",
     eyebrow: "Expert AWS indépendant · Lyon",
     titleLead: "Un expert AWS dédié",
     titleAccent: "à votre plateforme.",
@@ -59,12 +59,14 @@ const fr = {
       "Vous livrez votre produit. Je fais en sorte que l’architecture AWS tienne, coûte juste, et s’exploite simplement.",
     ledeModes: "Mission ponctuelle ou accompagnement continu",
     ledeReply: "réponse sous 24 h.",
+    definition:
+      "Arktos Consulting, indépendant expert AWS depuis 2021, basé à Lyon. Audit d’architecture et architecture AWS : quinze clients en France, avec le même interlocuteur du cadrage à la production.",
     ctaPrimary: "Discutons de votre besoin",
     ctaSecondary: "Voir les prestations",
     /** Stat values and labels: short and displayable in two columns. */
     statYearsLabel: "ans d'expérience",
     statClientsLabel: "clients servis",
-    portraitAlt: "Portrait d’Aurelien Perrier",
+    portraitAlt: "Portrait d’Aurélien Perrier",
   },
 
   /** Home page — services. */
@@ -117,20 +119,17 @@ const fr = {
     eyebrow: "En production chez moi",
     title: "Votre plateforme,",
     accent: "comme la mienne.",
-    body: "Hartza Capital, ma fintech d’investissement, fait tourner du trading algorithmique en production sur AWS depuis 4 ans. HPC, data, API, workflows event-driven.",
+    body: "Hartza Capital, mon projet de fintech depuis 8 ans, fait tourner du trading algorithmique en production sur AWS depuis 4 ans. Ce travail a forgé les compétences HPC, data, API et workflows event-driven que je mets aujourd’hui à votre disposition.",
     articlesHeading: "Comment c’est construit",
     articles: [
       {
         title: "Construire une plateforme de trading algorithmique sur AWS",
-        href: "#",
       },
       {
         title: "Réduire les coûts d’une stack IA en production",
-        href: "#",
       },
       {
         title: "Pipelines data en temps réel pour la prise de décision",
-        href: "#",
       },
     ],
     link: "hartza.capital",
@@ -157,6 +156,18 @@ const fr = {
   },
 
   /** Contact section. */
+  reassurance: {
+    eyebrow: "Façon de travailler",
+    title: "Quatre points",
+    accent: "qui ne changent pas.",
+  },
+
+  faq: {
+    eyebrow: "Questions",
+    title: "Ce qu’on me demande",
+    accent: "avant de démarrer.",
+  },
+
   contact: {
     eyebrow: "Contact",
     title: "Parlons de",
@@ -164,7 +175,7 @@ const fr = {
     lede: "Réponse sous un jour ouvré. Je vous dis si je suis la bonne personne, y compris quand la réponse est non.",
     emailLabel: "E-mail",
     locationLabel: "Localisation",
-    location: "Lyon, France · hybride/remote accepté",
+    location: "Lyon, France · siège social à Paris · hybride/remote accepté",
     linkedinLabel: "LinkedIn",
     calendlyTitle: "Réservez un créneau de trente minutes",
   },
@@ -267,20 +278,20 @@ const fr = {
     phoneLabel: "Téléphone",
     dataHeading: "Données personnelles",
     dataTextOne:
-      "Ce site ne dépose aucun cookie de mesure d’audience ni de suivi publicitaire, et n’utilise aucun outil d’analyse tiers pour son propre compte.",
+      "Ce site ne dépose aucun cookie de mesure d’audience ni de suivi publicitaire. La mesure d’audience, décrite plus bas, ne collecte aucune donnée personnelle.",
     dataTextTwo:
       "Le formulaire de contact ne transmet aucune donnée à un serveur : il compose un brouillon de message dans votre propre logiciel de messagerie, que vous relisez et envoyez vous-même. Les informations que vous choisissez d’envoyer par e-mail ou par LinkedIn sont traitées dans le seul but de répondre à votre demande, et conservées le temps nécessaire à cet échange.",
     dataTextThree:
       "Conformément au Règlement général sur la protection des données, vous disposez d’un droit d’accès, de rectification et d’effacement des données vous concernant. Pour l’exercer, écrivez à",
     analyticsHeading: "Mesure d’audience",
     analyticsTextOne:
-      "L’audience du site est mesurée avec Matomo, hébergé dans l’Union européenne. Aucune donnée n’est transmise à un tiers : les mesures servent uniquement à savoir quelles pages sont lues et comment le site est utilisé.",
+      "L’audience du site est mesurée avec Plausible, hébergé dans l’Union européenne. Plausible ne dépose aucun cookie, ne stocke rien dans votre navigateur, et ne conserve ni adresse IP ni identifiant d’appareil : les mesures servent uniquement à savoir quelles pages sont lues et comment le site est utilisé.",
     analyticsTextTwo:
-      "Cette mesure est exemptée de consentement par la CNIL : Matomo fonctionne ici sans cookie, l’adresse IP est anonymisée avant tout traitement, et aucune donnée n’est recoupée avec un autre traitement ni suivie d’un site à l’autre. Vous pouvez à tout moment vous opposer à cette mesure.",
+      "Les mesures sont traitées pour mon compte uniquement, sur une infrastructure européenne, et ne sont ni revendues ni recoupées avec un autre traitement. Aucun cookie n’étant déposé et aucune donnée personnelle n’étant collectée, il n’y a rien à consentir — vous pouvez malgré tout vous opposer à cette mesure, ci-dessous.",
     analyticsOptOutLead: "Vous êtes actuellement mesuré.",
     analyticsOptOutButton: "M’opposer à la mesure d’audience",
     analyticsOptOutDone:
-      "Vous n’êtes plus mesuré : aucune donnée n’est collectée sur votre visite sur ce navigateur.",
+      "Vous n’êtes plus mesuré : Plausible ne collectera plus rien lors de vos prochaines visites sur ce navigateur.",
     analyticsOptInButton: "Réactiver la mesure d’audience",
     ipHeading: "Propriété intellectuelle",
     ipTextLead:

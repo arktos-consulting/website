@@ -15,6 +15,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "verify:i18n": "node scripts/verify-i18n.mjs",
+    "indexnow": "node scripts/submit-indexnow.mjs",
     "verify": "bun run format:check && bun run typecheck && bun run build && bun run verify:i18n"
   },
   "dependencies": {

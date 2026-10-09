@@ -48,6 +48,10 @@ format-check:
 verify-i18n:
 	bun run verify:i18n
 
+# Submit the sitemap URLs to IndexNow, after a deployment
+indexnow:
+	bun run indexnow
+
 # Run the whole gate: format, types, components, build, bilingual
 verify:
 	bun run verify
@@ -59,7 +63,7 @@ ci: verify
 clean:
 	rm -rf dist .astro
 
-.PHONY: install dev build preview sync typecheck check format format-check verify-i18n verify ci clean help
+.PHONY: install dev build preview sync typecheck check format format-check verify-i18n indexnow verify ci clean help
 
 # Show this help
 help:

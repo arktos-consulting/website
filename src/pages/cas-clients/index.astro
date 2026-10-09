@@ -11,14 +11,15 @@ import CaseStudyList from "@/components/CaseStudyList.astro"
 import { getDictionary } from "@/i18n"
 import { getCaseStudies } from "@/data/case-studies"
 import { buildBreadcrumbs, serializeJsonLd } from "@/utils/seo"
+import { SITE } from "@/consts"
 
 const locale = "fr" as const
 const t = getDictionary(locale)
 const hub = getCaseStudies(locale)
 
 const breadcrumbs = buildBreadcrumbs([
-  { name: "Accueil", url: `${Astro.site}/` },
-  { name: hub.breadcrumb, url: `${Astro.site}${Astro.url.pathname}` },
+  { name: "Accueil", url: `${SITE.url}/` },
+  { name: hub.breadcrumb, url: `${SITE.url}${Astro.url.pathname}` },
 ])
 ---
 

@@ -57,7 +57,10 @@ const caseSchema = {
 }
 ---
 
-<BaseLayout title={study.title} description={study.summary}>
+<BaseLayout
+  title={study.metaTitle ?? study.title}
+  description={study.metaDescription ?? study.summary}
+>
   <script type="application/ld+json" set:html={serializeJsonLd(caseSchema)} />
   {breadcrumbs && (
     <script

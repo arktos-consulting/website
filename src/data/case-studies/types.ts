@@ -22,8 +22,12 @@ export interface CaseStudy {
   period: string
   /** Engagement title, written around the outcome. */
   title: string
-  /** One-line summary, reused as the page meta description. */
+  /** Shorter `<title>` for search results, without the company name the layout appends. */
+  metaTitle?: string
+  /** One-line summary, reused as the page meta description when no override is set. */
   summary: string
+  /** Overrides `summary` as the page meta description when it is too long for search results. */
+  metaDescription?: string
   /** Technologies and practices involved. */
   stack: readonly string[]
   /** Context and constraint: what the client was up against. */

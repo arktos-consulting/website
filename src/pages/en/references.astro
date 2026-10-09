@@ -12,16 +12,17 @@ import { getDictionary } from "@/i18n"
 import { getCaseStudies } from "@/data/case-studies"
 import { missionClientNames } from "@/data"
 import { buildBreadcrumbs, serializeJsonLd } from "@/utils/seo"
+import { SITE } from "@/consts"
 
 const locale = "en" as const
 const t = getDictionary(locale)
 const { cases } = getCaseStudies(locale)
 
-const description = `${cases.length} AWS, Kubernetes and DevOps infrastructure engagements: ${missionClientNames(locale).join(", ")}. Technical detail for each.`
+const description = `${cases.length} AWS, Kubernetes and DevOps infrastructure engagements: ${missionClientNames(locale).join(", ")}.`
 
 const breadcrumbs = buildBreadcrumbs([
-  { name: "Home", url: `${Astro.site}/en/` },
-  { name: "References", url: `${Astro.site}${Astro.url.pathname}` },
+  { name: "Home", url: `${SITE.url}/en/` },
+  { name: "References", url: `${SITE.url}${Astro.url.pathname}` },
 ])
 ---
 

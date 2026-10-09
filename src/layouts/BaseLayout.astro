@@ -13,7 +13,7 @@
 import "@/styles/global.css"
 import "@/styles/components.css"
 
-import { SITE, MATOMO, MATOMO_CONFIGURED } from "@/consts"
+import { SITE, PLAUSIBLE, PLAUSIBLE_CONFIGURED } from "@/consts"
 import { buildStructuredData, serializeJsonLd } from "@/utils/seo"
 import {
   getDictionary,
@@ -88,9 +88,7 @@ const switchHref = alternatePath(path, locale)
 
 /** Home pages carry their own full title; others get the company suffix. */
 const isHome = path === "/" || path === "/en/"
-const fullTitle = isHome
-  ? `${SITE.name}: ${t.hero.eyebrow}`
-  : `${title}: ${SITE.name}`
+const fullTitle = isHome ? title : `${title}: ${SITE.name}`
 
 const structuredData = buildStructuredData({
   pageUrl,
@@ -135,7 +133,12 @@ const structuredData = buildStructuredData({
       )
     }
 
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {/* Utility pages opt out of the index; the rest opt into large image previews. */}
+    {noindex ? (
+      <meta name="robots" content="noindex, nofollow" />
+    ) : (
+      <meta name="robots" content="index, follow, max-image-preview:large" />
+    )}
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -226,97 +229,16 @@ const structuredData = buildStructuredData({
         targets.forEach((el) => observer.observe(el))
       })()
     </script>
-    {/* Audience measurement, Matomo in cookieless mode: no cookie is written,
-        so the CNIL consent exemption applies and no banner is shown. The
-        opt-out is applied before the tracker loads, and the code is not emitted
-        while the Matomo constants are placeholders. */}
-    {MATOMO_CONFIGURED && (
-      <>
-        <script
-          is:inline
-          define:vars={{ matomoUrl: MATOMO.url, matomoSiteId: MATOMO.siteId }}
-        >
-          var _paq = (window._paq = window._paq || [])
-          var optOutKey = "matomo-opt-out"
-          var hasOptedOut = false
-          try {
-            hasOptedOut = window.localStorage.getItem(optOutKey) === "true"
-          } catch (storageError) {
-            hasOptedOut = false
-          }
-          if (hasOptedOut) {
-            _paq.push(["optUserOut"])
-          }
-          _paq.push(["disableCookies"])
-          _paq.push(["setTrackerUrl", matomoUrl + "matomo.php"])
-          _paq.push(["setSiteId", matomoSiteId])
-          _paq.push(["trackPageView"])
-          _paq.push(["enableLinkTracking"])
-          ;(function () {
-            var tracker = document.createElement("script")
-            tracker.async = true
-            tracker.src = matomoUrl + "matomo.js"
-            document.head.appendChild(tracker)
-          })()
-        </script>
-        <script is:inline>
-          ;(() => {
-            const optOutButton = document.querySelector("[data-matomo-opt-out]")
-            const optInButton = document.querySelector("[data-matomo-opt-in]")
-            const trackedNotice = document.querySelector(
-              '[data-matomo-outcome="in"]'
-            )
-            const excludedNotice = document.querySelector(
-              '[data-matomo-outcome="out"]'
-            )
-            const storageKey = "matomo-opt-out"
-
-            const readOptOut = () => {
-              try {
-                return window.localStorage.getItem(storageKey) === "true"
-              } catch (storageError) {
-                return false
-              }
-            }
-
-            const render = () => {
-              const hasOptedOut = readOptOut()
-              if (optOutButton) optOutButton.hidden = hasOptedOut
-              if (optInButton) optInButton.hidden = !hasOptedOut
-              if (trackedNotice) trackedNotice.hidden = hasOptedOut
-              if (excludedNotice) excludedNotice.hidden = !hasOptedOut
-            }
-
-            if (optOutButton) {
-              optOutButton.addEventListener("click", () => {
-                const queue = (window._paq = window._paq || [])
-                queue.push(["optUserOut"])
-                try {
-                  window.localStorage.setItem(storageKey, "true")
-                } catch (storageError) {
-                  /* Storage unavailable: the Matomo opt-out cookie still applies. */
-                }
-                render()
-              })
-            }
-
-            if (optInButton) {
-              optInButton.addEventListener("click", () => {
-                const queue = (window._paq = window._paq || [])
-                queue.push(["forgetUserOptOut"])
-                try {
-                  window.localStorage.removeItem(storageKey)
-                } catch (storageError) {
-                  /* Storage unavailable: the Matomo opt-out cookie still applies. */
-                }
-                render()
-              })
-            }
-
-            render()
-          })()
-        </script>
-      </>
+    {/* Audience measurement, with Plausible: no cookie is written, so no consent
+        banner is shown. The script carries the domain registered in the account,
+        and it stays absent while that domain is still the placeholder. */}
+    {PLAUSIBLE_CONFIGURED && (
+      <script
+        is:inline
+        defer
+        data-domain={PLAUSIBLE.domain}
+        src={PLAUSIBLE.scriptUrl}
+      />
     )}
   </body>
 </html>

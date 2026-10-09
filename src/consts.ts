@@ -48,14 +48,23 @@ export const SITE = {
   headOffice: {
     /** Full address, written the way the legal notices display it. */
     full: "200 rue de la Croix Nivert, 75015 Paris, France",
+    /** Street and number, as the structured data declares them. */
+    street: "200 rue de la Croix Nivert",
+    /** Postal code, as the structured data declares it. */
+    postalCode: "75015",
     city: "Paris",
     region: "Île-de-France",
   },
   country: "FR",
   calendly: "https://calendly.com/aperrier-arktos/30min",
   cvPath: "/files/cv.pdf",
-  /** Approximate coordinates of the head office, for structured data. */
-  geo: { latitude: 48.8381, longitude: 2.2892 },
+  /**
+   * Coordinates of the head office, for structured data.
+   *
+   * Interrogated from OpenStreetMap, which resolves the published address to the
+   * building itself.
+   */
+  geo: { latitude: 48.8380662, longitude: 2.2892005 },
 } as const
 
 /** Verifiable external profiles, declared in `sameAs`. */
@@ -89,27 +98,28 @@ export const CAREER = {
 } as const
 
 /**
- * Matomo audience measurement, configured for the CNIL consent exemption.
+ * Audience measurement, with Plausible Analytics.
  *
- * The values are placeholders. `MATOMO_CONFIGURED` stays false until they are
- * replaced with the Matomo Cloud URL and site identifier, so the tracking code
- * is not emitted at all and no request reaches a host that does not exist.
+ * The domain is a placeholder until the site is registered in a Plausible
+ * account. `PLAUSIBLE_CONFIGURED` stays false until then, so the script is not
+ * emitted at all and no visitor's browser reaches a host that does not know this
+ * site.
  *
- * The exemption holds only while the instance keeps Matomo's defaults: cookies
- * disabled, IP anonymised before processing, no cross-domain identifier, no
- * User ID, no data reuse and no transfer outside the European Union.
+ * Plausible serves the measurement from the European Union, sets no cookie and
+ * writes nothing to the visitor's browser: its daily visitor identifier is a
+ * salted hash, dropped after twenty-four hours. Nothing identifies a visitor
+ * from one day to the next, or from one site to another.
  */
-export const MATOMO = {
-  /** Base URL of the Matomo instance, trailing slash included. */
-  url: "https://MATOMO_URL/",
-  /** Site identifier in the Matomo account. */
-  siteId: "MATOMO_SITE_ID",
+export const PLAUSIBLE = {
+  /** Domain registered in the Plausible account, scheme excluded. */
+  domain: "PLAUSIBLE_DOMAIN",
+  /** Script served by Plausible, deferred so it never delays the first paint. */
+  scriptUrl: "https://plausible.io/js/script.js",
 } as const
 
-/** Whether the Matomo placeholders above have been replaced with real values. */
-export const MATOMO_CONFIGURED =
-  !MATOMO.url.includes("MATOMO_URL") &&
-  !MATOMO.siteId.includes("MATOMO_SITE_ID")
+/** Whether the Plausible domain above has been replaced with the registered one. */
+export const PLAUSIBLE_CONFIGURED =
+  !PLAUSIBLE.domain.includes("PLAUSIBLE_DOMAIN")
 
 /**
  * Hosting provider, as the legal notices must declare it.

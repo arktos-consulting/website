@@ -7,8 +7,11 @@
  */
 import type { ConsultingPillar } from "@/data/pillars"
 import type { Dictionary, Locale } from "@/i18n"
+import { casePath, getCaseStudies } from "@/data/case-studies"
 import SectionHeading from "@/components/SectionHeading.astro"
 import PillarHero from "@/components/PillarHero.astro"
+import Reassurance from "@/components/Reassurance.astro"
+import Faq from "@/components/Faq.astro"
 import Contact from "@/components/Contact.astro"
 
 interface Props {
@@ -21,6 +24,11 @@ interface Props {
 }
 
 const { pillar, t, locale } = Astro.props
+
+/** Case study this page quotes as proof. */
+const highlightedCase = getCaseStudies(locale).cases.find(
+  (entry) => entry.id === pillar.caseHighlight.caseId
+)
 ---
 
 <PillarHero heading={pillar.hero} cta={pillar.cta} title={pillar.title} />
@@ -31,6 +39,7 @@ const { pillar, t, locale } = Astro.props
       eyebrow={pillar.scope.eyebrow}
       title={pillar.scope.title}
       accent={pillar.scope.accent}
+      lede={pillar.scope.lede}
     />
     <ul class="domain-grid">
       {pillar.domains.map((domain) => (
@@ -53,6 +62,7 @@ const { pillar, t, locale } = Astro.props
       eyebrow={pillar.process.eyebrow}
       title={pillar.process.title}
       accent={pillar.process.accent}
+      lede={pillar.process.lede}
     />
     <ol class="phase-list">
       {pillar.phases.map((phase) => (
@@ -80,9 +90,28 @@ const { pillar, t, locale } = Astro.props
 <section class="section section-alt">
   <div class="container">
     <SectionHeading
+      eyebrow={pillar.criteriaHeading.eyebrow}
+      title={pillar.criteriaHeading.title}
+      accent={pillar.criteriaHeading.accent}
+    />
+    <ul class="domain-grid">
+      {pillar.criteria.map((criterion) => (
+        <li class="card">
+          <h3 class="card-title text-display-sm">{criterion.title}</h3>
+          <p class="card-text">{criterion.body}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <SectionHeading
       eyebrow={pillar.proofHeading.eyebrow}
       title={pillar.proofHeading.title}
       accent={pillar.proofHeading.accent}
+      lede={pillar.proofHeading.lede}
     />
     <ul class="proof-list">
       {pillar.proofs.map((proof) => (
@@ -94,6 +123,35 @@ const { pillar, t, locale } = Astro.props
     </ul>
   </div>
 </section>
+
+<section class="section">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.caseHighlight.heading.eyebrow}
+      title={pillar.caseHighlight.heading.title}
+      accent={pillar.caseHighlight.heading.accent}
+    />
+    <div class="case-highlight">
+      <p class="case-extract">{pillar.caseHighlight.extract}</p>
+      {highlightedCase && (
+        <p class="case-stack">{highlightedCase.stack.join(" · ")}</p>
+      )}
+      {highlightedCase && (
+        <a
+          class="btn btn-ghost btn-sm"
+          href={casePath(highlightedCase.id, locale)}
+        >
+          {highlightedCase.title}
+          <span aria-hidden="true">→</span>
+        </a>
+      )}
+    </div>
+  </div>
+</section>
+
+<Reassurance t={t} locale={locale} />
+
+<Faq t={t} locale={locale} />
 
 <Contact t={t} locale={locale} />
 
@@ -191,5 +249,24 @@ const { pillar, t, locale } = Astro.props
     font-size: 0.9375rem;
     line-height: 1.7;
     color: var(--color-muted);
+  }
+
+  .case-highlight {
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    max-width: 72ch;
+  }
+
+  .case-extract {
+    margin: 0;
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+  }
+
+  .case-stack {
+    margin: 16px 0 24px;
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    color: var(--color-violet);
   }
 </style>

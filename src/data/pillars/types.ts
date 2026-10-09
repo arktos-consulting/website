@@ -59,6 +59,8 @@ export interface PillarBase {
   slug: string
   /** Page title, without the company name. */
   title: string
+  /** Shorter `<title>` for search results, without the company name the layout appends. */
+  metaTitle?: string
   /** Meta description. */
   description: string
   /** Label used in the breadcrumb trail. */
@@ -77,6 +79,16 @@ export interface PillarProof {
   text: string
 }
 
+/** A real engagement quoted on a pillar page as proof. */
+export interface PillarCaseHighlight {
+  /** Section heading. */
+  heading: PillarHeading
+  /** Identifier of the case study page this highlight links to. */
+  caseId: string
+  /** What the engagement shows, told from the reader's side. */
+  extract: string
+}
+
 /** The consulting pillar: audit, architecture, FinOps. */
 export interface ConsultingPillar extends PillarBase {
   /** Scope of the engagement, grouped by domain. */
@@ -91,6 +103,12 @@ export interface ConsultingPillar extends PillarBase {
   proofHeading: PillarHeading
   /** Figures backing the claims. */
   proofs: readonly PillarProof[]
+  /** Choice criteria: when this engagement fits, and when it does not. */
+  criteriaHeading: PillarHeading
+  /** The criteria themselves. */
+  criteria: readonly PillarCard[]
+  /** A real engagement used as proof. */
+  caseHighlight: PillarCaseHighlight
 }
 
 /** The applied AI pillar: LLM agents and automation. */
@@ -107,6 +125,12 @@ export interface AiPillar extends PillarBase {
   credentialsHeading: PillarHeading
   /** References backing the AI work. */
   credentials: readonly { label: string; detail: string }[]
+  /** Choice criteria: when this engagement fits, and when it does not. */
+  criteriaHeading: PillarHeading
+  /** The criteria themselves. */
+  criteria: readonly PillarCard[]
+  /** A real engagement used as proof. */
+  caseHighlight: PillarCaseHighlight
 }
 
 /** A commitment shown in the managed services table. */
@@ -133,6 +157,12 @@ export interface ManagedServicesPillar extends PillarBase {
   hygieneHeading: PillarHeading
   /** Recurring work on the platform. */
   hygiene: readonly PillarPhase[]
+  /** Choice criteria: when this engagement fits, and when it does not. */
+  criteriaHeading: PillarHeading
+  /** The criteria themselves. */
+  criteria: readonly PillarCard[]
+  /** A real engagement used as proof. */
+  caseHighlight: PillarCaseHighlight
 }
 
 /** Every pillar page, keyed by its identifier. */

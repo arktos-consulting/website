@@ -15,7 +15,7 @@ import type { CaseStudyBundle } from "./types"
 const en: CaseStudyBundle = {
   title: "AWS, Kubernetes and DevOps case studies",
   description:
-    "Eight infrastructure engagements told in full: context and constraint, what was delivered, outcome. Bpifrance, SNCF, Yseop, Seiitra, Doctolib, Canal+.",
+    "9 infrastructure engagements told in full: context and constraint, what was delivered, outcome. Bpifrance, SNCF, Yseop, Seiitra, Doctolib, Canal+.",
   breadcrumb: "Case studies",
   hero: {
     title: "One engagement,",
@@ -30,8 +30,11 @@ const en: CaseStudyBundle = {
       clientType: "My own platform, in production",
       period: "since 2018",
       title: "Automating risk arbitrage on the financial markets",
+      metaTitle: "Automating risk arbitrage on the markets",
       summary:
         "An AWS platform that continuously ingests and analyses market data, to automate risk arbitrage across five geographies.",
+      metaDescription:
+        "An AWS platform that continuously ingests and analyses market data to automate risk arbitrage across five geographies. Built solo, in production since 2018.",
       stack: [
         "AWS serverless",
         "Lambda, Step Functions, API Gateway",
@@ -67,6 +70,7 @@ const en: CaseStudyBundle = {
       clientType: "French public investment bank",
       period: "2024-2025",
       title: "Regulatory Kubernetes change traceability and AWS reversibility",
+      metaTitle: "Kubernetes traceability, AWS exit path",
       summary:
         "Cluster change audit tooling with its reporting, R&D on Knative for reversibility away from AWS, and recurring AWS support for the team.",
       stack: [
@@ -136,6 +140,7 @@ const en: CaseStudyBundle = {
       clientType: "French national railway operator",
       period: "2022-2023",
       title: "Technical lead: Go microservices reproducing the AWS services",
+      metaTitle: "SNCF private cloud: Go microservices",
       summary:
         "Technical lead on SNCF’s private cloud and its subsidiaries: Go microservices that reproduce the AWS services (Fargate, EC2, S3, CloudWatch…).",
       stack: [
@@ -171,6 +176,7 @@ const en: CaseStudyBundle = {
       clientType: "SaaS vendor, ~150 microservices in operation",
       period: "2021-2022",
       title: "Security and reliability of an Azure/Kubernetes platform",
+      metaTitle: "Security of an Azure/Kubernetes platform",
       summary:
         "Strengthening the security and reliability of the Powimo product’s Azure/Kubernetes environments, for the SaaS offering and for on-premise deployments alike.",
       stack: [
@@ -209,8 +215,11 @@ const en: CaseStudyBundle = {
       period: "2020-2021",
       title:
         "A Kubernetes standard for every application in the company, starting with e-commerce",
+      metaTitle: "A Kubernetes standard for e-commerce",
       summary:
         "Solution architect: a Kubernetes BareMetal foundation and an architecture and operations standard, designed to carry every application of the company, starting with its e-commerce platform (OroCommerce).",
+      metaDescription:
+        "A Kubernetes BareMetal foundation and an architecture and operations standard to carry every company application, starting with its e-commerce platform.",
       stack: [
         "Kubernetes (BareMetal)",
         "OroCommerce (PHP)",
@@ -271,8 +280,11 @@ const en: CaseStudyBundle = {
       clientType: "Broadcaster",
       period: "2019",
       title: "Kubernetes CI/CD pipelines and load spread across three clouds",
+      metaTitle: "Multi-cloud Kubernetes CI/CD pipelines",
       summary:
         "Replacing the Jenkins pipelines with an ephemeral Kubernetes system, in a multi-cloud setting: spreading load across private cloud, AWS and Alibaba to cut dependency, with the CI/CD R&D that comes with it.",
+      metaDescription:
+        "Jenkins pipelines replaced by an ephemeral Kubernetes system: load spread across private cloud, AWS and Alibaba to cut dependency.",
       stack: [
         "Kubernetes",
         "Private cloud / bare metal",
@@ -305,6 +317,7 @@ const en: CaseStudyBundle = {
       period: "2017-2018",
       title:
         "Cloud infrastructure as a service, monitoring and DevOps guidance",
+      metaTitle: "Cloud infrastructure as a service (IaaS)",
       summary:
         "Building cloud infrastructure as a service (IaaS), monitoring and logging, and guiding customers towards DevOps practice and cloud-native development.",
       stack: [

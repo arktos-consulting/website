@@ -7,8 +7,11 @@
  */
 import type { ManagedServicesPillar } from "@/data/pillars"
 import type { Dictionary, Locale } from "@/i18n"
+import { casePath, getCaseStudies } from "@/data/case-studies"
 import SectionHeading from "@/components/SectionHeading.astro"
 import PillarHero from "@/components/PillarHero.astro"
+import Reassurance from "@/components/Reassurance.astro"
+import Faq from "@/components/Faq.astro"
 import Contact from "@/components/Contact.astro"
 
 interface Props {
@@ -21,6 +24,11 @@ interface Props {
 }
 
 const { pillar, t, locale } = Astro.props
+
+/** Case study this page quotes as proof. */
+const highlightedCase = getCaseStudies(locale).cases.find(
+  (entry) => entry.id === pillar.caseHighlight.caseId
+)
 ---
 
 <PillarHero heading={pillar.hero} cta={pillar.cta} title={pillar.title} />
@@ -31,6 +39,7 @@ const { pillar, t, locale } = Astro.props
       eyebrow={pillar.scope.eyebrow}
       title={pillar.scope.title}
       accent={pillar.scope.accent}
+      lede={pillar.scope.lede}
     />
     <ul class="scope-grid">
       {pillar.coverage.map((group) => (
@@ -53,12 +62,16 @@ const { pillar, t, locale } = Astro.props
       eyebrow={pillar.commitmentsHeading.eyebrow}
       title={pillar.commitmentsHeading.title}
       accent={pillar.commitmentsHeading.accent}
+      lede={pillar.commitmentsHeading.lede}
     />
     <dl class="commitment-grid">
       {pillar.commitments.map((commitment) => (
         <div class="commitment">
           <dt class="commitment-label">{commitment.label}</dt>
           <dd class="commitment-value">{commitment.value}</dd>
+          {commitment.note && (
+            <dd class="commitment-note">{commitment.note}</dd>
+          )}
         </div>
       ))}
     </dl>
@@ -71,6 +84,7 @@ const { pillar, t, locale } = Astro.props
       eyebrow={pillar.hygieneHeading.eyebrow}
       title={pillar.hygieneHeading.title}
       accent={pillar.hygieneHeading.accent}
+      lede={pillar.hygieneHeading.lede}
     />
     <ul class="reason-grid">
       {pillar.hygiene.map((reason) => (
@@ -82,6 +96,54 @@ const { pillar, t, locale } = Astro.props
     </ul>
   </div>
 </section>
+
+<section class="section-alt">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.criteriaHeading.eyebrow}
+      title={pillar.criteriaHeading.title}
+      accent={pillar.criteriaHeading.accent}
+      lede={pillar.criteriaHeading.lede}
+    />
+    <ul class="criteria-grid">
+      {pillar.criteria.map((criterion) => (
+        <li class="card">
+          <h3 class="card-title text-display-sm">{criterion.title}</h3>
+          <p class="card-text">{criterion.body}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <SectionHeading
+      eyebrow={pillar.caseHighlight.heading.eyebrow}
+      title={pillar.caseHighlight.heading.title}
+      accent={pillar.caseHighlight.heading.accent}
+    />
+    <div class="case-highlight">
+      <p class="case-extract">{pillar.caseHighlight.extract}</p>
+      {highlightedCase && (
+        <p class="case-stack">{highlightedCase.stack.join(" · ")}</p>
+      )}
+      {highlightedCase && (
+        <a
+          class="btn btn-ghost btn-sm"
+          href={casePath(highlightedCase.id, locale)}
+        >
+          {highlightedCase.title}
+          <span aria-hidden="true">→</span>
+        </a>
+      )}
+    </div>
+  </div>
+</section>
+
+<Reassurance t={t} locale={locale} />
+
+<Faq t={t} locale={locale} />
 
 <Contact t={t} locale={locale} />
 
@@ -152,5 +214,39 @@ const { pillar, t, locale } = Astro.props
     font-size: 0.9375rem;
     line-height: 1.7;
     color: var(--color-muted);
+  }
+  .commitment-note {
+    margin: 8px 0 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  .criteria-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 22px;
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .case-highlight {
+    margin: clamp(40px, 5vw, 64px) 0 0;
+    max-width: 72ch;
+  }
+
+  .case-extract {
+    margin: 0;
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-muted);
+  }
+
+  .case-stack {
+    margin: 16px 0 24px;
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    color: var(--color-violet);
   }
 </style>

@@ -13,6 +13,7 @@ const KNOWS_ABOUT: Record<Locale, readonly string[]> = {
   fr: [
     "Amazon Web Services",
     "Kubernetes",
+    "Architecture cloud",
     "Cloud souverain",
     "Cloud privé",
     "Intelligence artificielle",
@@ -27,6 +28,7 @@ const KNOWS_ABOUT: Record<Locale, readonly string[]> = {
   en: [
     "Amazon Web Services",
     "Kubernetes",
+    "Cloud architecture",
     "Sovereign cloud",
     "Private cloud",
     "Artificial intelligence",
@@ -78,7 +80,7 @@ export function buildStructuredData(options: {
     name: SITE.founder,
     jobTitle: SITE.founderJobTitle,
     url: `${SITE.url}/`,
-    email: `mailto:${SITE.email}`,
+    email: SITE.email,
     knowsAbout: KNOWS_ABOUT[locale],
     address: {
       "@type": "PostalAddress",
@@ -86,6 +88,7 @@ export function buildStructuredData(options: {
       addressRegion: SITE.region,
       addressCountry: SITE.country,
     },
+    workLocation: { "@type": "City", name: SITE.city },
     worksFor: { "@id": organizationId },
     sameAs: [PROFILES.linkedin, PROFILES.github],
   }
@@ -95,23 +98,28 @@ export function buildStructuredData(options: {
     "@id": organizationId,
     name: SITE.name,
     legalName: SITE.legalName,
+    logo: `${SITE.url}/images/logo.svg`,
     url: `${SITE.url}/`,
-    email: `mailto:${SITE.email}`,
+    email: SITE.email,
     foundingDate: `${CAREER.companyStart.year}-${String(CAREER.companyStart.month).padStart(2, "0")}`,
     vatID: SITE.vatId,
     taxID: SITE.siren,
     address: {
       "@type": "PostalAddress",
+      streetAddress: SITE.headOffice.street,
+      postalCode: SITE.headOffice.postalCode,
       addressLocality: SITE.headOffice.city,
       addressRegion: SITE.headOffice.region,
       addressCountry: SITE.country,
     },
+    image: `${SITE.url}/images/og-cover.jpg`,
     geo: {
       "@type": "GeoCoordinates",
       latitude: SITE.geo.latitude,
       longitude: SITE.geo.longitude,
     },
     areaServed: [
+      { "@type": "City", name: SITE.city },
       { "@type": "Country", name: "France" },
       { "@type": "Place", name: "Europe" },
     ],

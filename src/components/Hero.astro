@@ -15,6 +15,7 @@
  * `prefers-reduced-motion`.
  */
 import type { Dictionary, Locale } from "@/i18n"
+import { totalYears } from "@/utils/career"
 
 interface Props {
   /** Dictionary for the current locale. */
@@ -48,6 +49,10 @@ const homeHref = locale === "fr" ? "/" : "/en/"
         {t.hero.ledeReply}
       </p>
 
+      <p class="hero-definition" data-reveal data-reveal-delay="2">
+        {t.hero.definition}
+      </p>
+
       <div class="hero-actions" data-reveal data-reveal-delay="3">
         <a class="btn btn-primary" href={`${homeHref}#contact`}>
           {t.hero.ctaPrimary}
@@ -70,7 +75,7 @@ const homeHref = locale === "fr" ? "/" : "/en/"
 
       <dl class="hero-stats" data-reveal data-reveal-delay="3">
         <div class="stat">
-          <dt class="stat-value">+10</dt>
+          <dt class="stat-value">+{totalYears()}</dt>
           <dd class="stat-label">{t.hero.statYearsLabel}</dd>
         </div>
         <div class="stat">
@@ -236,5 +241,12 @@ const homeHref = locale === "fr" ? "/" : "/en/"
       margin-inline: auto;
       justify-self: center;
     }
+  }
+  .hero-definition {
+    margin: 12px 0 0;
+    max-width: 62ch;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-muted);
   }
 </style>

@@ -11,6 +11,7 @@ import type { Dictionary, Locale } from "@/i18n"
 import type { CaseStudy } from "@/data/case-studies"
 import { getCaseStudies, casePath, caseHubPath } from "@/data/case-studies"
 import { isParentCompanyStudy } from "@/data/case-studies/ownership"
+import { clientLogo } from "@/data/clients"
 import Contact from "@/components/Contact.astro"
 
 interface Props {
@@ -26,6 +27,9 @@ const { study, t, locale } = Astro.props
 const hub = getCaseStudies(locale)
 const hubHref = caseHubPath(locale)
 
+/** Published logo of the client, when there is one. */
+const logo = clientLogo(study.client)
+
 /** The other engagements, kept in the list so a reader lands on another case. */
 const otherCases = hub.cases.filter((entry) => entry.id !== study.id)
 
@@ -39,6 +43,15 @@ const sections = [
 <section class="section page-hero">
   <div class="ambient-glow" aria-hidden="true"></div>
   <div class="container">
+    {logo && (
+      <img
+        class="case-logo"
+        src={logo.src}
+        width={logo.width}
+        height={logo.height}
+        alt=""
+      />
+    )}
     <p class="case-overline">
       <span class="case-client">{study.client}</span>
       <span class="case-client-type">{study.clientType}</span>
@@ -117,6 +130,13 @@ const sections = [
     position: relative;
     overflow: hidden;
     padding-block: clamp(72px, 9vw, 128px) clamp(56px, 7vw, 96px);
+  }
+
+  .case-logo {
+    display: block;
+    height: 28px;
+    width: auto;
+    margin-bottom: 20px;
   }
 
   .case-overline {

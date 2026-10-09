@@ -15,6 +15,7 @@
 import type { Dictionary, Locale } from "@/i18n"
 import Hero from "@/components/Hero.astro"
 import Services from "@/components/Services.astro"
+import References from "@/components/References.astro"
 import HartzaProof from "@/components/HartzaProof.astro"
 import CloudPartners from "@/components/CloudPartners.astro"
 import Contact from "@/components/Contact.astro"
@@ -31,6 +32,8 @@ const { t, locale } = Astro.props
 
 <Hero t={t} locale={locale} />
 <Services t={t} locale={locale} />
+
+<References t={t} locale={locale} limit={4} compact />
 <HartzaProof t={t} locale={locale} />
 <CloudPartners t={t} />
 <Contact t={t} locale={locale} />

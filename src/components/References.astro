@@ -44,9 +44,11 @@ const referencesHref = locale === "fr" ? "/references/" : "/en/references/"
             data-reveal
             data-reveal-delay={String(index % 4)}
           >
-            <span class="mission-client">{study.client}</span>
-            <span class="mission-title">{study.title}</span>
-            <span class="mission-period">{study.period}</span>
+            <a class="mission-row-link" href={casePath(study.id, locale)}>
+              <span class="mission-client">{study.client}</span>
+              <span class="mission-title">{study.title}</span>
+              <span class="mission-period">{study.period}</span>
+            </a>
           </li>
         ))}
       </ul>
@@ -83,7 +85,7 @@ const referencesHref = locale === "fr" ? "/references/" : "/en/references/"
       </p>
     )}
 
-    {!compact && <p class="missions-note">{t.references.footnote}</p>}
+    <p class="missions-note">{t.references.footnote}</p>
   </div>
 </section>
 
@@ -98,7 +100,7 @@ const referencesHref = locale === "fr" ? "/references/" : "/en/references/"
     list-style: none;
   }
 
-  .mission-row {
+  .mission-row-link {
     display: grid;
     grid-template-columns: 190px minmax(0, 1fr) auto;
     gap: 6px 24px;
@@ -114,6 +116,16 @@ const referencesHref = locale === "fr" ? "/references/" : "/en/references/"
 
   .mission-row:hover {
     border-color: color-mix(in srgb, var(--color-cyan) 35%, transparent);
+  }
+
+  .mission-row:hover .mission-title,
+  .mission-row-link:focus-visible .mission-title {
+    color: var(--color-cyan);
+  }
+
+  .mission-row-link {
+    color: inherit;
+    text-decoration: none;
   }
 
   .mission-title {
@@ -169,7 +181,7 @@ const referencesHref = locale === "fr" ? "/references/" : "/en/references/"
   }
 
   @media (max-width: 800px) {
-    .mission-row {
+    .mission-row-link {
       grid-template-columns: 1fr;
       gap: 4px;
     }

@@ -41,10 +41,9 @@ const en: Dictionary = {
   },
 
   hero: {
-    metaTitle:
-      "Independent AWS consultant, Kubernetes & Platform Engineering in Lyon",
+    metaTitle: "AWS expert in Lyon for SMEs, mid-caps and startups",
     metaDescription:
-      "Independent AWS expert in Lyon: architecture reviews, sovereign cloud, LLM agents and automation, EKS operations and cost control.",
+      "Independent AWS expert in Lyon for SMEs, mid-caps and startups: architecture reviews, sovereign cloud, LLM agents, EKS operations and cost control.",
     eyebrow: "Independent AWS expert · Lyon, France",
     titleLead: "An AWS expert dedicated",
     titleAccent: "to your platform.",
@@ -52,11 +51,13 @@ const en: Dictionary = {
       "You ship your product. I make sure the AWS architecture holds, costs right, and stays simple to run.",
     ledeModes: "One-off engagement or ongoing support",
     ledeReply: "reply within 24h.",
+    definition:
+      "Arktos Consulting, independent AWS expert since 2021, based in Lyon. Architecture review and AWS architecture: fifteen clients in France, with the same person from scoping through to production.",
     ctaPrimary: "Let’s discuss your needs",
     ctaSecondary: "See what I do",
     statYearsLabel: "years of experience",
     statClientsLabel: "clients served",
-    portraitAlt: "Portrait of Aurelien Perrier",
+    portraitAlt: "Portrait of Aurélien Perrier",
   },
 
   services: {
@@ -104,20 +105,17 @@ const en: Dictionary = {
     eyebrow: "In production at my own company",
     title: "Your platform,",
     accent: "like mine.",
-    body: "Hartza Capital, my investment fintech, has been running algorithmic trading on AWS in production for 4 years. HPC, data, APIs, event-driven workflows.",
+    body: "Hartza Capital, my fintech project for 8 years, has been running algorithmic trading on AWS in production for 4 years. That work has forged the HPC, data, API and event-driven workflow skills I now put at your disposal.",
     articlesHeading: "How it is built",
     articles: [
       {
         title: "Building an algorithmic trading platform on AWS",
-        href: "#",
       },
       {
         title: "Cutting the cost of an AI stack in production",
-        href: "#",
       },
       {
         title: "Real-time data pipelines for decision-making",
-        href: "#",
       },
     ],
     link: "hartza.capital",
@@ -142,6 +140,18 @@ const en: Dictionary = {
     ],
   },
 
+  reassurance: {
+    eyebrow: "How I work",
+    title: "Four things",
+    accent: "that do not change.",
+  },
+
+  faq: {
+    eyebrow: "Questions",
+    title: "What I get asked",
+    accent: "before we start.",
+  },
+
   contact: {
     eyebrow: "Contact",
     title: "Let’s talk about",
@@ -149,7 +159,8 @@ const en: Dictionary = {
     lede: "Reply within one business day. I will tell you whether I am the right person, including when the answer is no.",
     emailLabel: "Email",
     locationLabel: "Based in",
-    location: "Lyon, France · hybrid/remote across Europe",
+    location:
+      "Lyon, France · registered office in Paris · hybrid/remote across Europe",
     linkedinLabel: "LinkedIn",
     calendlyTitle: "Book a thirty-minute slot",
   },
@@ -249,20 +260,20 @@ const en: Dictionary = {
     phoneLabel: "Phone",
     dataHeading: "Personal data",
     dataTextOne:
-      "This site sets no analytics or advertising cookies, and uses no third-party tracking tool for its own purposes.",
+      "This site sets no analytics or advertising cookies. Audience measurement, described below, collects no personal data.",
     dataTextTwo:
       "The contact form sends no data to a server: it composes a draft message in your own mail client, which you review and send yourself. Anything you choose to send by email or LinkedIn is used solely to answer your request, and kept only for the time that exchange requires.",
     dataTextThree:
       "Under the General Data Protection Regulation, you have the right to access, rectify and erase data concerning you. To exercise it, write to",
     analyticsHeading: "Audience measurement",
     analyticsTextOne:
-      "Audience is measured with Matomo, hosted in the European Union. No data is passed to a third party: the measurements only serve to know which pages are read and how the site is used.",
+      "Audience is measured with Plausible, hosted in the European Union. Plausible sets no cookie, stores nothing in your browser, and keeps neither IP address nor device identifier: the measurements only serve to know which pages are read and how the site is used.",
     analyticsTextTwo:
-      "This measurement is exempt from consent under the CNIL framework: Matomo runs here without cookies, the IP address is anonymised before any processing, and no data is cross-referenced with another processing activity or followed from one site to another. You can object to it at any time.",
+      "The measurements are processed for my account only, on European infrastructure, and are neither resold nor cross-referenced with another processing activity. Since no cookie is set and no personal data is collected, there is nothing to consent to — you can still object to this measurement, below.",
     analyticsOptOutLead: "You are currently being measured.",
     analyticsOptOutButton: "Opt out of audience measurement",
     analyticsOptOutDone:
-      "You are no longer measured: no data is collected about your visit on this browser.",
+      "You are no longer measured: Plausible will collect nothing on your next visits from this browser.",
     analyticsOptInButton: "Re-enable audience measurement",
     ipHeading: "Intellectual property",
     ipTextLead:

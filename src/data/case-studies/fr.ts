@@ -10,7 +10,7 @@ import type { CaseStudyBundle } from "./types"
 const fr: CaseStudyBundle = {
   title: "Cas clients AWS, Kubernetes et DevOps",
   description:
-    "Huit missions d’infrastructure racontées en détail : contexte et contrainte, ce qui a été livré, résultat. Bpifrance, SNCF, Yseop, Seiitra, Doctolib, Canal+.",
+    "9 missions d’infrastructure racontées en détail : contexte et contrainte, ce qui a été livré, résultat. Bpifrance, SNCF, Yseop, Seiitra, Doctolib, Canal+.",
   breadcrumb: "Cas clients",
   hero: {
     title: "Une mission,",
@@ -26,6 +26,7 @@ const fr: CaseStudyBundle = {
       period: "depuis 2018",
       title:
         "Automatisation des arbitrages de risque sur les marchés financiers",
+      metaTitle: "Automatisation des arbitrages de risque",
       summary:
         "Une plateforme AWS qui ingère et analyse en continu les données de marché, pour automatiser les arbitrages de risque sur cinq zones géographiques.",
       stack: [
@@ -64,8 +65,11 @@ const fr: CaseStudyBundle = {
       period: "2024-2025",
       title:
         "Traçabilité réglementaire des changements Kubernetes et réversibilité AWS",
+      metaTitle: "Traçabilité Kubernetes, réversibilité AWS",
       summary:
         "Un outil de traçabilité des changements Kubernetes et son reporting, la R&D sur Knative pour la réversibilité vis-à-vis d’AWS, et un appui récurrent de l’équipe sur AWS.",
+      metaDescription:
+        "Traçabilité des changements Kubernetes et son reporting, R&D sur Knative pour la réversibilité vis-à-vis d’AWS, et appui récurrent de l’équipe sur AWS.",
       stack: [
         "Kubernetes",
         "Knative",
@@ -100,6 +104,7 @@ const fr: CaseStudyBundle = {
       clientType: "Éditeur logiciel, plateforme LLM",
       period: "2023-2024",
       title: "Sécurisation AWS et industrialisation MLOps",
+      metaTitle: "Sécurisation AWS & MLOps industrialisés",
       summary:
         "Build et FinOps d’une plateforme SaaS d’IA : architectures AWS sécurisées, workflows MLOps industrialisés avec SageMaker et ArgoCD, CI/CD et IaC.",
       stack: [
@@ -134,6 +139,7 @@ const fr: CaseStudyBundle = {
       period: "2022-2023",
       title:
         "Lead technique : des microservices Go reproduisant les services AWS",
+      metaTitle: "Cloud privé SNCF : microservices Go",
       summary:
         "Lead technique du cloud privé de la SNCF et de ses filiales : des microservices Go qui reproduisent les services AWS (Fargate, EC2, S3, CloudWatch…).",
       stack: [
@@ -169,6 +175,7 @@ const fr: CaseStudyBundle = {
       clientType: "Éditeur SaaS, ~150 microservices exploités",
       period: "2021-2022",
       title: "Sécurité et fiabilité d’une plateforme Azure/Kubernetes",
+      metaTitle: "Plateforme Azure/Kubernetes sécurisée",
       summary:
         "Renforcement de la sécurité et de la fiabilité des environnements Azure/Kubernetes du produit Powimo, pour l’offre SaaS comme pour les déploiements on-premise.",
       stack: [
@@ -207,8 +214,11 @@ const fr: CaseStudyBundle = {
       period: "2020-2021",
       title:
         "Un standard Kubernetes pour toutes les applications de l’entreprise, à commencer par l’e-commerce",
+      metaTitle: "Standard Kubernetes pour l’e-commerce",
       summary:
         "Architecte solutions : un socle Kubernetes BareMetal et un standard d’architecture et d’exploitation, conçus pour porter toutes les applications de l’entreprise, à commencer par sa plateforme e-commerce (OroCommerce).",
+      metaDescription:
+        "Un socle Kubernetes BareMetal et un standard d’architecture et d’exploitation pour les applications de l’entreprise, à commencer par l’e-commerce.",
       stack: [
         "Kubernetes (BareMetal)",
         "OroCommerce (PHP)",
@@ -270,8 +280,11 @@ const fr: CaseStudyBundle = {
       period: "2019",
       title:
         "Pipelines CI/CD Kubernetes et répartition des charges sur trois clouds",
+      metaTitle: "Pipelines CI/CD Kubernetes multi-cloud",
       summary:
         "Remplacement des pipelines Jenkins par un système Kubernetes éphémère, dans un contexte multi-cloud : répartir les charges entre cloud privé, AWS et Alibaba pour réduire la dépendance, et mener la R&D CI/CD qui va avec.",
+      metaDescription:
+        "Pipelines Jenkins remplacés par un Kubernetes éphémère en multi-cloud : charges réparties entre cloud privé, AWS et Alibaba pour réduire la dépendance.",
       stack: [
         "Kubernetes",
         "Cloud privé / bare metal",
@@ -304,6 +317,7 @@ const fr: CaseStudyBundle = {
       period: "2017-2018",
       title:
         "Infrastructure cloud en tant que service, supervision et accompagnement DevOps",
+      metaTitle: "Infrastructure cloud en tant que service",
       summary:
         "Mise en place d’infrastructure cloud en tant que service (IaaS), supervision et journalisation, et accompagnement de clients vers le DevOps et le cloud natif.",
       stack: [

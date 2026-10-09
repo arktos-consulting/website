@@ -10,6 +10,8 @@ import { glob } from "astro/loaders"
 const postSchema = z.object({
   /** Title displayed and used as `headline` in structured data. */
   title: z.string(),
+  /** Shorter `<title>` for search results, without the company name the layout appends. */
+  metaTitle: z.string().optional(),
   /** One-sentence summary, reused in the listing, the RSS feed and metadata. */
   description: z.string(),
   /** Publication date, in YYYY-MM-DD format. */

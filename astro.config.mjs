@@ -9,6 +9,7 @@
  * including it would add about 200 KB of JavaScript per page. React remains a
  * declared dependency, ready to use as soon as a component justifies it.
  */
+import { readdirSync, readFileSync } from "node:fs"
 import { defineConfig } from "astro/config"
 import sitemap from "@astrojs/sitemap"
 import tailwindcss from "@tailwindcss/vite"
@@ -42,6 +43,43 @@ function findPair(url) {
     ) ?? null
   )
 }
+
+/**
+ * Revision date of every blog post, keyed by its URL path.
+ *
+ * The date comes from the post's own frontmatter — `updatedAt` when it was
+ * revised, `publishedAt` otherwise. It is the only date a crawler can trust:
+ * stamping a page with the build date claims a modification that never happened.
+ * Pages whose content carries no such date are left without a `lastmod`.
+ *
+ * @returns The revision date of each published post, keyed by path
+ */
+function postRevisionDates() {
+  const collections = [
+    { directory: "src/content/blog", prefix: "/blog/" },
+    { directory: "src/content/blog-en", prefix: "/en/blog/" },
+  ]
+  const dates = new Map()
+  for (const { directory, prefix } of collections) {
+    for (const name of readdirSync(directory)) {
+      if (!name.endsWith(".md")) {
+        continue
+      }
+      const frontmatter =
+        readFileSync(`${directory}/${name}`, "utf8").split("---")[1] ?? ""
+      const updated = frontmatter.match(/^updatedAt:\s*(\S+)$/m)
+      const published = frontmatter.match(/^publishedAt:\s*(\S+)$/m)
+      const revision = new Date(updated?.[1] ?? published?.[1] ?? "")
+      if (!Number.isNaN(revision.getTime())) {
+        dates.set(`${prefix}${name.replace(/\.md$/, "")}/`, revision)
+      }
+    }
+  }
+  return dates
+}
+
+/** Revision date of each post, read once when the configuration loads. */
+const POST_REVISION_DATES = postRevisionDates()
 
 /**
  * Static build configuration.
@@ -85,12 +123,17 @@ export default defineConfig({
        */
       serialize(item) {
         const pair = findPair(item.url)
+        const revision = POST_REVISION_DATES.get(new URL(item.url).pathname)
+        const entry = revision
+          ? { ...item, lastmod: revision.toISOString() }
+          : item
+
         if (!pair) {
-          return item
+          return entry
         }
 
         return {
-          ...item,
+          ...entry,
           links: [
             { lang: "fr-FR", url: `${SITE_ORIGIN}${pair.fr}` },
             { lang: "en-US", url: `${SITE_ORIGIN}${pair.en}` },
